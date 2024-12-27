@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.swiper-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+}
+.swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    text-align: center;
+    line-height: 20px;
+    font-size: 12px;
+    color: #000;
+    background-color: #CECCCC;
+    opacity: 1;
+    cursor: pointer;
+    border-radius:80px;
+    background: rgba(0, 0, 0, 0.2);
+  }
+  
+
+  .swiper-pagination-bullet-active {
+    width: 20px;
+    color: #fff;
+    background: #009848; 
+    cursor: default;
+  }
+  
+  .tab-topics button > span{
+    background-color: #AFF4C6;
+  }
