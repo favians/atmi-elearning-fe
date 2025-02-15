@@ -1,7 +1,7 @@
 import { StarIcon } from "@/components/icons";
 import { subtitle, title } from "@/components/primitives";
 import Section from "@/layouts/section";
-import { Card, CardBody, CardHeader } from "@nextui-org/card";
+import { Card, CardBody, CardHeader } from "@heroui/card";
 
 export default function CustomerCounter() {
   const data = [

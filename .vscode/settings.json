@@ -1,4 +1,52 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
-  "discord.enabled": false
+  "discord.enabled": false,
+    "workbench.colorTheme": "One Dark Pro",
+    "editor.fontFamily": "Menlo, Consolas, DejaVu Sans Mono, monospace",
+    "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "workbench.iconTheme": "material-icon-theme",
+    "editor.formatOnSave": true,
+    "prettier.singleQuote": false,
+    "prettier.tabWidth": 2,
+    "semi": true,
+    "prettier.trailingComma": "all",
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "editor.inlineSuggest.enabled": true,
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "dart.debugSdkLibraries": false,
+    "dart.lineLength": 120,
+    "[dart]": {
+      "editor.formatOnSave": true,
+      "editor.formatOnType": true,
+      "editor.rulers": [120],
+      "editor.foldingImportsByDefault": true,
+      "editor.autoIndent": "full",
+      "editor.wrappingIndent": "indent",
+      "editor.wordWrapColumn": 120,
+      "editor.selectionHighlight": false,
+      "editor.suggest.snippetsPreventQuickSuggestions": false,
+      "editor.suggestSelection": "first",
+      "editor.tabCompletion": "onlySnippets",
+      "editor.wordBasedSuggestions": "off"
+    },
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit"
+    },
+    "dart.debugExternalPackageLibraries": false,
+    "dart.flutterSdkPath": ".fvm/flutter_sdk",
+    // Remove .fvm files from search
+    "search.exclude": {
+      "/.fvm": true
+    },
+    // Remove from file watching
+    "files.watcherExclude": {
+      "/.fvm": true
+    },
+    "dart.flutterHotReloadOnSave": "allIfDirty",
+    "dart.hotReloadOnSave": "all",
+    "diffEditor.hideUnchangedRegions.enabled": true,
+    "github.copilot.editor.enableAutoCompletions": true,
+    "workbench.startupEditor": "none"
 }

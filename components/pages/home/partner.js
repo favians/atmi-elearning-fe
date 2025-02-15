@@ -1,6 +1,6 @@
 import { title } from "@/components/primitives";
 import Section from "@/layouts/section";
-import { Image } from "@nextui-org/image";
+import { Image } from "@heroui/image";
 import React from "react";
 
 export default function Partner() {

@@ -3,7 +3,7 @@ import { subtitle, title } from "@/components/primitives";
 import shapeCircle from "@/assets/images/illustration/shape_circle.png";
 import Image from "next/image";
 import LoginForm from "@/components/pages/login/login-form";
-import { Link } from "@nextui-org/link";
+import { Link } from "@heroui/link";
 
 export default function LoginPage() {
   return (

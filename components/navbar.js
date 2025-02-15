@@ -6,12 +6,12 @@ import {
   NavbarBrand,
   NavbarItem,
   NavbarMenuItem,
-} from "@nextui-org/navbar";
+} from "@heroui/navbar";
 // import React from "react";
-import { Button } from "@nextui-org/button";
-import { Link } from "@nextui-org/link";
-import { Input } from "@nextui-org/input";
-import { link as linkStyles } from "@nextui-org/theme";
+import { Button } from "@heroui/button";
+import { Link } from "@heroui/link";
+import { Input } from "@heroui/input";
+import { link as linkStyles } from "@heroui/theme";
 import NextLink from "next/link";
 import clsx from "clsx";
 
@@ -32,7 +32,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from "@nextui-org/dropdown";
+} from "@heroui/dropdown";
 import Image from "next/image";
 
 export const Navbar = ({ isDark }) => {

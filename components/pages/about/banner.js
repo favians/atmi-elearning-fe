@@ -1,7 +1,7 @@
 import { title, subtitle } from "@/components/primitives";
 import Section from "@/layouts/section";
-import { Button } from "@nextui-org/button";
-import { Image } from "@nextui-org/image";
+import { Button } from "@heroui/button";
+import { Image } from "@heroui/image";
 
 export default function AboutBanner() {
   return (

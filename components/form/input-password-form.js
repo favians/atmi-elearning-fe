@@ -1,4 +1,4 @@
-import { Input } from "@nextui-org/input";
+import { Input } from "@heroui/input";
 import { Controller } from "react-hook-form";
 import { EyeSlashIcon, StarIcon } from "../icons";
 import React from "react";

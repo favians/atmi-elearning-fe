@@ -4,7 +4,7 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import { Autoplay, Pagination } from "swiper/modules";
-import { Image } from "@nextui-org/image";
+import { Image } from "@heroui/image";
 import { StarIcon } from "@/components/icons";
 
 export default function Testimoni() {

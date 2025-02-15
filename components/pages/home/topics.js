@@ -1,10 +1,10 @@
 import { headline, subtitle, title } from "@/components/primitives";
 import Section from "@/layouts/section";
-import { Button } from "@nextui-org/button";
-import { Card, CardBody, CardHeader } from "@nextui-org/card";
-import { Chip } from "@nextui-org/chip";
-import { Image } from "@nextui-org/image";
-import { Tab, Tabs } from "@nextui-org/tabs";
+import { Button } from "@heroui/button";
+import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Chip } from "@heroui/chip";
+import { Image } from "@heroui/image";
+import { Tab, Tabs } from "@heroui/tabs";
 import React from "react";
 
 const tabs = [

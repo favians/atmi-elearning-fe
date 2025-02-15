@@ -1,6 +1,6 @@
-import { Link } from "@nextui-org/link";
-// import { Snippet } from "@nextui-org/snippet";
-import { button as buttonStyles } from "@nextui-org/theme";
+import { Link } from "@heroui/link";
+// import { Snippet } from "@heroui/snippet";
+import { button as buttonStyles } from "@heroui/theme";
 
 import { siteConfig } from "@/config/site";
 import { title, subtitle } from "@/components/primitives";

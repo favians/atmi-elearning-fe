@@ -1,6 +1,6 @@
 import InputForm from "@/components/form/input-form";
 import { subtitle } from "@/components/primitives";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { loginSchema } from "./validation/schema";

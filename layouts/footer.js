@@ -1,7 +1,7 @@
 import React from "react";
 import Section from "./section";
 import { headline, subteks, subtitle } from "@/components/primitives";
-import { Input } from "@nextui-org/input";
+import { Input } from "@heroui/input";
 import {
   FacebookIcon,
   InstagramIcon,
@@ -9,7 +9,7 @@ import {
   TwitterIcon,
   YoutubeIcon,
 } from "@/components/icons";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import { useForm } from "react-hook-form";
 import InputForm from "@/components/form/input-form";
 

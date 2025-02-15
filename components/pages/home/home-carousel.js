@@ -1,7 +1,7 @@
 import { subtitle, title } from "@/components/primitives";
 import Section from "@/layouts/section";
-import { Button } from "@nextui-org/button";
-import { Chip } from "@nextui-org/chip";
+import { Button } from "@heroui/button";
+import { Chip } from "@heroui/chip";
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 

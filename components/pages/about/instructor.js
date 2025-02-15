@@ -5,8 +5,8 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import { Autoplay, Pagination } from "swiper/modules";
-import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
-import { Image } from "@nextui-org/image";
+import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
+import { Image } from "@heroui/image";
 
 export default function Instructor() {
   const SLIDES = Array.from(Array(12).keys());

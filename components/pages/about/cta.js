@@ -1,6 +1,6 @@
 import { headline, subtitle, title } from "@/components/primitives";
 import Section from "@/layouts/section";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import React from "react";
 
 export default function CTA() {
