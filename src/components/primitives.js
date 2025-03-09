@@ -46,6 +46,7 @@ export const subtitle = tv({
   base: "font-light",
   variants: {
     size: {
+      xs: "text-xs",
       sm: "text-sm",
       md: "text-base",
       lg: "text-lg",
@@ -55,6 +56,7 @@ export const subtitle = tv({
       red: "text-danger",
       black: "text-black",
       grey: "text-grey-900",
+      green: "text-green",
       primary: "text-primary",
       orange: "text-orange-bricks",
     },

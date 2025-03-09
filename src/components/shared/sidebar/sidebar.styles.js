@@ -2,7 +2,7 @@
 import { tv } from "tailwind-variants";
 
 export const SidebarWrapper = tv({
-  base: "transition-transform min-h-full flex  w-72  overflow-y-auto border-r border-divider flex-col py-6 px-3 md:ml-0 ",
+  base: "transition-transformflex  overflow-y-auto  border-divider flex-col py-6 px-3 md:ml-0 ",
 
   variants: {
     collapsed: {

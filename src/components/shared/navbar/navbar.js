@@ -7,6 +7,7 @@ import { useParams, usePathname } from "next/navigation";
 import { getTitleNavbar } from "./lib/navbarHelper";
 import { toCapitalizeEachWord } from "@/helpers/Text";
 import { Navbar, NavbarContent } from "@heroui/navbar";
+import { CompaniesDropdown } from "../sidebar/companies-dropdown";
 
 export const NavbarWrapper = ({ children }) => {
   const paths = usePathname();
@@ -14,14 +15,16 @@ export const NavbarWrapper = ({ children }) => {
 
   const params = useParams();
   return (
-    <div className="relative  gap-4 flex ml-[288px] min-h-screen bg-gray-100 flex-col flex-1 overflow-y-auto overflow-x-hidden">
+    <div>
       <Navbar
-        className="w-full  bg-white m-18"
+        className="w-full border-b-1  fixed bg-white m-18"
         classNames={{
           wrapper: ["w-full max-w-full"],
         }}
       >
-        <NavbarContent className="w-full max-md:hidden"></NavbarContent>
+        <NavbarContent className="w-full max-md:hidden">
+          <CompaniesDropdown />
+        </NavbarContent>
         <NavbarContent
           justify="end"
           className="w-fit data-[justify=end]:flex-grow-0"

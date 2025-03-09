@@ -13,15 +13,12 @@ export const SidebarWrapper = () => {
   const { collapsed, setCollapsed } = useSidebarContext();
 
   return (
-    <aside className="h-screen w-200 fixed border-r-1">
+    <aside className=" w-72 fixed min-h-full border-r pt-5 left-0 top-0 bg-white">
       <div
         className={Sidebar({
           collapsed: collapsed,
         })}
       >
-        <div className={Sidebar.Header()}>
-          <CompaniesDropdown />
-        </div>
         <div className="flex flex-1 mt-8 flex-col justify-between ">
           <Menu />
         </div>

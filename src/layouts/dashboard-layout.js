@@ -20,9 +20,15 @@ export const DashboardLayout = ({ children }) => {
         setCollapsed: handleToggleSidebar,
       }}
     >
-      <section className="flex ">
-        <SidebarWrapper />
-        <NavbarWrapper>{children}</NavbarWrapper>
+      <section>
+        <NavbarWrapper></NavbarWrapper>
+
+        <div className="relative flex min-h-screen bg-gray-100  overflow-y-auto overflow-x-hidden">
+          <SidebarWrapper />
+          <div className="flex ml-[288px] mt-16 flex-col flex-1">
+            {children}
+          </div>
+        </div>
       </section>
     </SidebarContext.Provider>
   );

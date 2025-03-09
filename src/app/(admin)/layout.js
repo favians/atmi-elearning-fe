@@ -10,9 +10,7 @@ export default function RootLayout({ children }) {
   return (
     <Providers>
       <main className="light text-foreground bg-background">
-        <NextThemesProvider>
-          <DashboardLayout>{children}</DashboardLayout>
-        </NextThemesProvider>
+        <NextThemesProvider>{children}</NextThemesProvider>
       </main>
     </Providers>
   );
