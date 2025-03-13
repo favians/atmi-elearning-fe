@@ -40,7 +40,7 @@ export const Body = tv({
 });
 
 export const Footer = tv({
-  base: "flex-none z-10 mb-32 items-center justify-center gap-2  px-4 md:pt-10 md:pb-0",
+  base: "flex-none z-10 mb-32 items-center justify-center gap-2  px-4 pt-2",
 });
 
 export const Sidebar = Object.assign(SidebarWrapper, {

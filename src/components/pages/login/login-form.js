@@ -6,8 +6,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { loginSchema } from "./validation/schema";
 import InputPasswordForm from "@/components/form/input-password-form";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
+  const router = useRouter();
   const { control, handleSubmit } = useForm({
     mode: "onChange",
     resolver: yupResolver(loginSchema),
@@ -15,7 +17,9 @@ export default function LoginForm() {
       username: "",
     },
   });
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    router.push("/dashboard/training");
+  };
   return (
     <div className="px-4">
       <h3 className={subtitle({ class: "font-semibold mb-2", size: "lg" })}>

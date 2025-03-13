@@ -70,7 +70,7 @@ export const UserDropdown = () => {
 
         <DropdownItem
           key="settings"
-          onClick={() => router.push("/trainee/pengaturan")}
+          onClick={() => router.push("/dashboard/profile")}
         >
           <div className="flex items-center gap-2">
             <div className="w-6 justify-center flex">

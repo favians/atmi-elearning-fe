@@ -5,7 +5,7 @@ import { useSidebarContext } from "./layout-context";
 
 export const SidebarItem = ({
   iconActive,
-  defaultExpandedKeys,
+  onClick,
   icon,
   title,
   isActive,
@@ -27,6 +27,9 @@ export const SidebarItem = ({
   return (
     <NextLink
       href={href}
+      onClick={() => {
+        onClick && onClick();
+      }}
       className="text-default-900 active:bg-none max-w-full "
     >
       <div
