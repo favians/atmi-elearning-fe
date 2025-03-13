@@ -125,11 +125,11 @@ export const Navbar = ({ isDark }) => {
                 base: "gap-4",
               }}
             >
-              <DropdownItem>
-                <Link href={`/category`}>Kategori 1</Link>
+              <DropdownItem href="/category/rekayasa-printing">
+                <Link className="flex">Kategori 1</Link>
               </DropdownItem>
-              <DropdownItem>
-                <Link href={`/category`}>Kategori 2</Link>
+              <DropdownItem href="/category/video-grapich">
+                <Link className="flex">Kategori 2</Link>
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>

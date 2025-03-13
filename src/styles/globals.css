@@ -33,3 +33,14 @@
   .tab-topics button > span{
     background-color: #AFF4C6;
   }
+
+
+.accordion > div > div {
+  padding:4px 16px;
+}
+
+.accordion > div >  [data-open="true"] {
+  border:1px solid #8B95A5;
+  border-radius: 12px;
+  box-shadow: 0px 5px 5px #dbdbdb;
+}
