@@ -1,7 +1,7 @@
 import { Input } from "@heroui/input";
 import { Controller } from "react-hook-form";
-import { EyeSlashIcon, StarIcon } from "../icons";
 import React from "react";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 export default function InputPasswordForm(props) {
   const [isVisible, setIsVisible] = React.useState(false);
 
@@ -15,8 +15,7 @@ export default function InputPasswordForm(props) {
         <Input
           variant="bordered"
           classNames={{
-            inputWrapper: "min-h-14",
-            label: "mb-0.5",
+            label: "mb-0",
             input: "placeholder:text-grey",
           }}
           endContent={
@@ -26,7 +25,7 @@ export default function InputPasswordForm(props) {
               onClick={toggleVisibility}
               aria-label="toggle password visibility"
             >
-              {isVisible ? <EyeSlashIcon /> : <StarIcon />}
+              {isVisible ? <IoEyeOutline /> : <IoEyeOffOutline />}
             </button>
           }
           type={isVisible ? "text" : "password"}

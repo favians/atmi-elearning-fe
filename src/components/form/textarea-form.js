@@ -1,14 +1,14 @@
-import { Input } from "@heroui/input";
+import { Textarea } from "@heroui/input";
 import { Controller } from "react-hook-form";
 
-export default function InputForm(props) {
+export default function TextAreaForm(props) {
   const { control, name, isDark } = props;
   return (
     <Controller
       name={name}
       control={control}
       render={({ field, fieldState }) => (
-        <Input
+        <Textarea
           variant="bordered"
           classNames={{
             label: "mb-0",

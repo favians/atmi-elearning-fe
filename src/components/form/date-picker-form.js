@@ -1,14 +1,14 @@
-import { Input } from "@heroui/input";
+import { DatePicker } from "@heroui/date-picker";
 import { Controller } from "react-hook-form";
 
-export default function InputForm(props) {
+export default function DatePickerForm(props) {
   const { control, name, isDark } = props;
   return (
     <Controller
       name={name}
       control={control}
       render={({ field, fieldState }) => (
-        <Input
+        <DatePicker
           variant="bordered"
           classNames={{
             label: "mb-0",

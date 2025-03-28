@@ -1,15 +1,16 @@
-import { Input } from "@heroui/input";
+import { Select, SelectItem } from "@heroui/select";
 import { Controller } from "react-hook-form";
 
-export default function InputForm(props) {
-  const { control, name, isDark } = props;
+export default function SelectForm(props) {
+  const { control, name, data, isDark } = props;
   return (
     <Controller
       name={name}
       control={control}
       render={({ field, fieldState }) => (
-        <Input
+        <Select
           variant="bordered"
+          items={data}
           classNames={{
             label: "mb-0",
             input: ["placeholder:text-grey", isDark ? "text-white" : ""],
@@ -18,7 +19,9 @@ export default function InputForm(props) {
           errorMessage={fieldState.invalid && fieldState.error?.message}
           {...props}
           {...field}
-        />
+        >
+          {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
+        </Select>
       )}
     />
   );
