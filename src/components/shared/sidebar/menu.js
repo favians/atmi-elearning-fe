@@ -16,6 +16,7 @@ export const Menu = () => {
   return (
     <div className={Sidebar.Body()}>
       <SidebarTitle
+        key={1}
         title="DASHBOARD"
         items={[
           <SidebarItem
@@ -38,6 +39,7 @@ export const Menu = () => {
       />
 
       <SidebarTitle
+        key={2}
         title="SETTING"
         items={[
           <SidebarItem
@@ -52,6 +54,7 @@ export const Menu = () => {
       />
 
       <SidebarTitle
+        key={3}
         title="HELP"
         items={[
           <SidebarItem

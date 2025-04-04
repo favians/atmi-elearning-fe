@@ -4,22 +4,24 @@ import TableAdmin from "@/components/pages/admin/management-user/admin/table-adm
 import { headline } from "@/components/primitives";
 import { Button } from "@heroui/button";
 import { Tab, Tabs } from "@heroui/tabs";
+import { useRouter } from "next/navigation";
 import { FaPlus } from "react-icons/fa";
 
 export default function ManagementUserAdminPage() {
   const tabs = ["Aktif", "Non-Aktif"];
+  const router = useRouter();
   return (
     <>
       <section className="flex flex-col justify-center gap-4 p-4">
         <div className="items-center justify-between flex">
-          <h1 className={headline({})}>Trainee</h1>
+          <h1 className={headline({})}>Admin</h1>
           <Button
             radius="sm"
             startContent={<FaPlus />}
             color="primary"
-            onPress={() => router.push(`/dashboard/training/1`)}
+            onPress={() => router.push(`/admin/management-user/admin/create`)}
           >
-            Tambahkan Trainee
+            Tambahkan Admin
           </Button>
         </div>
       </section>

@@ -18,6 +18,7 @@ export const MenuAdmin = () => {
   return (
     <div className={Sidebar.Body()}>
       <SidebarTitle
+        key={1}
         title="DASHBOARD"
         items={[
           <SidebarItem
@@ -72,7 +73,7 @@ export const MenuAdmin = () => {
             href="/admin/questionnaire"
           />,
           <SidebarItem
-            key={4}
+            key={5}
             title="Manajemen Notifikasi"
             icon={<ManagementNotificationIcon />}
             iconActive={<ManagementNotificationIconActive />}

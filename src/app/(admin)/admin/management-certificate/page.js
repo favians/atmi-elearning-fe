@@ -4,8 +4,10 @@ import { Button } from "@heroui/button";
 import { FaPlus } from "react-icons/fa";
 import TableCertificate from "@/components/pages/admin/management-certificate/table-certificate";
 import FilterCertificate from "@/components/pages/admin/management-certificate/filter-certificate";
+import { useRouter } from "next/navigation";
 
 export default function ManagementCertificate() {
+  const router = useRouter();
   return (
     <>
       <section className="flex flex-col justify-center gap-4 p-4">
@@ -17,7 +19,9 @@ export default function ManagementCertificate() {
               className="bg-white border-default-200"
               color="primary"
               variant="bordered"
-              onPress={() => router.push(`/dashboard/training/1`)}
+              onPress={() =>
+                router.push(`/admin/management-certificate/create-template`)
+              }
             >
               Buat Template
             </Button>
@@ -26,7 +30,9 @@ export default function ManagementCertificate() {
               radius="sm"
               startContent={<FaPlus size={10} />}
               color="primary"
-              onPress={() => router.push(`/dashboard/training/1`)}
+              onPress={() =>
+                router.push(`/admin/management-certificate/create`)
+              }
             >
               Buat Sertifikat
             </Button>

@@ -4,8 +4,10 @@ import { Button } from "@heroui/button";
 import { FaPlus } from "react-icons/fa";
 import FilterTrainee from "@/components/pages/admin/management-user/trainee/filter-trainee";
 import TableTrainee from "@/components/pages/admin/management-user/trainee/table-trainee";
+import { useRouter } from "next/navigation";
 
 export default function ManagementUserTraineePage() {
+  const router = useRouter();
   return (
     <>
       <section className="flex flex-col justify-center gap-4 p-4">
@@ -15,7 +17,7 @@ export default function ManagementUserTraineePage() {
             radius="sm"
             startContent={<FaPlus />}
             color="primary"
-            onPress={() => router.push(`/dashboard/training/1`)}
+            onPress={() => router.push(`/admin/management-user/trainee/create`)}
           >
             Tambahkan Trainee
           </Button>
