@@ -1,5 +1,5 @@
 "use client";
-import CreateTrainerForm from "@/components/pages/admin/management-user/trainer/create-trainee-form";
+import CreateTrainerForm from "@/components/pages/admin/management-user/trainer/create-trainer-form";
 import { headline, subtitle } from "@/components/primitives";
 import { useRouter } from "next/navigation";
 import { FaArrowLeftLong } from "react-icons/fa6";

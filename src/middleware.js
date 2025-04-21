@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-// import { storageKeys } from "./constants/storage-keys";
+import { storageKeys } from "./constants/storage-keys";
 
 export const config = {
   matcher: [
@@ -13,28 +13,34 @@ export const config = {
     "/((?!api|_next/static|_next/image|favicon.ico).*)",
   ],
 };
-
 export function middleware(request) {
-  // const cookie = request.cookies.get(storageKeys.AUTH_TOKEN);
-  // const role = request.cookies.get(storageKeys.ROLE);
-  // if (request.nextUrl.pathname === '/' && cookie?.value && role === 'TRAINEE') {
-  //   return NextResponse.redirect(new URL('/trainee/skema', request.url));
-  // }
-  // if (request.nextUrl.pathname === '/' && cookie?.value && role === 'ADMIN') {
-  //   return NextResponse.redirect(new URL('/admin/manajemen-skema', request.url));
-  // }
-  // if (
-  //   request.nextUrl.pathname.includes('/trainee') &&
-  //   !cookie?.value &&
-  //   !request.nextUrl.pathname.includes('/login/trainee')
-  // ) {
-  //   return NextResponse.redirect(new URL('/login/trainee', request.url));
-  // }
-  // if (
-  //   request.nextUrl.pathname.includes('/admin') &&
-  //   !cookie?.value &&
-  //   !request.nextUrl.pathname.includes('/login/admin')
-  // ) {
-  //   return NextResponse.redirect(new URL('/login/admin', request.url));
-  // }
+  const cookie = request.cookies.get(storageKeys.AUTH_TOKEN);
+  const role = request.cookies.get(storageKeys.ROLE);
+
+  const isUser = role?.value === "USER";
+  const isAdmin = role?.value === "ADMIN";
+  const isAuthenticated = Boolean(cookie?.value);
+  const pathname = request.nextUrl.pathname;
+
+  const userShouldRedirect =
+    isAuthenticated &&
+    isUser &&
+    (pathname === "/" || pathname === "/dashboard" || pathname === "/login");
+
+  const adminShouldRedirect =
+    isAuthenticated &&
+    isAdmin &&
+    (pathname === "/" || pathname === "/admin" || pathname === "/login-admin");
+
+  if (userShouldRedirect) {
+    return NextResponse.redirect(new URL("/dashboard/training", request.url));
+  }
+
+  if (adminShouldRedirect) {
+    return NextResponse.redirect(
+      new URL("/admin/management-materi", request.url),
+    );
+  }
+
+  return NextResponse.next();
 }

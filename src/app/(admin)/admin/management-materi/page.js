@@ -4,8 +4,10 @@ import { Button } from "@heroui/button";
 import { FaPlus } from "react-icons/fa";
 import FilterMateri from "@/components/pages/admin/management-materi/filter-materi";
 import TableMateri from "@/components/pages/admin/management-materi/table-materi";
+import { useRouter } from "next/navigation";
 
 export default function ManagementMateri() {
+  const router = useRouter();
   return (
     <>
       <section className="flex flex-col justify-center gap-4 p-4">
@@ -15,7 +17,7 @@ export default function ManagementMateri() {
             radius="sm"
             startContent={<FaPlus />}
             color="primary"
-            onPress={() => router.push(`/dashboard/training/1`)}
+            onPress={() => router.push(`/admin/management-materi/create`)}
           >
             Tambahkan Materi
           </Button>

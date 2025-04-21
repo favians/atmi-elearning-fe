@@ -17,110 +17,12 @@ import {
 } from "@heroui/dropdown";
 import { Button } from "@heroui/button";
 import { IoMdArrowDropdown } from "react-icons/io";
-export const users = [
-  {
-    key: "1",
-    name: "Tony Reichert",
-    role: "CEO",
-    status: "Active",
-    email: "tony.reichert@example.com",
-    phone: "(123) 456-7890",
-    training: "Leadership Training",
-  },
-  {
-    key: "2",
-    name: "Zoey Lang",
-    role: "Technical Lead",
-    status: "Paused",
-    email: "zoey.lang@example.com",
-    phone: "(987) 654-3210",
-    training: "Advanced Coding",
-  },
-  {
-    key: "3",
-    name: "Jane Fisher",
-    role: "Senior Developer",
-    status: "Active",
-    email: "jane.fisher@example.com",
-    phone: "(456) 789-0123",
-    training: "Agile Development",
-  },
-  {
-    key: "4",
-    name: "William Howard",
-    role: "Community Manager",
-    status: "Vacation",
-    email: "william.howard@example.com",
-    phone: "(321) 654-9870",
-    training: "Public Relations",
-  },
-  {
-    key: "5",
-    name: "Emily Collins",
-    role: "Marketing Manager",
-    status: "Active",
-    email: "emily.collins@example.com",
-    phone: "(555) 123-4567",
-    training: "Digital Marketing",
-  },
-  {
-    key: "6",
-    name: "Brian Kim",
-    role: "Product Manager",
-    status: "Active",
-    email: "brian.kim@example.com",
-    phone: "(777) 987-6543",
-    training: "Product Strategy",
-  },
-  {
-    key: "7",
-    name: "Laura Thompson",
-    role: "UX Designer",
-    status: "Active",
-    email: "laura.thompson@example.com",
-    phone: "(444) 567-8901",
-    training: "User Experience Design",
-  },
-  {
-    key: "8",
-    name: "Michael Stevens",
-    role: "Data Analyst",
-    status: "Paused",
-    email: "michael.stevens@example.com",
-    phone: "(222) 345-6789",
-    training: "Data Science Bootcamp",
-  },
-  {
-    key: "9",
-    name: "Sophia Nguyen",
-    role: "Quality Assurance",
-    status: "Active",
-    email: "sophia.nguyen@example.com",
-    phone: "(999) 234-5678",
-    training: "Software Testing",
-  },
-  {
-    key: "10",
-    name: "James Wilson",
-    role: "Front-end Developer",
-    status: "Vacation",
-    email: "james.wilson@example.com",
-    phone: "(333) 789-0123",
-    training: "React Development",
-  },
-  {
-    key: "11",
-    name: "Ava Johnson",
-    role: "Back-end Developer",
-    status: "Active",
-    email: "ava.johnson@example.com",
-    phone: "(666) 345-6789",
-    training: "Node.js & Express",
-  },
-];
+import { useGetTrainee } from "@/hooks/admin/useGetTrainee";
+import { Spinner } from "@heroui/spinner";
+import FilterTrainee from "./filter-trainee";
 
 export const columns = [
-  { name: "Nama User", uid: "name" },
+  { name: "Nama User", uid: "full_name" },
   { name: "Email", uid: "email" },
   { name: "Nomor Telepon", uid: "phone" },
   { name: "Pelatihan", uid: "training" },
@@ -128,17 +30,32 @@ export const columns = [
 ];
 
 export default function TableTrainee() {
-  const [page, setPage] = React.useState(1);
-  const rowsPerPage = 10;
+  const [filter, setFilter] = React.useState({
+    page: 1,
+    name_search: "",
+    order_rule: "DESC",
+  });
+  const { data, isLoading } = useGetTrainee({
+    params: {
+      limit: 10,
+      page: filter?.page,
+      name_search: filter?.name_search,
+      is_active: true,
+      order_by: "id",
+      order_rule: filter?.order_rule,
+    },
+  });
 
-  const pages = Math.ceil(users.length / rowsPerPage);
+  const onValueChange = React.useCallback(
+    (value) => {
+      setFilter({ ...filter, ...value });
+    },
+    [filter],
+  );
 
-  const items = React.useMemo(() => {
-    const start = (page - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-
-    return users.slice(start, end);
-  }, [page, users]);
+  const topContent = React.useMemo(() => {
+    return <FilterTrainee onValueChange={onValueChange} />;
+  });
 
   const renderCell = React.useCallback((user, columnKey) => {
     const cellValue = user[columnKey];
@@ -175,6 +92,7 @@ export default function TableTrainee() {
   return (
     <Table
       aria-label="Example table with client side pagination"
+      topContent={topContent}
       bottomContent={
         <div className="flex w-full mb-4 justify-center">
           <Pagination
@@ -182,9 +100,9 @@ export default function TableTrainee() {
             showControls
             showShadow
             color="secondary"
-            page={page}
-            total={pages}
-            onChange={(page) => setPage(page)}
+            page={filter?.page}
+            total={data?.pagination?.page_total}
+            onChange={(val) => onValueChange({ page: val })}
           />
         </div>
       }
@@ -203,7 +121,12 @@ export default function TableTrainee() {
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody emptyContent={"No users found"} items={items}>
+      <TableBody
+        emptyContent={"No users found"}
+        items={data?.data || []}
+        isLoading={isLoading}
+        loadingContent={<Spinner />}
+      >
         {(item) => (
           <TableRow key={item.id}>
             {(columnKey) => (

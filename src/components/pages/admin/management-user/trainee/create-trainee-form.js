@@ -9,14 +9,31 @@ import toast from "react-hot-toast";
 import InputPasswordForm from "@/components/form/input-password-form";
 import SelectForm from "@/components/form/select-form";
 import DatePickerForm from "@/components/form/date-picker-form";
+import { useState } from "react";
+import useCreateTrainee from "@/hooks/admin/useCreateTrainee";
+import { useQueryClient } from "@tanstack/react-query";
+import { queryClientKeys } from "@/constants/query-client-keys";
 
 export default function CreateTraineeForm() {
   const router = useRouter();
-  const { control, handleSubmit } = useForm({
+  const { mutate, isLoading } = useCreateTrainee();
+  const [image, setImage] = useState("");
+  const { control, handleSubmit, setValue } = useForm({
     mode: "onChange",
   });
+  const queryClient = useQueryClient();
   const onSubmit = (data) => {
-    toast.success("Sukses update");
+    console.log(data);
+    mutate(data, {
+      onSuccess: (res) => {
+        toast.success("Berhasil menambahkan trainee");
+        queryClient.invalidateQueries([queryClientKeys.GET_INTERNAL_TRAINEE]);
+        router.back();
+      },
+      onError: (error) => {
+        toast.error(error?.message);
+      },
+    });
   };
   const onChangePhoto = (e) => {
     if (e.target.files?.[0]?.size > 500000) {
@@ -31,8 +48,22 @@ export default function CreateTraineeForm() {
       toast.error(`File format ${e.target.files?.[0]?.type} belum support`);
       return;
     }
+    if (e.target.files?.[0]) {
+      setValue("profile_photo", e.target.files?.[0]);
+      getBase64(e);
+    }
+  };
 
-    const formData = new FormData();
+  const getBase64 = (e) => {
+    var file = e.target.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setImage(reader.result);
+    };
+    reader.onerror = function (error) {
+      setImage("");
+    };
   };
 
   const animals = [
@@ -50,7 +81,7 @@ export default function CreateTraineeForm() {
             size="lg"
             className="w-20 h-20"
             radius="md"
-            src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+            src={image || ""}
           />
           <label className="text-sm text-secondary text-center mt-2 cursor-pointer">
             <div className="mt-1">Ubah Foto</div>
@@ -67,7 +98,7 @@ export default function CreateTraineeForm() {
           <InputForm
             label="Nama"
             placeholder="cth. Rizal Candra"
-            name="name"
+            name="full_name"
             control={control}
             labelPlacement="outside"
           />
@@ -91,7 +122,7 @@ export default function CreateTraineeForm() {
           <InputForm
             label="Asal Instansi"
             placeholder="cth. PT. ABC"
-            name="instansi"
+            name="instance"
             control={control}
             labelPlacement="outside"
           />
@@ -99,7 +130,7 @@ export default function CreateTraineeForm() {
           <TextAreaForm
             label="Alamat"
             placeholder="cth. Jl. Raya No. 1, Jakarta"
-            name="alamat"
+            name="address"
             control={control}
             labelPlacement="outside"
           />
@@ -134,7 +165,12 @@ export default function CreateTraineeForm() {
             <Button color="primary" variant="light">
               Batalkan
             </Button>
-            <Button className="w-36" color="primary" type="submit">
+            <Button
+              className="w-36"
+              isLoading={isLoading}
+              color="primary"
+              type="submit"
+            >
               Simpan
             </Button>
           </div>

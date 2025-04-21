@@ -1,22 +1,34 @@
 "use client";
 import InputForm from "@/components/form/input-form";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import { Button } from "@heroui/button";
 import TextAreaForm from "@/components/form/textarea-form";
 import { Avatar } from "@heroui/avatar";
 import toast from "react-hot-toast";
-import InputPasswordForm from "@/components/form/input-password-form";
-import SelectForm from "@/components/form/select-form";
-import DatePickerForm from "@/components/form/date-picker-form";
+import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { queryClientKeys } from "@/constants/query-client-keys";
+import useCreateTrainer from "@/hooks/admin/useCreateTrainer";
 
 export default function CreateTrainerForm() {
-  const router = useRouter();
-  const { control, handleSubmit } = useForm({
+  const { mutate, isLoading } = useCreateTrainer();
+  const [image, setImage] = useState("");
+  const { control, handleSubmit, setValue } = useForm({
     mode: "onChange",
   });
+  const queryClient = useQueryClient();
   const onSubmit = (data) => {
-    toast.success("Sukses update");
+    console.log(data);
+    mutate(data, {
+      onSuccess: (res) => {
+        toast.success("Berhasil menambahkan trainer");
+        queryClient.invalidateQueries([queryClientKeys.GET_INTERNAL_TRAINER]);
+        router.back();
+      },
+      onError: (error) => {
+        toast.error(error?.message);
+      },
+    });
   };
   const onChangePhoto = (e) => {
     if (e.target.files?.[0]?.size > 500000) {
@@ -31,27 +43,29 @@ export default function CreateTrainerForm() {
       toast.error(`File format ${e.target.files?.[0]?.type} belum support`);
       return;
     }
-
-    const formData = new FormData();
+    if (e.target.files?.[0]) {
+      setValue("profile_photo", e.target.files?.[0]);
+      getBase64(e);
+    }
   };
 
-  const animals = [
-    { key: "cat", label: "Cat" },
-    { key: "dog", label: "Dog" },
-    { key: "elephant", label: "Elephant" },
-    { key: "lion", label: "Lion" },
-  ];
+  const getBase64 = (e) => {
+    var file = e.target.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setImage(reader.result);
+    };
+    reader.onerror = function (error) {
+      setImage("");
+    };
+  };
 
   return (
     <div className="p-6 w-3/4">
       <form onSubmit={handleSubmit(onSubmit)} className="gap-6 flex">
         <div>
-          <Avatar
-            size="lg"
-            className="w-20 h-20"
-            radius="md"
-            src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-          />
+          <Avatar size="lg" className="w-20 h-20" radius="md" src={image} />
           <label className="text-sm text-secondary text-center mt-2 cursor-pointer">
             <div className="mt-1">Ubah Foto</div>
             <input
@@ -67,7 +81,7 @@ export default function CreateTrainerForm() {
           <InputForm
             label="Nama"
             placeholder="cth. Rizal Candra"
-            name="name"
+            name="full_name"
             control={control}
             labelPlacement="outside"
           />
@@ -91,7 +105,7 @@ export default function CreateTrainerForm() {
           <InputForm
             label="Perusahaan"
             placeholder="cth. PT. ABC"
-            name="instansi"
+            name="instance"
             control={control}
             labelPlacement="outside"
           />
@@ -107,7 +121,7 @@ export default function CreateTrainerForm() {
           <TextAreaForm
             label="Tentang Trainer"
             placeholder="cth. Trainer berpengalaman di bidang..."
-            name="about"
+            name="about_trainer"
             control={control}
             labelPlacement="outside"
           />
@@ -115,7 +129,7 @@ export default function CreateTrainerForm() {
           <InputForm
             label="LinkedIn Link"
             placeholder="cth. https://www.linkedin.com/in/rizal-candra/"
-            name="linkedin"
+            name="linkedin_url"
             control={control}
             labelPlacement="outside"
           />
@@ -124,7 +138,12 @@ export default function CreateTrainerForm() {
             <Button color="primary" variant="light">
               Batalkan
             </Button>
-            <Button className="w-36" color="primary" type="submit">
+            <Button
+              className="w-36"
+              isLoading={isLoading}
+              color="primary"
+              type="submit"
+            >
               Simpan
             </Button>
           </div>

@@ -16,6 +16,7 @@ export default function SelectForm(props) {
             input: ["placeholder:text-grey", isDark ? "text-white" : ""],
           }}
           isInvalid={fieldState.invalid}
+          selectedKeys={[field.value]}
           errorMessage={fieldState.invalid && fieldState.error?.message}
           {...props}
           {...field}

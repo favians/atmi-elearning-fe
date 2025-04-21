@@ -1,14 +1,16 @@
 "use client";
-import FilterAdmin from "@/components/pages/admin/management-user/admin/filter-admin";
 import TableAdmin from "@/components/pages/admin/management-user/admin/table-admin";
 import { headline } from "@/components/primitives";
 import { Button } from "@heroui/button";
 import { Tab, Tabs } from "@heroui/tabs";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 
 export default function ManagementUserAdminPage() {
   const tabs = ["Aktif", "Non-Aktif"];
+
+  const [selected, setSelected] = useState("Aktif");
   const router = useRouter();
   return (
     <>
@@ -39,11 +41,12 @@ export default function ManagementUserAdminPage() {
           }}
           color="primary"
           variant="underlined"
+          selectedKey={selected}
+          onSelectionChange={setSelected}
         >
           {tabs.map((item) => (
             <Tab key={item} title={item}>
-              <FilterAdmin />
-              <TableAdmin />
+              <TableAdmin tabKey={selected} />
             </Tab>
           ))}
         </Tabs>

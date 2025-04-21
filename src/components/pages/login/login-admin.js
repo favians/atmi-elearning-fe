@@ -6,10 +6,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { loginSchema } from "./validation/schema";
 import InputPasswordForm from "@/components/form/input-password-form";
-import useSignIn from "@/hooks/auth/useSignIn";
+import useSignInAdmin from "@/hooks/auth/useSignInAdmin";
 
-export default function LoginForm() {
-  const { mutate, isPending } = useSignIn();
+export default function LoginAdmin() {
+  const { mutate, isPending } = useSignInAdmin();
 
   const { control, handleSubmit } = useForm({
     mode: "onChange",
@@ -28,11 +28,10 @@ export default function LoginForm() {
   return (
     <div className="px-4">
       <h3 className={subtitle({ class: "font-semibold mb-2", size: "lg" })}>
-        Log in ke akunmu
+        Sign in ke akun admin
       </h3>
       <h4 className={subtitle({ color: "grey", size: "sm" })}>
-        Masukkan username dan password untuk sign in di platform pembelajaran
-        ATMI
+        Masukkan username dan password untuk sign in di platform admin ATMI
       </h4>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -47,7 +46,7 @@ export default function LoginForm() {
         />
         <InputPasswordForm
           label="Password"
-          placeholder="Masukkan username Anda"
+          placeholder="Masukkan password Anda"
           name="password"
           control={control}
         />
