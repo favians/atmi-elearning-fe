@@ -19,6 +19,7 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import { Spinner } from "@heroui/spinner";
 import FilterTrainee from "./filter-trainer";
 import { useGetTrainer } from "@/hooks/admin/useGetTrainer";
+import { useRouter } from "next/navigation";
 
 export const columns = [
   { name: "Nama User", uid: "full_name" },
@@ -29,6 +30,7 @@ export const columns = [
 ];
 
 export default function TableTrainer() {
+  const router = useRouter();
   const [filter, setFilter] = React.useState({
     page: 1,
     name_search: "",
@@ -58,7 +60,6 @@ export default function TableTrainer() {
 
   const renderCell = React.useCallback((user, columnKey) => {
     const cellValue = user[columnKey];
-
     switch (columnKey) {
       case "actions":
         return (
@@ -76,8 +77,16 @@ export default function TableTrainer() {
                 </Button>
               </DropdownTrigger>
               <DropdownMenu>
-                <DropdownItem key="view">View</DropdownItem>
-                <DropdownItem key="edit">Edit</DropdownItem>
+                <DropdownItem
+                  onPress={() =>
+                    router.push(
+                      `/admin/management-user/trainer/edit/${user?.id}`,
+                    )
+                  }
+                  key="edit"
+                >
+                  Edit
+                </DropdownItem>
                 <DropdownItem key="delete">Delete</DropdownItem>
               </DropdownMenu>
             </Dropdown>

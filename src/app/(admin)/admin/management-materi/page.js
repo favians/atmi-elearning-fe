@@ -24,7 +24,6 @@ export default function ManagementMateri() {
         </div>
       </section>
       <div className="bg-white grow py-2 px-4 gap-4 flex border-t flex-col">
-        <FilterMateri />
         <TableMateri />
       </div>
     </>

@@ -1,13 +1,13 @@
-import axios from 'axios';
-import envs from '@/constants/envs';
-import { getCookie, deleteCookie, setCookie } from 'cookies-next';
-import { storageKeys } from '@/constants/storage-keys';
-import handleError from './handleError';
+import axios from "axios";
+import envs from "@/constants/envs";
+import { getCookie, deleteCookie } from "cookies-next";
+import { storageKeys } from "@/constants/storage-keys";
+import handleError from "./handleError";
 
 export const api = axios.create({
   baseURL: envs.API_URL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
@@ -15,7 +15,7 @@ api.interceptors.request.use(async (config) => {
   const token = getCookie(storageKeys.AUTH_TOKEN);
 
   if (token) {
-    config.headers['Authorization'] = `Bearer ${token}`;
+    config.headers["Authorization"] = `Bearer ${token}`;
   }
   return config;
 });
@@ -34,5 +34,5 @@ api.interceptors.response.use(
   },
   function (error) {
     return Promise.reject(handleError(error));
-  }
+  },
 );

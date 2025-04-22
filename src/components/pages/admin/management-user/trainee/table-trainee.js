@@ -20,6 +20,7 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import { useGetTrainee } from "@/hooks/admin/useGetTrainee";
 import { Spinner } from "@heroui/spinner";
 import FilterTrainee from "./filter-trainee";
+import { useRouter } from "next/navigation";
 
 export const columns = [
   { name: "Nama User", uid: "full_name" },
@@ -30,6 +31,7 @@ export const columns = [
 ];
 
 export default function TableTrainee() {
+  const router = useRouter();
   const [filter, setFilter] = React.useState({
     page: 1,
     name_search: "",
@@ -77,8 +79,16 @@ export default function TableTrainee() {
                 </Button>
               </DropdownTrigger>
               <DropdownMenu>
-                <DropdownItem key="view">View</DropdownItem>
-                <DropdownItem key="edit">Edit</DropdownItem>
+                <DropdownItem
+                  key="edit"
+                  onPress={() =>
+                    router.push(
+                      `/admin/management-user/trainee/edit/${user?.id}`,
+                    )
+                  }
+                >
+                  Edit
+                </DropdownItem>
                 <DropdownItem key="delete">Delete</DropdownItem>
               </DropdownMenu>
             </Dropdown>

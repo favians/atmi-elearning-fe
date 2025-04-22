@@ -16,56 +16,9 @@ import {
 } from "@heroui/dropdown";
 import { Button } from "@heroui/button";
 import { IoMdArrowDropdown } from "react-icons/io";
-export const items = [
-  {
-    id: "1",
-    published_date: "2025-03-28T08:00:00Z",
-    trainee_name: "John Doe",
-    email: "john.doe@example.com",
-    training: "Leadership Training",
-    created_by: "Tony Reichert",
-  },
-  {
-    id: "2",
-    published_date: "2025-03-28T08:05:00Z",
-    trainee_name: "Jane Smith",
-    email: "jane.smith@example.com",
-    training: "Advanced Coding",
-    created_by: "Zoey Lang",
-  },
-  {
-    id: "3",
-    published_date: "2025-03-28T08:10:00Z",
-    trainee_name: "Michael Brown",
-    email: "michael.brown@example.com",
-    training: "Agile Development",
-    created_by: "Jane Fisher",
-  },
-  {
-    id: "4",
-    published_date: "2025-03-28T08:15:00Z",
-    trainee_name: "Emily Davis",
-    email: "emily.davis@example.com",
-    training: "Public Relations",
-    created_by: "William Howard",
-  },
-  {
-    id: "5",
-    published_date: "2025-03-28T08:20:00Z",
-    trainee_name: "Chris Wilson",
-    email: "chris.wilson@example.com",
-    training: "Digital Marketing",
-    created_by: "Emily Collins",
-  },
-  {
-    id: "6",
-    published_date: "2025-03-28T08:25:00Z",
-    trainee_name: "Sarah Johnson",
-    email: "sarah.johnson@example.com",
-    training: "Product Strategy",
-    created_by: "Brian Kim",
-  },
-];
+import { Spinner } from "@heroui/spinner";
+import { useGetCertificate } from "@/hooks/admin/useGetCertificate";
+import FilterCertificate from "./filter-certificate";
 
 export const columns = [
   { name: "Terbit", uid: "published_date" },
@@ -76,18 +29,32 @@ export const columns = [
   { name: "", uid: "actions" },
 ];
 
-export default function TableCertificate() {
-  const [page, setPage] = React.useState(1);
-  const rowsPerPage = 10;
+export default function TableTrainee() {
+  const [filter, setFilter] = React.useState({
+    page: 1,
+    name_search: "",
+    order_rule: "DESC",
+  });
+  const { data, isLoading } = useGetCertificate({
+    params: {
+      limit: 10,
+      page: filter?.page,
+      is_active: true,
+      order_by: "id",
+      order_rule: filter?.order_rule,
+    },
+  });
 
-  const pages = Math.ceil(items.length / rowsPerPage);
+  const onValueChange = React.useCallback(
+    (value) => {
+      setFilter({ ...filter, ...value });
+    },
+    [filter],
+  );
 
-  const data = React.useMemo(() => {
-    const start = (page - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-
-    return items.slice(start, end);
-  }, [page, items]);
+  const topContent = React.useMemo(() => {
+    return <FilterCertificate onValueChange={onValueChange} />;
+  });
 
   const renderCell = React.useCallback((user, columnKey) => {
     const cellValue = user[columnKey];
@@ -124,6 +91,7 @@ export default function TableCertificate() {
   return (
     <Table
       aria-label="Example table with client side pagination"
+      topContent={topContent}
       bottomContent={
         <div className="flex w-full mb-4 justify-center">
           <Pagination
@@ -131,9 +99,9 @@ export default function TableCertificate() {
             showControls
             showShadow
             color="secondary"
-            page={page}
-            total={pages}
-            onChange={(page) => setPage(page)}
+            page={filter?.page}
+            total={data?.pagination?.page_total}
+            onChange={(val) => onValueChange({ page: val })}
           />
         </div>
       }
@@ -152,7 +120,12 @@ export default function TableCertificate() {
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody emptyContent={"No items found"} items={data}>
+      <TableBody
+        emptyContent={"No certificate found"}
+        items={data?.data || []}
+        isLoading={isLoading}
+        loadingContent={<Spinner />}
+      >
         {(item) => (
           <TableRow key={item.id}>
             {(columnKey) => (

@@ -13,17 +13,21 @@ import {
 import { NavbarItem } from "@heroui/navbar";
 import { Avatar } from "@heroui/avatar";
 import { subteks } from "@/components/primitives";
+import { deleteCookie } from "cookies-next";
+import { useQueryClient } from "@tanstack/react-query";
+import { storageKeys } from "@/constants/storage-keys";
 
 export const UserDropdown = () => {
   const router = useRouter();
   const pathName = usePathname();
 
+  const queryClient = useQueryClient();
+
   const useLogout = () => {
-    // deleteCookie(storageKeys.AUTH_TOKEN);
-    // deleteCookie(storageKeys.ROLE);
-    // deleteCookie(storageKeys.ASSESMENT_SUBMITTED_ID);
-    // queryClient.clear();
-    // router.push("/");
+    deleteCookie(storageKeys.AUTH_TOKEN);
+    deleteCookie(storageKeys.ROLE);
+    queryClient.clear();
+    router.push("/");
   };
   return (
     <Dropdown>

@@ -19,6 +19,7 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import { Spinner } from "@heroui/spinner";
 import FilterAdmin from "./filter-admin";
 import { useGetAdmin } from "@/hooks/admin/useGetAdmin";
+import { useRouter } from "next/navigation";
 
 export const columns = [
   { name: "Nama", uid: "full_name" },
@@ -30,6 +31,7 @@ export const columns = [
 ];
 
 export default function TableAdmin(props) {
+  const router = useRouter();
   const [filter, setFilter] = React.useState({
     page: 1,
     name_search: "",
@@ -77,8 +79,14 @@ export default function TableAdmin(props) {
                 </Button>
               </DropdownTrigger>
               <DropdownMenu>
-                <DropdownItem key="view">View</DropdownItem>
-                <DropdownItem key="edit">Edit</DropdownItem>
+                <DropdownItem
+                  key="edit"
+                  onPress={() =>
+                    router.push(`/admin/management-user/admin/edit/${user?.id}`)
+                  }
+                >
+                  Edit
+                </DropdownItem>
                 <DropdownItem key="delete">Delete</DropdownItem>
               </DropdownMenu>
             </Dropdown>

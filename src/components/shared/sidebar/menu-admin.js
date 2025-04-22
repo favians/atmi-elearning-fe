@@ -27,6 +27,9 @@ export const MenuAdmin = () => {
             icon={<ManagementUserIcon />}
             iconActive={<ManagementUserIcon />}
             isActive={paths?.includes("/admin/user")}
+            defaultExpandedKeys={
+              paths?.includes("/admin/management-user/") ? ["1"] : []
+            }
             items={[
               <SidebarItem
                 key={1}

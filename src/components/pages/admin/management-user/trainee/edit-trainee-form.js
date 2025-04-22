@@ -14,7 +14,7 @@ import useCreateTrainee from "@/hooks/admin/useCreateTrainee";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryClientKeys } from "@/constants/query-client-keys";
 
-export default function CreateTraineeForm() {
+export default function EditTraineeForm() {
   const router = useRouter();
   const { mutate, isLoading } = useCreateTrainee();
   const [image, setImage] = useState("");

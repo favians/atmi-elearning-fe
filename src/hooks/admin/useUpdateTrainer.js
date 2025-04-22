@@ -1,12 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 import { trainerAdminService } from "@/services/admin/trainerAdminService";
 
-const useCreateTrainer = () => {
+const useUpdateTrainer = () => {
   const mutation = useMutation({
-    mutationFn: trainerAdminService.createTrainer,
+    mutationFn: trainerAdminService.updateTrainer,
   });
 
   return mutation;
 };
 
-export default useCreateTrainer;
+export default useUpdateTrainer;

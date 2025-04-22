@@ -14,7 +14,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryClientKeys } from "@/constants/query-client-keys";
 import useCreateAdmin from "@/hooks/admin/useCreateAdmin";
 
-export default function CreateAdminForm() {
+export default function EditAdminForm() {
   const router = useRouter();
   const { mutate, isLoading } = useCreateAdmin();
   const { control, handleSubmit } = useForm({

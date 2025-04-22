@@ -18,7 +18,26 @@ export const trainerAdminService = {
       return res?.data;
     });
   },
-  createTrainee: async (payload) => {
+  createTrainer: async (payload) => {
+    const url = sprintf(URL_INTERNAL_TRAINER, { params: "" });
+    const formData = new FormData();
+    const data = _generateTrainerData(payload);
+
+    for (let key in data) {
+      const value = data[key];
+      formData.append(key, value);
+    }
+    return api
+      .post(url, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        return res?.data?.data;
+      });
+  },
+  updateTrainer: async (payload) => {
     const url = sprintf(URL_INTERNAL_TRAINER, { params: "" });
     const formData = new FormData();
     const data = _generateTrainerData(payload);

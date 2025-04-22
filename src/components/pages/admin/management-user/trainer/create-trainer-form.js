@@ -18,7 +18,6 @@ export default function CreateTrainerForm() {
   });
   const queryClient = useQueryClient();
   const onSubmit = (data) => {
-    console.log(data);
     mutate(data, {
       onSuccess: (res) => {
         toast.success("Berhasil menambahkan trainer");

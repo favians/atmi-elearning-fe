@@ -40,7 +40,6 @@ export default function ManagementCertificate() {
         </div>
       </section>
       <div className="bg-white grow py-2 px-4 gap-4 flex border-t flex-col">
-        <FilterCertificate />
         <TableCertificate />
       </div>
     </>
