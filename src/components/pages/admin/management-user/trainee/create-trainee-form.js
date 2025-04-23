@@ -13,6 +13,8 @@ import { useState } from "react";
 import useCreateTrainee from "@/hooks/admin/useCreateTrainee";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryClientKeys } from "@/constants/query-client-keys";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { traineeFormSchema } from "./validation/schema";
 
 export default function CreateTraineeForm() {
   const router = useRouter();
@@ -20,6 +22,7 @@ export default function CreateTraineeForm() {
   const [image, setImage] = useState("");
   const { control, handleSubmit, setValue } = useForm({
     mode: "onChange",
+    resolver: yupResolver(traineeFormSchema),
   });
   const queryClient = useQueryClient();
   const onSubmit = (data) => {

@@ -9,12 +9,15 @@ import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryClientKeys } from "@/constants/query-client-keys";
 import useCreateTrainer from "@/hooks/admin/useCreateTrainer";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { trainerFormSchema } from "./validation/schema";
 
 export default function CreateTrainerForm() {
   const { mutate, isLoading } = useCreateTrainer();
   const [image, setImage] = useState("");
   const { control, handleSubmit, setValue } = useForm({
     mode: "onChange",
+    resolver: yupResolver(trainerFormSchema),
   });
   const queryClient = useQueryClient();
   const onSubmit = (data) => {

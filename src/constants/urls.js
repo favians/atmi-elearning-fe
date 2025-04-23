@@ -9,3 +9,6 @@ export const URL_INTERNAL_ADMIN = "/internal/admins?%(params)s";
 export const URL_INTERNAL_MATERIAL = "/internal/training/materials?%(params)s";
 export const URL_INTERNAL_CERTIFICATE =
   "/internal/certificates/trainee?%(params)s";
+export const URL_INTERNAL_TRAINEE_LIST =
+  "/internal/trainees/list?is_active=true";
+export const URL_INTERNAL_TRAINING_LIST = "/internal/trainings/list";

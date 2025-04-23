@@ -38,6 +38,7 @@ export default function UploadForm(props) {
               base: "cursor-pointer",
               input: ["placeholder:text-grey cursor-pointer hidden"],
               inputWrapper: "px-0 !cursor-pointer",
+              errorMessage: "text-left",
             }}
             type="file"
             isInvalid={fieldState.invalid}

@@ -6,24 +6,29 @@ import { CiSearch } from "react-icons/ci";
 import SelectForm from "@/components/form/select-form";
 import { Button } from "@heroui/button";
 import DatePickerForm from "@/components/form/date-picker-form";
+import debounce from "lodash.debounce";
 
 export default function FilterCertificate() {
-  const router = useRouter();
-  const { control, handleSubmit } = useForm({
+  const { control, reset, setValue } = useForm({
     mode: "onChange",
     defaultValues: {
-      username: "",
+      search: "",
+      sort: "DESC",
     },
   });
-  const onSubmit = (data) => {
-    router.push("/dashboard/training");
+  const onValueChange = (val) => {
+    const value = { name_search: val };
+    setValue("search", val);
+    props.onValueChange(value);
   };
-  const animals = [
-    { key: "cat", label: "Cat" },
-    { key: "dog", label: "Dog" },
-    { key: "elephant", label: "Elephant" },
-    { key: "lion", label: "Lion" },
-  ];
+  const onSearchChange = debounce(onValueChange, 500);
+  const onSortChange = (value) => {
+    setValue("sort", value?.currentKey);
+    props.onValueChange({
+      order_by: "id",
+      order_rule: value?.currentKey,
+    });
+  };
 
   const sort = [
     { key: "asc", label: "ASC" },
@@ -31,7 +36,7 @@ export default function FilterCertificate() {
   ];
   return (
     <div className="-mt-2">
-      <form onSubmit={handleSubmit(onSubmit)} className=" gap-4 flex ">
+      <form className=" gap-4 flex ">
         <InputForm
           label="Search"
           placeholder="Search..."
@@ -40,6 +45,7 @@ export default function FilterCertificate() {
           startContent={<CiSearch />}
           labelPlacement="outside"
           classNames={{ label: "hidden" }}
+          onValueChange={onSearchChange}
         />
 
         <DatePickerForm
@@ -47,18 +53,8 @@ export default function FilterCertificate() {
           placeholder="Tanggal"
           name="date"
           control={control}
-          data={animals}
           labelPlacement="outside"
           classNames={{ base: "mt-6" }}
-        />
-        <SelectForm
-          label="Pelatihan"
-          placeholder="Pelatihan"
-          name="course"
-          control={control}
-          data={animals}
-          labelPlacement="outside"
-          classNames={{ label: "hidden" }}
         />
 
         <SelectForm
@@ -69,9 +65,19 @@ export default function FilterCertificate() {
           data={sort}
           labelPlacement="outside"
           classNames={{ label: "hidden" }}
+          onSelectionChange={onSortChange}
         />
 
-        <Button className="min-w-28 mt-6" color="primary">
+        <Button
+          onPress={() => {
+            const value = { name_search: "", order_rule: "DESC" };
+
+            reset();
+            props.onValueChange(value);
+          }}
+          className="min-w-28 mt-6"
+          color="primary"
+        >
           Reset Filter
         </Button>
       </form>

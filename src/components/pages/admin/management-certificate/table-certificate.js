@@ -21,8 +21,8 @@ import { useGetCertificate } from "@/hooks/admin/useGetCertificate";
 import FilterCertificate from "./filter-certificate";
 
 export const columns = [
-  { name: "Terbit", uid: "published_date" },
-  { name: "Nama Trainee", uid: "trainee_name" },
+  { name: "Terbit", uid: "assign_date" },
+  { name: "Nama Trainee", uid: "name" },
   { name: "Email", uid: "email" },
   { name: "Pelatihan", uid: "training" },
   { name: "Pembuat", uid: "created_by" },
@@ -60,6 +60,10 @@ export default function TableTrainee() {
     const cellValue = user[columnKey];
 
     switch (columnKey) {
+      case "name":
+        return <span>{user?.trainee_data?.full_name}</span>;
+      case "email":
+        return <span>{user?.trainee_data?.email}</span>;
       case "actions":
         return (
           <div className="relative flex justify-end items-center gap-2">

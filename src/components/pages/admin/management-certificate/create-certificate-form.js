@@ -4,32 +4,47 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { Button } from "@heroui/button";
 import toast from "react-hot-toast";
-import InputPasswordForm from "@/components/form/input-password-form";
-import { headline, subtitle } from "@/components/primitives";
 import SelectForm from "@/components/form/select-form";
 import DatePickerForm from "@/components/form/date-picker-form";
 import UploadForm from "@/components/form/upload-form";
+import { useGetTraineeList } from "@/hooks/admin/useGetTrainee";
+import { useGetTrainingList } from "@/hooks/admin/useGetTraining";
+import useCreateCertificate from "@/hooks/admin/useCreateCertificate";
+import { useQueryClient } from "@tanstack/react-query";
+import { queryClientKeys } from "@/constants/query-client-keys";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { certificateFormSchema } from "./validation/schema";
 
 export default function CreateCertificateForm() {
   const router = useRouter();
+
+  const queryClient = useQueryClient();
+  const { data: dataTrainee, isLoading: isLoadingTrainee } =
+    useGetTraineeList();
+
+  const { data: dataTraining, isLoading: isLoadingTraining } =
+    useGetTrainingList();
+
+  const { mutate, isLoading } = useCreateCertificate();
   const { control, handleSubmit } = useForm({
     mode: "onChange",
-    defaultValues: {
-      name: "",
-      course: "",
-      file: null,
-    },
+
+    resolver: yupResolver(certificateFormSchema),
   });
   const onSubmit = (data) => {
-    toast.success("Sukses update");
+    mutate(data, {
+      onSuccess: (res) => {
+        toast.success("Berhasil menambahkan cerftificate");
+        queryClient.invalidateQueries([
+          queryClientKeys.GET_INTERNAL_CERTIFICATE,
+        ]);
+        router.back();
+      },
+      onError: (error) => {
+        toast.error(error?.message);
+      },
+    });
   };
-
-  const animals = [
-    { key: "cat", label: "Cat" },
-    { key: "dog", label: "Dog" },
-    { key: "elephant", label: "Elephant" },
-    { key: "lion", label: "Lion" },
-  ];
 
   return (
     <div className="flex gap-2">
@@ -39,27 +54,28 @@ export default function CreateCertificateForm() {
             <SelectForm
               label="Nama Trainee"
               placeholder="Pilih User"
-              name="name"
+              name="user_id"
               control={control}
-              data={animals}
+              data={dataTrainee || []}
               labelPlacement="outside"
+              isLoading={isLoadingTrainee}
             />
 
             <SelectForm
               label="Pelatihan"
               placeholder="Pilih Pelatihan"
-              name="course"
+              name="scheme_id"
               control={control}
-              data={animals}
+              data={dataTraining || []}
+              isLoading={isLoadingTraining}
               labelPlacement="outside"
             />
 
             <DatePickerForm
               label="Tanggal Terbit"
               placeholder="Tanggal"
-              name="date"
+              name="assign_date"
               control={control}
-              data={animals}
               labelPlacement="outside"
             />
             <InputForm
@@ -73,7 +89,7 @@ export default function CreateCertificateForm() {
             <UploadForm
               label="Upload Sertifikat"
               placeholder="cth. 123456789"
-              name="file"
+              name="certificate_file"
               control={control}
               labelPlacement="outside"
             />
@@ -82,7 +98,12 @@ export default function CreateCertificateForm() {
               <Button color="primary" variant="light">
                 Batalkan
               </Button>
-              <Button className="w-36" color="primary" type="submit">
+              <Button
+                isLoading={isLoading}
+                className="w-36"
+                color="primary"
+                type="submit"
+              >
                 Simpan
               </Button>
             </div>

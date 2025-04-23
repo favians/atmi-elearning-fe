@@ -13,12 +13,15 @@ import { Divider } from "@heroui/divider";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryClientKeys } from "@/constants/query-client-keys";
 import useCreateAdmin from "@/hooks/admin/useCreateAdmin";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { adminFormSchema } from "./validation/schema";
 
 export default function CreateAdminForm() {
   const router = useRouter();
   const { mutate, isLoading } = useCreateAdmin();
   const { control, handleSubmit } = useForm({
     mode: "onChange",
+    resolver: yupResolver(adminFormSchema),
   });
   const queryClient = useQueryClient();
   const onSubmit = (data) => {

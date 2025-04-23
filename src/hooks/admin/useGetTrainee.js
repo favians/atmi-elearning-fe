@@ -10,3 +10,12 @@ export const useGetTrainee = ({ params }) => {
 
   return query;
 };
+
+export const useGetTraineeList = () => {
+  const query = useQuery({
+    queryKey: [queryClientKeys.GET_INTERNAL_TRAINEE_LIST],
+    queryFn: () => traineeAdminService.getOptionList(),
+  });
+
+  return query;
+};
