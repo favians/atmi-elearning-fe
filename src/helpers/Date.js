@@ -25,8 +25,8 @@ export function dateFormatPass(time) {
   }
 }
 
-export function parseDate(date, format) {
-  return moment(date, "YYYY-MM-DDTHH:mm:ssZ").format(format);
+export function parseDate(date, format, type = "YYYY-MM-DDTHH:mm:ssZ") {
+  return moment(date, type).format(format);
 }
 
 export function responLimit(date) {
@@ -64,7 +64,7 @@ export function defaultDate(date) {
 
 export function defaultDatePesanan(date) {
   return moment(date, "YYYY-MM-DDTHH:mm:ssZ").format(
-    "DD MMM YYYY, HH:mm [WIB]"
+    "DD MMM YYYY, HH:mm [WIB]",
   );
 }
 export function defaultDateTracking(date) {

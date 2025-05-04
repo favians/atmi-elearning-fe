@@ -25,12 +25,12 @@ export function middleware(request) {
   const userShouldRedirect =
     isAuthenticated &&
     isUser &&
-    (pathname === "/" || pathname === "/dashboard" || pathname === "/login");
+    (pathname === "/dashboard" || pathname === "/login");
 
   const adminShouldRedirect =
     isAuthenticated &&
     isAdmin &&
-    (pathname === "/" || pathname === "/admin" || pathname === "/login-admin");
+    (pathname === "/admin" || pathname === "/login-admin");
 
   if (userShouldRedirect) {
     return NextResponse.redirect(new URL("/dashboard/training", request.url));
@@ -38,7 +38,7 @@ export function middleware(request) {
 
   if (adminShouldRedirect) {
     return NextResponse.redirect(
-      new URL("/admin/management-materi", request.url),
+      new URL("/admin/management-user/trainee", request.url),
     );
   }
 

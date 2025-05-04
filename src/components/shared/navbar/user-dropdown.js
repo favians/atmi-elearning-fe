@@ -16,11 +16,13 @@ import { subteks } from "@/components/primitives";
 import { deleteCookie } from "cookies-next";
 import { useQueryClient } from "@tanstack/react-query";
 import { storageKeys } from "@/constants/storage-keys";
+import { useGetProfile } from "@/hooks/trainee/useGetProfile";
+import { Spinner } from "@heroui/spinner";
 
 export const UserDropdown = () => {
   const router = useRouter();
   const pathName = usePathname();
-
+  const { data, isLoading } = useGetProfile();
   const queryClient = useQueryClient();
 
   const useLogout = () => {
@@ -33,31 +35,35 @@ export const UserDropdown = () => {
     <Dropdown>
       <NavbarItem>
         <DropdownTrigger className="mb-1">
-          <div className="flex items-center gap-2 cursor-pointer">
-            <Avatar
-              as="button"
-              color="secondary"
-              size="sm"
-              className="w-7 h-7"
-              src={
-                "https://img.freepik.com/free-vector/smiling-young-man-illustration_1308-174669.jpg"
-              }
-            />
-            <div>
-              <div className="font-normal text-sm">Dhian Jois</div>
-              <h4
-                className={subteks({
-                  class: "font-normal",
-                  color: "grey",
-                  size: "sm",
-                })}
-              >
-                +6283834493999
-              </h4>
-            </div>
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <div className="flex items-center gap-2 cursor-pointer">
+              <Avatar
+                as="button"
+                color="secondary"
+                size="sm"
+                className="w-7 h-7"
+                src={data?.data?.profile_url}
+              />
+              <div>
+                <div className="font-normal text-sm">
+                  {data?.data?.full_name}
+                </div>
+                <h4
+                  className={subteks({
+                    class: "font-normal",
+                    color: "grey",
+                    size: "sm",
+                  })}
+                >
+                  {data?.data?.phone}
+                </h4>
+              </div>
 
-            <GoChevronDown />
-          </div>
+              <GoChevronDown />
+            </div>
+          )}
         </DropdownTrigger>
       </NavbarItem>
       <DropdownMenu
@@ -83,9 +89,7 @@ export const UserDropdown = () => {
                 color="secondary"
                 size="sm"
                 className="w-5 h-5"
-                src={
-                  "https://img.freepik.com/free-vector/smiling-young-man-illustration_1308-174669.jpg"
-                }
+                src={data?.data?.profile_url}
               />
             </div>
             Detail Profil

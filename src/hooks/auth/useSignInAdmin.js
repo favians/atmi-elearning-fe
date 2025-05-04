@@ -11,7 +11,6 @@ const useSignInAdmin = () => {
   const mutation = useMutation({
     mutationFn: authService.signInAdmin,
     onSuccess: (data) => {
-      console.log(data);
       setCookie(storageKeys.AUTH_TOKEN, data?.data?.token);
 
       setCookie(storageKeys.ROLE, "ADMIN");

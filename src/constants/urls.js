@@ -12,3 +12,10 @@ export const URL_INTERNAL_CERTIFICATE =
 export const URL_INTERNAL_TRAINEE_LIST =
   "/internal/trainees/list?is_active=true";
 export const URL_INTERNAL_TRAINING_LIST = "/internal/trainings/list";
+
+export const URL_INTERNAL_PROFILE = "/internal/auth/current";
+//trainee
+export const URL_TRAINEE_CERTIFICATE = "/trainee/certificates?%(params)s";
+export const URL_TRAINEE_PROFILE = "/auth/current";
+export const URL_TRAINEE_NOTIFICATION =
+  "/trainee/notifications?page=1&limit=10";

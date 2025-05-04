@@ -10,8 +10,10 @@ import {
 } from "@heroui/dropdown";
 import { NavbarItem } from "@heroui/navbar";
 import { Badge } from "@heroui/badge";
+import { useGetNotification } from "@/hooks/trainee/useGetNotification";
 
 export const NotificationsDropdown = () => {
+  // const { data, isLoading } = useGetNotification();
   return (
     <Dropdown
       placement="bottom-end"

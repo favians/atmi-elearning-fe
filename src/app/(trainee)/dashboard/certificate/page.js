@@ -5,9 +5,15 @@ import { PreviewCertificate } from "@/components/pages/dashboard/certificate/pre
 import { headline } from "@/components/primitives";
 import { DashboardLayout } from "@/layouts/dashboard-layout";
 import { Modal, ModalContent, useDisclosure } from "@heroui/modal";
+import { useState } from "react";
 
 export default function SertifikatPage() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [item, setItem] = useState();
+  const onOpenItem = (item) => {
+    setItem(item);
+    onOpen();
+  };
   return (
     <DashboardLayout>
       <section className="flex flex-col justify-center gap-4 p-6">
@@ -16,8 +22,7 @@ export default function SertifikatPage() {
         </div>
       </section>
       <div className="flex bg-white flex-wrap flex-grow flex-col">
-        <FilterCertificate />
-        <CertificateItems onOpen={onOpen} />
+        <CertificateItems onOpen={onOpenItem} />
         <Modal
           backdrop="opaque"
           classNames={{
@@ -29,7 +34,9 @@ export default function SertifikatPage() {
           size="5xl"
           onOpenChange={onOpenChange}
         >
-          <ModalContent>{(onClose) => <PreviewCertificate />}</ModalContent>
+          <ModalContent>
+            {(onClose) => <PreviewCertificate item={item} />}
+          </ModalContent>
         </Modal>
       </div>
     </DashboardLayout>

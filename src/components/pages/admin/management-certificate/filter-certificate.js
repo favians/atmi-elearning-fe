@@ -1,14 +1,13 @@
 "use client";
 import InputForm from "@/components/form/input-form";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import { CiSearch } from "react-icons/ci";
 import SelectForm from "@/components/form/select-form";
 import { Button } from "@heroui/button";
 import DatePickerForm from "@/components/form/date-picker-form";
 import debounce from "lodash.debounce";
 
-export default function FilterCertificate() {
+export default function FilterCertificate(props) {
   const { control, reset, setValue } = useForm({
     mode: "onChange",
     defaultValues: {
