@@ -6,27 +6,20 @@ import {
   TableColumn,
   TableRow,
   TableCell,
-  getKeyValue,
 } from "@heroui/table";
 import { Pagination } from "@heroui/pagination";
-import {
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-} from "@heroui/dropdown";
 import { Button } from "@heroui/button";
-import { IoMdArrowDropdown } from "react-icons/io";
 import { useGetTrainee } from "@/hooks/admin/useGetTrainee";
 import { Spinner } from "@heroui/spinner";
 import FilterTrainee from "./filter-trainee";
 import { useRouter } from "next/navigation";
+import { trunc } from "@/helpers/Text";
 
 export const columns = [
   { name: "Nama User", uid: "full_name" },
   { name: "Email", uid: "email" },
   { name: "Nomor Telepon", uid: "phone" },
-  { name: "Pelatihan", uid: "training" },
+  { name: "Pelatihan", uid: "user_training" },
   { name: "", uid: "actions" },
 ];
 
@@ -63,35 +56,30 @@ export default function TableTrainee() {
     const cellValue = user[columnKey];
 
     switch (columnKey) {
+      case "user_training":
+        return (
+          <div className="flex flex-col gap-1">
+            <div className="text-sm">
+              {trunc(cellValue?.[0]?.training_result?.title || "-", 50)}
+            </div>
+          </div>
+        );
       case "actions":
         return (
-          <div className="relative flex justify-end items-center gap-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button
-                  size="sm"
-                  endContent={<IoMdArrowDropdown size={16} />}
-                  variant="bordered"
-                  color="secondary"
-                  className="border-1 border-slate-300"
-                >
-                  Details
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem
-                  key="edit"
-                  onPress={() =>
-                    router.push(
-                      `/admin/management-user/trainee/edit/${user?.id}`,
-                    )
-                  }
-                >
-                  Edit
-                </DropdownItem>
-                <DropdownItem key="delete">Delete</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+          <div
+            onPress={() =>
+              router.push(`/admin/management-user/trainee/edit/${user?.id}`)
+            }
+            className="relative flex justify-end items-center gap-2"
+          >
+            <Button
+              size="sm"
+              variant="bordered"
+              color="secondary"
+              className="border-1 border-slate-300"
+            >
+              Edit
+            </Button>
           </div>
         );
       default:

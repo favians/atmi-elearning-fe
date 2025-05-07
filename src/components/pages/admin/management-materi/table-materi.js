@@ -20,11 +20,13 @@ import { Spinner } from "@heroui/spinner";
 import { useGetMaterial } from "@/hooks/admin/useGetMaterial";
 import FilterMateri from "./filter-materi";
 import { Avatar } from "@heroui/avatar";
+import { trunc } from "@/helpers/Text";
+import { parseDate } from "@/helpers/Date";
 
 export const columns = [
-  { name: "Nama Pelatihan", uid: "topic_title" },
-  { name: "Harga", uid: "price" },
-  { name: "Total Materi", uid: "total_materi" },
+  { name: "Nama Pelatihan", uid: "title" },
+  { name: "Harga", uid: "price_fmt" },
+  { name: "Total Materi", uid: "material_count_fmt" },
   { name: "Trainer", uid: "trainer" },
   { name: "Update date", uid: "updated_at" },
   { name: "", uid: "actions" },
@@ -62,10 +64,16 @@ export default function TableTrainee() {
     const cellValue = user[columnKey];
 
     switch (columnKey) {
+      case "title":
+        return (
+          <div className="flex gap-3 items-center">
+            <span>{trunc(cellValue, 50)}</span>
+          </div>
+        );
       case "price":
         return (
           <div className="flex gap-3 items-center">
-            <span>Rp{cellValue}</span>
+            <span>{cellValue}</span>
           </div>
         );
       case "total_materi":
@@ -77,11 +85,14 @@ export default function TableTrainee() {
       case "trainer":
         return (
           <div className="flex gap-3 items-center">
-            <Avatar
-              size="sm"
-              src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
-            />
-            <span>{cellValue}</span>
+            <Avatar size="sm" src={cellValue?.profile_url} />
+            <span>{cellValue?.full_name}</span>
+          </div>
+        );
+      case "updated_at":
+        return (
+          <div className="flex gap-3 items-center">
+            <span>{parseDate(cellValue, "DD MMM YYYY, HH:mm")}</span>
           </div>
         );
       case "actions":
@@ -100,7 +111,6 @@ export default function TableTrainee() {
                 </Button>
               </DropdownTrigger>
               <DropdownMenu>
-                <DropdownItem key="view">View</DropdownItem>
                 <DropdownItem key="edit">Edit</DropdownItem>
                 <DropdownItem key="delete">Delete</DropdownItem>
               </DropdownMenu>

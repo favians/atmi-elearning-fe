@@ -11,7 +11,6 @@ import { useGetHome } from "@/hooks/home/useGetHome";
 export default function IndexPage() {
   const { data, isLoading } = useGetHome();
 
-  console.log(data);
   return (
     <DefaultLayout isDark>
       <HomeBanner />

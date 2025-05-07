@@ -8,14 +8,7 @@ import {
   TableCell,
 } from "@heroui/table";
 import { Pagination } from "@heroui/pagination";
-import {
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-} from "@heroui/dropdown";
 import { Button } from "@heroui/button";
-import { IoMdArrowDropdown } from "react-icons/io";
 import { Spinner } from "@heroui/spinner";
 import FilterTrainee from "./filter-trainer";
 import { useGetTrainer } from "@/hooks/admin/useGetTrainer";
@@ -63,33 +56,20 @@ export default function TableTrainer() {
     switch (columnKey) {
       case "actions":
         return (
-          <div className="relative flex justify-end items-center gap-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button
-                  size="sm"
-                  endContent={<IoMdArrowDropdown size={16} />}
-                  variant="bordered"
-                  color="secondary"
-                  className="border-1 border-slate-300"
-                >
-                  Details
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem
-                  onPress={() =>
-                    router.push(
-                      `/admin/management-user/trainer/edit/${user?.id}`,
-                    )
-                  }
-                  key="edit"
-                >
-                  Edit
-                </DropdownItem>
-                <DropdownItem key="delete">Delete</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+          <div
+            onPress={() =>
+              router.push(`/admin/management-user/trainer/edit/${user?.id}`)
+            }
+            className="relative flex justify-end items-center gap-2"
+          >
+            <Button
+              size="sm"
+              variant="bordered"
+              color="secondary"
+              className="border-1 border-slate-300"
+            >
+              Edit
+            </Button>
           </div>
         );
       default:

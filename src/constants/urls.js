@@ -1,4 +1,5 @@
 export const URL_HOME = "/home";
+export const URL_TOPIC = "/topics";
 export const URL_SIGN_IN = "/auth/login";
 export const URL_SIGN_ADMIN = "/internal/auth/login";
 
@@ -6,7 +7,7 @@ export const URL_SIGN_ADMIN = "/internal/auth/login";
 export const URL_INTERNAL_TRAINEE = "/internal/trainees?%(params)s";
 export const URL_INTERNAL_TRAINER = "/internal/trainers?%(params)s";
 export const URL_INTERNAL_ADMIN = "/internal/admins?%(params)s";
-export const URL_INTERNAL_MATERIAL = "/internal/training/materials?%(params)s";
+export const URL_INTERNAL_MATERIAL = "/internal/trainings?%(params)s";
 export const URL_INTERNAL_CERTIFICATE =
   "/internal/certificates/trainee?%(params)s";
 export const URL_INTERNAL_TRAINEE_LIST =

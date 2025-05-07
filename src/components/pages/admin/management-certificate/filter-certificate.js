@@ -46,20 +46,19 @@ export default function FilterCertificate(props) {
           classNames={{ label: "hidden" }}
           onValueChange={onSearchChange}
         />
-
-        <DatePickerForm
-          label=""
-          placeholder="Tanggal"
-          name="date"
+        <SelectForm
+          placeholder="Pelatihan"
+          name="training"
           control={control}
+          data={sort}
           labelPlacement="outside"
-          classNames={{ base: "mt-6" }}
+          classNames={{ label: "hidden" }}
+          onSelectionChange={onSortChange}
         />
-
         <SelectForm
           label="Sort"
           placeholder="Sort"
-          name="course"
+          name="sort"
           control={control}
           data={sort}
           labelPlacement="outside"

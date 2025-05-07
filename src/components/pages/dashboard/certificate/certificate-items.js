@@ -86,10 +86,6 @@ export const CertificateItems = ({ onOpen }) => {
                       Preview
                     </Link>
                     <h4> • </h4>
-                    <Link href="#" size="sm">
-                      Share
-                    </Link>
-                    <h4> • </h4>
                     <Link
                       as={"button"}
                       onPress={() => handleDownload(item?.download_url)}

@@ -75,14 +75,14 @@ export const MenuAdmin = () => {
             isActive={paths?.includes("/admin/questionnaire")}
             href="/admin/questionnaire"
           />,
-          <SidebarItem
-            key={5}
-            title="Manajemen Notifikasi"
-            icon={<ManagementNotificationIcon />}
-            iconActive={<ManagementNotificationIconActive />}
-            isActive={paths?.includes("/admin/management-notification")}
-            href="/admin/management-notification"
-          />,
+          // <SidebarItem
+          //   key={5}
+          //   title="Manajemen Notifikasi"
+          //   icon={<ManagementNotificationIcon />}
+          //   iconActive={<ManagementNotificationIconActive />}
+          //   isActive={paths?.includes("/admin/management-notification")}
+          //   href="/admin/management-notification"
+          // />,
         ]}
       />
     </div>

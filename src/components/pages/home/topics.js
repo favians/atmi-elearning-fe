@@ -1,5 +1,6 @@
 "use client";
 import { headline, subtitle, title } from "@/components/primitives";
+import { useGetTopic } from "@/hooks/home/useGetTopic";
 import Section from "@/layouts/section";
 import { Button } from "@heroui/button";
 import { Card, CardBody, CardHeader } from "@heroui/card";
@@ -68,6 +69,9 @@ const data = [
 ];
 
 export default function Topics() {
+  const { data, isLoading } = useGetTopic();
+
+  console.log("data", data);
   return (
     <Section
       className="bg-dark-blue "

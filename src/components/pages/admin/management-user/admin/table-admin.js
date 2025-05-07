@@ -87,7 +87,7 @@ export default function TableAdmin(props) {
                 >
                   Edit
                 </DropdownItem>
-                <DropdownItem key="delete">Delete</DropdownItem>
+                <DropdownItem key="delete">Non-Aktifkan</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>

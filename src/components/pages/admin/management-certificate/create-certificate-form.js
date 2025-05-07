@@ -14,11 +14,14 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryClientKeys } from "@/constants/query-client-keys";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { certificateFormSchema } from "./validation/schema";
+import { subtitle } from "@/components/primitives";
+import { useState } from "react";
 
 export default function CreateCertificateForm() {
   const router = useRouter();
 
   const queryClient = useQueryClient();
+  const [image, setImage] = useState("");
   const { data: dataTrainee, isLoading: isLoadingTrainee } =
     useGetTraineeList();
 
@@ -48,7 +51,7 @@ export default function CreateCertificateForm() {
 
   return (
     <div className="flex gap-2">
-      <div className="p-6 w-1/2">
+      <div className="p-6 w-full">
         <form onSubmit={handleSubmit(onSubmit)} className="gap-6 flex">
           <div className="flex flex-1 gap-4 flex-col">
             <SelectForm
@@ -88,9 +91,25 @@ export default function CreateCertificateForm() {
 
             <UploadForm
               label="Upload Sertifikat"
-              placeholder="cth. 123456789"
+              placeholder="Upload dokumen sertifikat"
               name="certificate_file"
               control={control}
+              labelPlacement="outside"
+            />
+
+            <UploadForm
+              label="Cover Sertifikat"
+              placeholder="Upload dokumen rundown"
+              name="image_file"
+              description="File yang didukung png & jpeg (rekomendasi ukuran 920 x 525) "
+              control={control}
+              isWithPreview
+              onHandleImageChange={(file) => {
+                setImage(file);
+              }}
+              onHandleDeleteImage={() => {
+                setImage("");
+              }}
               labelPlacement="outside"
             />
 
@@ -107,6 +126,29 @@ export default function CreateCertificateForm() {
                 Simpan
               </Button>
             </div>
+          </div>
+          <div className="flex flex-1 flex-col px-4">
+            {image && (
+              <>
+                <h4
+                  className={subtitle({
+                    size: "sm",
+                    class: "font-semibold mb-2",
+                  })}
+                >
+                  Preview Cover Sertifikat
+                </h4>
+                <div className="flex ">
+                  {image && (
+                    <img
+                      src={image}
+                      alt="Preview"
+                      className="aspect-[920/525] border  w-full object-cover rounded-lg"
+                    />
+                  )}
+                </div>
+              </>
+            )}
           </div>
         </form>
       </div>

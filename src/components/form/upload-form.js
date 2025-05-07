@@ -4,7 +4,13 @@ import toast from "react-hot-toast";
 import { IoMdCloseCircle } from "react-icons/io";
 
 export default function UploadForm(props) {
-  const { control, name } = props;
+  const {
+    control,
+    name,
+    isWithPreview,
+    onHandleImageChange,
+    onHandleDeleteImage,
+  } = props;
 
   const onChangeFile = (e, onChange) => {
     if (e.target.files?.[0] === undefined) {
@@ -23,6 +29,21 @@ export default function UploadForm(props) {
       return;
     }
     onChange(e.target.files?.[0]);
+    if (isWithPreview) {
+      getBase64(e);
+    }
+  };
+
+  const getBase64 = (e) => {
+    var file = e.target.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      onHandleImageChange(reader.result);
+    };
+    reader.onerror = function (error) {
+      onHandleImageChange("");
+    };
   };
 
   return (
@@ -39,6 +60,7 @@ export default function UploadForm(props) {
               input: ["placeholder:text-grey cursor-pointer hidden"],
               inputWrapper: "px-0 !cursor-pointer",
               errorMessage: "text-left",
+              helperWrapper: "text-left",
             }}
             type="file"
             isInvalid={fieldState.invalid}
@@ -53,9 +75,13 @@ export default function UploadForm(props) {
                   Browser File
                 </div>
 
-                {field.value?.name && (
+                {field.value?.name ? (
                   <div className="text-sm ml-2 text-black">
                     {field.value.name}
+                  </div>
+                ) : (
+                  <div className="text-grey-800 text-sm ml-2">
+                    {props.placeholder}
                   </div>
                 )}
               </>
@@ -67,6 +93,7 @@ export default function UploadForm(props) {
                   onClick={(e) => {
                     e.preventDefault(); // Prevent the click event from propagating to the file input
                     field.onChange(null);
+                    onHandleDeleteImage();
                   }}
                 >
                   <IoMdCloseCircle size={20} />

@@ -77,6 +77,12 @@ export default function EditAdminForm() {
               control={control}
               labelPlacement="outside"
             />
+            <SwitchForm
+              label="Super Admin"
+              name="is_super_admin"
+              control={control}
+              labelPlacement="outside"
+            />
             <div className="flex items-center mt-2 justify-end gap-2">
               <Button color="primary" variant="light">
                 Batalkan
@@ -93,7 +99,7 @@ export default function EditAdminForm() {
           </div>
         </form>
       </div>
-      <div className="border-1 m-4 p-4 flex flex-1 flex-col rounded-lg border-gray-200 ">
+      {/* <div className="border-1 m-4 p-4 flex flex-1 flex-col rounded-lg border-gray-200 ">
         <h3 className={headline({ size: "sm" })}>Izin yang diberikan</h3>
         <h4 className={subtitle({ size: "sm" })}>
           Admin bisa melihat dan edit modul yang diizinkan
@@ -155,7 +161,7 @@ export default function EditAdminForm() {
             </div>
           </AccordionItem>
         </Accordion>
-      </div>
+      </div> */}
     </div>
   );
 }

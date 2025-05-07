@@ -66,25 +66,20 @@ export default function TableTrainee() {
         return <span>{user?.trainee_data?.email}</span>;
       case "actions":
         return (
-          <div className="relative flex justify-end items-center gap-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button
-                  size="sm"
-                  endContent={<IoMdArrowDropdown size={16} />}
-                  variant="bordered"
-                  color="secondary"
-                  className="border-1 border-slate-300"
-                >
-                  Details
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem key="view">View</DropdownItem>
-                <DropdownItem key="edit">Edit</DropdownItem>
-                <DropdownItem key="delete">Delete</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+          <div
+            onPress={() =>
+              router.push(`/admin/management-certificate/edit/${user?.id}`)
+            }
+            className="relative flex justify-end items-center gap-2"
+          >
+            <Button
+              size="sm"
+              variant="bordered"
+              color="secondary"
+              className="border-1 border-slate-300"
+            >
+              Edit
+            </Button>
           </div>
         );
       default:

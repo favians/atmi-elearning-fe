@@ -16,18 +16,6 @@ export default function ManagementCertificate() {
           <div className="flex gap-4">
             <Button
               radius="sm"
-              className="bg-white border-default-200"
-              color="primary"
-              variant="bordered"
-              onPress={() =>
-                router.push(`/admin/management-certificate/create-template`)
-              }
-            >
-              Buat Template
-            </Button>
-
-            <Button
-              radius="sm"
               startContent={<FaPlus size={10} />}
               color="primary"
               onPress={() =>
