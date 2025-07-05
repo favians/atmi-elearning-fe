@@ -17,6 +17,7 @@ export const URL_INTERNAL_CERTIFICATE =
   "/internal/certificates/trainee?%(params)s";
 export const URL_INTERNAL_TRAINEE_LIST =
   "/internal/trainees/list?is_active=true";
+export const URL_INTERNAL_TRAINING = "/internal/trainings";
 export const URL_INTERNAL_TRAINING_LIST =
   "/internal/trainings/list?page=1&limit=999";
 

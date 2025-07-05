@@ -34,7 +34,7 @@ export const TrainingForm = (props) => {
             )}
           </div>
           <div className="ml-4 mt-4">
-            <TopicForm name={`${name}.${index}.topic`} control={control} />
+            <TopicForm name={`${name}.${index}.topics`} control={control} />
           </div>
         </li>
       ))}

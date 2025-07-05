@@ -40,25 +40,61 @@ export const step1Validation = Yup.object().shape({
 });
 
 export const step2Validation = Yup.object().shape({
-  rundown_file: Yup.mixed()
-    .required("File harus diunggah")
-    .test(
-      "fileSize",
-      "Ukuran File melebihi 10MB",
-      (value) => value && value.size <= 10 * 1024 * 1024,
+  module: Yup.array()
+    .of(
+      Yup.object().shape({
+        title: Yup.string().required("Judul modul wajib diisi"),
+
+        topics: Yup.array()
+          .of(
+            Yup.object().shape({
+              topic_title: Yup.string().required("Judul topik wajib diisi"),
+              summary: Yup.string().required("Ringkasan wajib diisi"),
+
+              training_file: Yup.mixed()
+                .required("File pelatihan wajib diunggah")
+                .test(
+                  "fileSize",
+                  "Ukuran file melebihi 500MB",
+                  (value) => value && value.size <= 500 * 1024 * 1024,
+                )
+                .test(
+                  "fileType",
+                  "Format file tidak didukung",
+                  (value) =>
+                    value &&
+                    ["application/pdf", "video/mp4"].includes(value.type),
+                ),
+
+              learning_material_file: Yup.mixed()
+                .required("File materi wajib diunggah")
+                .test(
+                  "fileSize",
+                  "Ukuran file melebihi 10MB",
+                  (value) => value && value.size <= 10 * 1024 * 1024,
+                )
+                .test(
+                  "fileType",
+                  "Format file tidak didukung",
+                  (value) =>
+                    value &&
+                    ["application/pdf", "image/jpeg", "image/png"].includes(
+                      value.type,
+                    ),
+                ),
+            }),
+          )
+          .min(1, "Setidaknya satu topik harus ditambahkan"),
+      }),
     )
-    .test(
-      "fileType",
-      "Format File tidak Didukung",
-      (value) => value && ["application/pdf"].includes(value.type),
-    ),
+    .min(1, "Setidaknya satu modul harus ditambahkan"),
 });
 
 export const getValidationSchemaByStep = (step) => {
   switch (step) {
-    case 1:
+    case 0:
       return step1Validation;
-    case 2:
+    case 1:
       return step2Validation;
     default:
       return step1Validation; // fallback

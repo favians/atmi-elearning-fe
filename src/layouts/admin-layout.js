@@ -4,6 +4,8 @@ import { SidebarContext } from "../components/shared/sidebar/layout-context";
 import { NavbarWrapper } from "@/components/shared/navbar/navbar";
 import { useLockedBody } from "@/hooks/useBodyLock";
 import { SidebarWrapper } from "@/components/shared/sidebar/sidebar";
+import { UploadProgressProvider } from "@/context/upload-context";
+import UploadProgressBox from "./upload-progress";
 
 export const AdminLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
@@ -20,16 +22,19 @@ export const AdminLayout = ({ children }) => {
         setCollapsed: handleToggleSidebar,
       }}
     >
-      <section>
-        <NavbarWrapper></NavbarWrapper>
+      <UploadProgressProvider>
+        <section>
+          <UploadProgressBox />
+          <NavbarWrapper></NavbarWrapper>
 
-        <div className="relative flex min-h-screen bg-gray-100  overflow-y-auto overflow-x-hidden">
-          <SidebarWrapper isAdmin />
-          <div className="flex ml-[288px] mt-16 flex-col flex-1">
-            {children}
+          <div className="relative flex min-h-screen bg-gray-100  overflow-y-auto overflow-x-hidden">
+            <SidebarWrapper isAdmin />
+            <div className="flex ml-[288px] mt-16 flex-col flex-1">
+              {children}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </UploadProgressProvider>
     </SidebarContext.Provider>
   );
 };

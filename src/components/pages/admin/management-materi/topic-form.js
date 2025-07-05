@@ -23,7 +23,7 @@ export const TopicForm = (props) => {
               <InputForm
                 label="Judul Topik"
                 placeholder={`cth. Bagian ${index + 1}: Topik `}
-                name={`${name}.${index}.title`}
+                name={`${name}.${index}.topic_title`}
                 control={control}
                 labelPlacement="outside"
                 isRequired
@@ -38,24 +38,24 @@ export const TopicForm = (props) => {
             </div>
             <UploadForm
               label="Upload Materi"
-              name={`${name}.${index}.video`}
+              name={`${name}.${index}.training_file`}
               control={control}
               isRequired
-              description="File yang didukung PDF, PNG, JPG & JPEG"
+              description="File yang didukung PDF, Video"
               labelPlacement="outside"
-              accept="video/*"
+              accept="video/*, application/pdf"
               fullWidth
             />
             <TextAreaForm
               label="Summary"
               placeholder="cth. Tulis deskripsi lengkap disini"
-              name={`${name}.${index}.learning_material`}
+              name={`${name}.${index}.summary`}
               control={control}
               labelPlacement="outside"
             />
             <UploadForm
               label="Upload Learning Material"
-              name={`${name}.${index}.learning_material`}
+              name={`${name}.${index}.learning_material_file`}
               control={control}
               isRequired
               description="File yang didukung PDF, PNG, JPG & JPEG"
@@ -71,7 +71,7 @@ export const TopicForm = (props) => {
         startContent={<FaCirclePlus />}
         fullWidth
         className="mt-2"
-        onPress={() => append({ title: "" })}
+        onPress={() => append({ topic_title: "" })}
         variant="bordered"
       >
         Tambahkan Topik

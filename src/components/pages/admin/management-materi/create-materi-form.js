@@ -3,7 +3,6 @@ import InputForm from "@/components/form/input-form";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { Button } from "@heroui/button";
-import toast from "react-hot-toast";
 import SelectForm from "@/components/form/select-form";
 import UploadForm from "@/components/form/upload-form";
 import TextAreaForm from "@/components/form/textarea-form";
@@ -11,31 +10,97 @@ import UploadDragForm from "@/components/form/upload-drag-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { getValidationSchemaByStep } from "./lib/createMateriValidation";
 import { useState } from "react";
-import { ArrayForm } from "@/components/form/array-form";
 import { TrainingForm } from "./training-form";
+import { useQueryClient } from "@tanstack/react-query";
+import { useUploadProgress } from "@/context/upload-context";
+import { queryClientKeys } from "@/constants/query-client-keys";
+import toast from "react-hot-toast";
+import { trainingAdminService } from "@/services/admin/trainingAdminService";
 
 export default function CreateMateriForm({ step, handleStep }) {
   const router = useRouter();
 
   const [image, setImage] = useState(null);
   const schema = getValidationSchemaByStep(step);
-  const { control, handleSubmit } = useForm({
+  const [isLoading, setIsLoading] = useState(false);
+  const { setProgress } = useUploadProgress();
+
+  const queryClient = useQueryClient();
+  const { control, handleSubmit, formState } = useForm({
     mode: "onChange",
     defaultValues: {
-      modul: [{ title: "", topic: [{ title: "" }] }],
+      module: [
+        {
+          title: "Modul 1",
+          topics: [
+            {
+              topic_title: "",
+              training_file: null,
+              summary: "",
+              learning_material_file: null,
+            },
+          ],
+        },
+      ],
     },
 
     resolver: yupResolver(schema),
   });
+
   const onSubmit = (data) => {
-    step === 0 ? handleStep(1) : handleStep(2);
+    const payload = flattenCreateMateriFormValues(data);
+
+    setIsLoading(true);
+    trainingAdminService
+      .createTraining({
+        ...payload,
+        onProgress: setProgress,
+      })
+      .then(() => {
+        toast.success("Berhasil membuat pelatihan");
+        queryClient.invalidateQueries([queryClientKeys.GET_INTERNAL_MATERIAL]);
+      })
+      .catch((err) => {
+        toast.error(err?.message);
+      })
+      .finally(() => {
+        setProgress(0);
+        setIsLoading(false);
+      });
   };
+
+  function flattenCreateMateriFormValues(values) {
+    const flat = {};
+
+    // Salin field di luar "module"
+    for (const key in values) {
+      if (key !== "module") {
+        flat[key] = values[key];
+      }
+    }
+
+    // Flatten module
+    values.module?.forEach((mod, modIdx) => {
+      flat[`module[${modIdx}]`] = mod.title;
+
+      mod.topics?.forEach((topic, topicIdx) => {
+        flat[`module[${modIdx}].topic_title[${topicIdx}]`] = topic.topic_title;
+        flat[`module[${modIdx}].training_file[${topicIdx}]`] =
+          topic.training_file;
+        flat[`module[${modIdx}].summary[${topicIdx}]`] = topic.summary;
+        flat[`module[${modIdx}].learning_material_file[${topicIdx}]`] =
+          topic.learning_material_file;
+      });
+    });
+
+    return flat;
+  }
 
   const handleBack = () => {
     step === 0 ? router.push("/admin/management-materi") : handleStep(0);
   };
   const handleNext = () => {
-    step === 0 ? handleStep(1) : handleSubmit(onSubmit)();
+    handleStep(1);
   };
 
   const animals = [
@@ -153,7 +218,7 @@ export default function CreateMateriForm({ step, handleStep }) {
               </>
             ) : (
               <>
-                <TrainingForm control={control} name="modul" />
+                <TrainingForm control={control} name="module" />
               </>
             )}
 
@@ -161,9 +226,27 @@ export default function CreateMateriForm({ step, handleStep }) {
               <Button color="primary" variant="light" onPress={handleBack}>
                 Batalkan
               </Button>
-              <Button className="w-36" onPress={handleNext} color="primary">
-                Selanjutnya
-              </Button>
+
+              {step === 0 ? (
+                <Button
+                  className="w-36"
+                  isDisabled={!formState.isValid}
+                  onPress={handleNext}
+                  color="primary"
+                >
+                  Selanjutnya
+                </Button>
+              ) : (
+                <Button
+                  isDisabled={!formState.isValid}
+                  className="w-36"
+                  type="submit"
+                  color="primary"
+                  isLoading={isLoading}
+                >
+                  Simpan
+                </Button>
+              )}
             </div>
           </div>
         </form>
