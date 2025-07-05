@@ -56,17 +56,15 @@ export default function TableTrainer() {
     switch (columnKey) {
       case "actions":
         return (
-          <div
-            onPress={() =>
-              router.push(`/admin/management-user/trainer/edit/${user?.id}`)
-            }
-            className="relative flex justify-end items-center gap-2"
-          >
+          <div className="relative flex justify-end items-center gap-2">
             <Button
               size="sm"
               variant="bordered"
               color="secondary"
               className="border-1 border-slate-300"
+              onPress={() =>
+                router.push(`/admin/management-user/trainer/edit/${user?.id}`)
+              }
             >
               Edit
             </Button>

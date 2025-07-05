@@ -11,9 +11,11 @@ import { queryClientKeys } from "@/constants/query-client-keys";
 import useCreateTrainer from "@/hooks/admin/useCreateTrainer";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { trainerFormSchema } from "./validation/schema";
+import { useRouter } from "next/navigation";
 
 export default function CreateTrainerForm() {
-  const { mutate, isLoading } = useCreateTrainer();
+  const router = useRouter();
+  const { mutate, isPending: isLoading } = useCreateTrainer();
   const [image, setImage] = useState("");
   const { control, handleSubmit, setValue } = useForm({
     mode: "onChange",

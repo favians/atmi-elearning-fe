@@ -28,7 +28,7 @@ export default function CreateCertificateForm() {
   const { data: dataTraining, isLoading: isLoadingTraining } =
     useGetTrainingList();
 
-  const { mutate, isLoading } = useCreateCertificate();
+  const { mutate, isPending: isLoading } = useCreateCertificate();
   const { control, handleSubmit } = useForm({
     mode: "onChange",
 
@@ -94,6 +94,7 @@ export default function CreateCertificateForm() {
               placeholder="Upload dokumen sertifikat"
               name="certificate_file"
               control={control}
+              isRequired
               labelPlacement="outside"
             />
 
@@ -104,6 +105,7 @@ export default function CreateCertificateForm() {
               description="File yang didukung png & jpeg (rekomendasi ukuran 920 x 525) "
               control={control}
               isWithPreview
+              isRequired
               onHandleImageChange={(file) => {
                 setImage(file);
               }}

@@ -8,32 +8,29 @@ import {
   TableCell,
 } from "@heroui/table";
 import { Pagination } from "@heroui/pagination";
-import {
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-} from "@heroui/dropdown";
+
 import { Button } from "@heroui/button";
-import { IoMdArrowDropdown } from "react-icons/io";
 import { Spinner } from "@heroui/spinner";
 import { useGetCertificate } from "@/hooks/admin/useGetCertificate";
 import FilterCertificate from "./filter-certificate";
+import { useRouter } from "next/navigation";
 
 export const columns = [
   { name: "Terbit", uid: "assign_date" },
   { name: "Nama Trainee", uid: "name" },
   { name: "Email", uid: "email" },
-  { name: "Pelatihan", uid: "training" },
+  { name: "Pelatihan", uid: "training_name" },
   { name: "Pembuat", uid: "created_by" },
   { name: "", uid: "actions" },
 ];
 
 export default function TableTrainee() {
+  const router = useRouter();
   const [filter, setFilter] = React.useState({
     page: 1,
     name_search: "",
     order_rule: "DESC",
+    training_id: "",
   });
   const { data, isLoading } = useGetCertificate({
     params: {
@@ -42,6 +39,7 @@ export default function TableTrainee() {
       is_active: true,
       order_by: "id",
       order_rule: filter?.order_rule,
+      training_id: filter?.training_id,
     },
   });
 
@@ -66,17 +64,15 @@ export default function TableTrainee() {
         return <span>{user?.trainee_data?.email}</span>;
       case "actions":
         return (
-          <div
-            onPress={() =>
-              router.push(`/admin/management-certificate/edit/${user?.id}`)
-            }
-            className="relative flex justify-end items-center gap-2"
-          >
+          <div className="relative flex justify-end items-center gap-2">
             <Button
               size="sm"
               variant="bordered"
               color="secondary"
               className="border-1 border-slate-300"
+              onPress={() =>
+                router.push(`/admin/management-certificate/edit/${user?.id}`)
+              }
             >
               Edit
             </Button>

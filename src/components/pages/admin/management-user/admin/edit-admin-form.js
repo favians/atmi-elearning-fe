@@ -1,26 +1,51 @@
 "use client";
 import InputForm from "@/components/form/input-form";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Button } from "@heroui/button";
 import toast from "react-hot-toast";
 import InputPasswordForm from "@/components/form/input-password-form";
-import { headline, subtitle } from "@/components/primitives";
-import { Checkbox } from "@heroui/checkbox";
-import { Accordion, AccordionItem } from "@heroui/accordion";
-import { FiMinus, FiPlus } from "react-icons/fi";
-import { Divider } from "@heroui/divider";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryClientKeys } from "@/constants/query-client-keys";
-import useCreateAdmin from "@/hooks/admin/useCreateAdmin";
+import SwitchForm from "@/components/form/switch-form";
+import { useGetAdmin } from "@/hooks/admin/useGetAdmin";
+import { useEffect } from "react";
+import { Spinner } from "@heroui/spinner";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { adminFormSchema } from "./validation/schema";
+import useUpdateAdmin from "@/hooks/admin/useUpdateAdmin";
 
 export default function EditAdminForm() {
   const router = useRouter();
-  const { mutate, isLoading } = useCreateAdmin();
-  const { control, handleSubmit } = useForm({
-    mode: "onChange",
+  const params = useParams();
+  const { data, isLoading } = useGetAdmin({
+    params: {
+      limit: 1,
+      id: params?.id,
+    },
   });
+  const { mutate, isPending: isLoadingEdit } = useUpdateAdmin();
+  const { control, handleSubmit, reset } = useForm({
+    mode: "onChange",
+    resolver: yupResolver(adminFormSchema),
+  });
+
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (data?.data?.length > 0) {
+      const adminData = data?.data[0];
+      reset({
+        full_name: adminData.id || 0,
+        full_name: adminData.full_name || "",
+        email: adminData.email || "",
+        job: adminData.job || "",
+        label: adminData.label || "",
+        phone: adminData.phone || "",
+        is_super_admin: adminData.role == "SUPER_ADMIN" ? true : false,
+      });
+    }
+  }, [data, reset]);
   const onSubmit = (data) => {
     mutate(data, {
       onSuccess: (res) => {
@@ -37,66 +62,73 @@ export default function EditAdminForm() {
     <div className="flex gap-2">
       <div className="p-6 w-1/2">
         <form onSubmit={handleSubmit(onSubmit)} className="gap-6 flex">
-          <div className="flex flex-1 gap-4 flex-col">
-            <InputForm
-              label="Nama"
-              placeholder="cth. Rizal Candra"
-              name="full_name"
-              control={control}
-              labelPlacement="outside"
-            />
-            <InputForm
-              label="Email"
-              placeholder="cth. rizal.candra@gmail.com"
-              name="email"
-              type="email"
-              control={control}
-              labelPlacement="outside"
-            />
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <>
+              <div className="flex flex-1 gap-4 flex-col">
+                <InputForm
+                  label="Nama"
+                  placeholder="cth. Rizal Candra"
+                  name="full_name"
+                  control={control}
+                  labelPlacement="outside"
+                />
+                <InputForm
+                  label="Email"
+                  placeholder="cth. rizal.candra@gmail.com"
+                  name="email"
+                  type="email"
+                  control={control}
+                  labelPlacement="outside"
+                />
 
-            <InputForm
-              label="Nomor Telepon"
-              placeholder="cth. 0838344992211"
-              name="phone"
-              control={control}
-              labelPlacement="outside"
-            />
+                <InputForm
+                  label="Nomor Telepon"
+                  placeholder="cth. 0838344992211"
+                  name="phone"
+                  control={control}
+                  labelPlacement="outside"
+                />
 
-            <InputForm
-              label="Label Admin"
-              placeholder="cth. Admin"
-              name="label"
-              control={control}
-              labelPlacement="outside"
-            />
+                <InputForm
+                  label="Label Admin"
+                  placeholder="cth. Admin"
+                  name="label"
+                  control={control}
+                  labelPlacement="outside"
+                />
 
-            <InputPasswordForm
-              label="Password"
-              placeholder="cth. qwerty123"
-              name="password"
-              control={control}
-              labelPlacement="outside"
-            />
-            <SwitchForm
-              label="Super Admin"
-              name="is_super_admin"
-              control={control}
-              labelPlacement="outside"
-            />
-            <div className="flex items-center mt-2 justify-end gap-2">
-              <Button color="primary" variant="light">
-                Batalkan
-              </Button>
-              <Button
-                className="w-36"
-                isLoading={isLoading}
-                color="primary"
-                type="submit"
-              >
-                Simpan
-              </Button>
-            </div>
-          </div>
+                <InputPasswordForm
+                  label="Password"
+                  placeholder="cth. qwerty123"
+                  name="password"
+                  description="Kosongkan jika tidak ingin mengubah password"
+                  control={control}
+                  labelPlacement="outside"
+                />
+                <SwitchForm
+                  label="Super Admin"
+                  name="type"
+                  control={control}
+                  labelPlacement="outside"
+                />
+                <div className="flex items-center mt-2 justify-end gap-2">
+                  <Button color="primary" variant="light">
+                    Batalkan
+                  </Button>
+                  <Button
+                    className="w-36"
+                    isLoading={isLoadingEdit}
+                    color="primary"
+                    type="submit"
+                  >
+                    Simpan
+                  </Button>
+                </div>
+              </div>
+            </>
+          )}
         </form>
       </div>
       {/* <div className="border-1 m-4 p-4 flex flex-1 flex-col rounded-lg border-gray-200 ">

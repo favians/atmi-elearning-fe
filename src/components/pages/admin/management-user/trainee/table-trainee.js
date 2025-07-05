@@ -60,23 +60,21 @@ export default function TableTrainee() {
         return (
           <div className="flex flex-col gap-1">
             <div className="text-sm">
-              {trunc(cellValue?.[0]?.training_result?.title || "-", 50)}
+              {trunc(cellValue?.[0]?.training_title || "-", 80)}
             </div>
           </div>
         );
       case "actions":
         return (
-          <div
-            onPress={() =>
-              router.push(`/admin/management-user/trainee/edit/${user?.id}`)
-            }
-            className="relative flex justify-end items-center gap-2"
-          >
+          <div className="relative flex justify-end items-center gap-2">
             <Button
               size="sm"
               variant="bordered"
               color="secondary"
               className="border-1 border-slate-300"
+              onPress={() => {
+                router.push(`/admin/management-user/trainee/edit/${user?.id}`);
+              }}
             >
               Edit
             </Button>

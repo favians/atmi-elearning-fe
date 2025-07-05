@@ -2,10 +2,15 @@ import { URL_INTERNAL_TRAINER } from "@/constants/urls";
 import { api } from "@/utils/api";
 import { stringifyQueryParam } from "@/utils/common";
 import { sprintf } from "sprintf";
+
 export const _generateTrainerData = (values) => {
-  let data = {
-    ...values,
-  };
+  let data = {};
+
+  Object.entries(values).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== "") {
+      data[key] = value;
+    }
+  });
 
   return data;
 };
@@ -47,7 +52,7 @@ export const trainerAdminService = {
       formData.append(key, value);
     }
     return api
-      .post(url, formData, {
+      .put(url, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

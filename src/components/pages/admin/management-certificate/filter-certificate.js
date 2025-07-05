@@ -4,10 +4,12 @@ import { useForm } from "react-hook-form";
 import { CiSearch } from "react-icons/ci";
 import SelectForm from "@/components/form/select-form";
 import { Button } from "@heroui/button";
-import DatePickerForm from "@/components/form/date-picker-form";
 import debounce from "lodash.debounce";
+import { useGetTrainingList } from "@/hooks/admin/useGetTraining";
 
 export default function FilterCertificate(props) {
+  const { data: dataTraining, isLoading: isLoadingTraining } =
+    useGetTrainingList();
   const { control, reset, setValue } = useForm({
     mode: "onChange",
     defaultValues: {
@@ -29,6 +31,13 @@ export default function FilterCertificate(props) {
     });
   };
 
+  const onTrainingChange = (value) => {
+    setValue("training_id", value?.currentKey);
+    props.onValueChange({
+      training_id: value?.currentKey,
+    });
+  };
+
   const sort = [
     { key: "asc", label: "ASC" },
     { key: "desc", label: "DESC" },
@@ -45,16 +54,20 @@ export default function FilterCertificate(props) {
           labelPlacement="outside"
           classNames={{ label: "hidden" }}
           onValueChange={onSearchChange}
+          ariaLabelledby="username"
         />
         <SelectForm
           placeholder="Pelatihan"
-          name="training"
+          name="training_id"
           control={control}
-          data={sort}
+          data={dataTraining || []}
+          isLoading={isLoadingTraining}
           labelPlacement="outside"
           classNames={{ label: "hidden" }}
-          onSelectionChange={onSortChange}
+          onSelectionChange={onTrainingChange}
+          ariaLabelledby="training_id"
         />
+
         <SelectForm
           label="Sort"
           placeholder="Sort"
@@ -68,7 +81,11 @@ export default function FilterCertificate(props) {
 
         <Button
           onPress={() => {
-            const value = { name_search: "", order_rule: "DESC" };
+            const value = {
+              name_search: "",
+              order_rule: "DESC",
+              training_id: "",
+            };
 
             reset();
             props.onValueChange(value);

@@ -1,34 +1,37 @@
 import { CerFile } from "@/assets/icons/general/cer-file";
 import { DocFile } from "@/assets/icons/general/doc-file";
 import { VideoFile } from "@/assets/icons/general/video-file";
-import { VideoRecorder } from "@/assets/icons/general/video-recorder";
 import { title, subtitle } from "@/components/primitives";
 import Section from "@/layouts/section";
 import { Button } from "@heroui/button";
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Image } from "@heroui/image";
+import { Spinner } from "@heroui/spinner";
 
-export default function AboutCategory() {
+export default function AboutCategory({ data, isLoading }) {
   return (
     <Section
       className="bg-grey-400 relative flex lg:h-[295px]"
       wrapperClass="flex items-center relative  gap-14"
     >
-      <div className="inline-block max-w-xl  justify-center">
-        <h1 className={title()}>
-          3D Printing Untuk Rekayasa Manufaktur dan Industri
-        </h1>
-        <h4 className={subtitle({ class: "mt-2" })}>
-          Kelola kemampuan dan tingkatkan skill dalam membuat model CAD dan
-          implementasinya di industri manufaktur.
-        </h4>
-      </div>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <div className="inline-block max-w-xl  justify-center">
+          <h1 className={title({ class: "line-clamp-3 tracking-normal" })}>
+            {data?.title}
+          </h1>
+          <h4 className={subtitle({ class: "mt-2 line-clamp-4" })}>
+            {data?.small_description}
+          </h4>
+        </div>
+      )}
       <Card radius="sm" className="py-2 absolute right-0 top-6">
         <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
           <Image
             alt="Card background"
             className="object-cover"
-            src="https://heroui.com/images/hero-card-complete.jpeg"
+            src={data?.image_url}
             width={270}
             radius="sm"
           />
@@ -41,7 +44,7 @@ export default function AboutCategory() {
                 size: "sm",
               })}
             >
-              Rp70.000
+              {data?.discounted_price_fmt}
             </h4>
             <div className="flex items-center gap-1 ">
               <h4
@@ -50,7 +53,7 @@ export default function AboutCategory() {
                   size: "sm",
                 })}
               >
-                Diskon 50%
+                {data?.discount_fmt}
               </h4>
               <h4
                 className={subtitle({
@@ -59,7 +62,7 @@ export default function AboutCategory() {
                   size: "sm",
                 })}
               >
-                Rp140.000
+                {data?.price_fmt}
               </h4>
             </div>
           </div>
@@ -77,34 +80,24 @@ export default function AboutCategory() {
             >
               Kursus ini meliputi:
             </h4>
-            <div className="flex items-center gap-2 my-1.5">
-              <div className="text-primary">
-                <VideoFile />
+
+            {data?.training_included_list?.map((item, index) => (
+              <div key={index} className="flex items-center gap-2 my-1.5">
+                <div className="text-primary">
+                  {item?.icon.includes("video") ? (
+                    <VideoFile />
+                  ) : item?.icon.includes("document") ? (
+                    <DocFile />
+                  ) : (
+                    <CerFile />
+                  )}
+                </div>
+
+                <h5 className={subtitle({ size: "sm", color: "grey" })}>
+                  {item?.content}
+                </h5>
               </div>
-
-              <h5 className={subtitle({ size: "sm", color: "grey" })}>
-                Video dengan durasi 2,5 jam
-              </h5>
-            </div>
-
-            <div className="flex items-center gap-2 my-1.5">
-              <div className="text-primary">
-                <DocFile />
-              </div>
-
-              <h5 className={subtitle({ size: "sm", color: "grey" })}>
-                5 dokumen yang dapat diunduh
-              </h5>
-            </div>
-
-            <div className="flex items-center gap-2 my-1.5">
-              <div className="text-primary">
-                <CerFile />
-              </div>
-              <h5 className={subtitle({ size: "sm", color: "grey" })}>
-                Sertifikat
-              </h5>
-            </div>
+            ))}
           </div>
         </CardBody>
       </Card>

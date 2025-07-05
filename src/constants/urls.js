@@ -1,7 +1,12 @@
 export const URL_HOME = "/home";
+export const URL_ABOUT = "/about";
 export const URL_TOPIC = "/topics";
+export const URL_TRAINING = "/trainings?%(params)s";
+export const URL_DETAIL_TRAINING = "/training/module/materials?%(params)s";
 export const URL_SIGN_IN = "/auth/login";
 export const URL_SIGN_ADMIN = "/internal/auth/login";
+export const URL_CATEGORY_NAVBAR = "/topics/trainings";
+export const URL_SEARCH_TRAINING = "/trainings?%(params)s";
 
 //admin
 export const URL_INTERNAL_TRAINEE = "/internal/trainees?%(params)s";
@@ -12,7 +17,8 @@ export const URL_INTERNAL_CERTIFICATE =
   "/internal/certificates/trainee?%(params)s";
 export const URL_INTERNAL_TRAINEE_LIST =
   "/internal/trainees/list?is_active=true";
-export const URL_INTERNAL_TRAINING_LIST = "/internal/trainings/list";
+export const URL_INTERNAL_TRAINING_LIST =
+  "/internal/trainings/list?page=1&limit=999";
 
 export const URL_INTERNAL_PROFILE = "/internal/auth/current";
 //trainee

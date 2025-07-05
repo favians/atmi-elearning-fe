@@ -29,6 +29,12 @@ export function parseDate(date, format, type = "YYYY-MM-DDTHH:mm:ssZ") {
   return moment(date, type).format(format);
 }
 
+export function parseDateToIso(dateString) {
+  const [day, month, year] = dateString?.split("/");
+  const isoString = `${year}-${month}-${day}`;
+  return isoString;
+}
+
 export function responLimit(date) {
   var newDate = moment(new Date());
   var currentDate = moment(date, "YYYY-MM-DDTHH:mm:ssZ");

@@ -2,36 +2,21 @@ import { Image } from "@heroui/image";
 import { Input } from "@heroui/input";
 import { useRef, useState } from "react";
 import { Controller } from "react-hook-form";
-import toast from "react-hot-toast";
 import { FiCamera } from "react-icons/fi";
 import { GoPlusCircle } from "react-icons/go";
 import { RiDeleteBinLine } from "react-icons/ri";
 
 export default function UploadDragForm(props) {
-  const { control, name } = props;
-  const [image, setImage] = useState(null);
+  const { control, name, image, setImage } = props;
   const ref = useRef();
 
   const onChangeFile = (e, onChange) => {
-    if (e.target.files?.[0] === undefined) {
-      return;
-    }
-    if (e.target.files?.[0]?.size > 500000) {
-      toast.error("File tidak boleh lebih dari 500kbps");
-      return;
-    }
-    if (
-      e.target.files?.[0]?.type !== "image/png" &&
-      e.target.files?.[0]?.type !== "image/jpeg" &&
-      e.target.files?.[0]?.type !== "image/jpg"
-    ) {
-      toast.error(`File format ${e.target.files?.[0]?.type} belum support`);
-      return;
-    }
+    const file = e.target.files?.[0];
+    if (!file) return;
     if (e.target.files && e.target.files[0]) {
       setImage(URL.createObjectURL(e.target.files?.[0]));
     }
-    onChange(e.target.files?.[0]);
+    onChange(file);
   };
 
   const onDelete = (e, onChange) => {
@@ -56,6 +41,8 @@ export default function UploadDragForm(props) {
               base: "cursor-pointer ",
               input: ["placeholder:text-grey cursor-pointer hidden"],
               inputWrapper: "px-0 !cursor-pointer border-0 shadow-none h-auto",
+              errorMessage: "text-left",
+              helperWrapper: "text-left",
             }}
             type="file"
             isInvalid={fieldState.invalid}
@@ -80,7 +67,7 @@ export default function UploadDragForm(props) {
                         alt="preview image"
                         src={image}
                         width={256}
-                        className="object-center"
+                        className="object-center opacity-100"
                       />
                       <div className="absolute bottom-0 left-0 z-10 text-[10px] items-center text-center bg-black/80 h-16 flex w-full">
                         <div

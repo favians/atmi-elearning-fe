@@ -5,11 +5,6 @@ import { useRouter } from "next/navigation";
 import { Button } from "@heroui/button";
 import toast from "react-hot-toast";
 import InputPasswordForm from "@/components/form/input-password-form";
-import { headline, subtitle } from "@/components/primitives";
-import { Checkbox } from "@heroui/checkbox";
-import { Accordion, AccordionItem } from "@heroui/accordion";
-import { FiMinus, FiPlus } from "react-icons/fi";
-import { Divider } from "@heroui/divider";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryClientKeys } from "@/constants/query-client-keys";
 import useCreateAdmin from "@/hooks/admin/useCreateAdmin";
@@ -19,7 +14,7 @@ import SwitchForm from "@/components/form/switch-form";
 
 export default function CreateAdminForm() {
   const router = useRouter();
-  const { mutate, isLoading } = useCreateAdmin();
+  const { mutate, isPending: isLoading } = useCreateAdmin();
   const { control, handleSubmit } = useForm({
     mode: "onChange",
     resolver: yupResolver(adminFormSchema),
@@ -84,7 +79,7 @@ export default function CreateAdminForm() {
 
             <SwitchForm
               label="Super Admin"
-              name="is_super_admin"
+              name="type"
               control={control}
               labelPlacement="outside"
             />

@@ -1,6 +1,5 @@
 import { Input } from "@heroui/input";
 import { Controller } from "react-hook-form";
-import toast from "react-hot-toast";
 import { IoMdCloseCircle } from "react-icons/io";
 
 export default function UploadForm(props) {
@@ -13,21 +12,6 @@ export default function UploadForm(props) {
   } = props;
 
   const onChangeFile = (e, onChange) => {
-    if (e.target.files?.[0] === undefined) {
-      return;
-    }
-    if (e.target.files?.[0]?.size > 500000) {
-      toast.error("File tidak boleh lebih dari 500kbps");
-      return;
-    }
-    if (
-      e.target.files?.[0]?.type !== "image/png" &&
-      e.target.files?.[0]?.type !== "image/jpeg" &&
-      e.target.files?.[0]?.type !== "image/jpg"
-    ) {
-      toast.error(`File format ${e.target.files?.[0]?.type} belum support`);
-      return;
-    }
     onChange(e.target.files?.[0]);
     if (isWithPreview) {
       getBase64(e);
@@ -51,7 +35,7 @@ export default function UploadForm(props) {
       name={name}
       control={control}
       render={({ field, fieldState }) => (
-        <label className="text-sm text-secondary text-center mt-2 cursor-pointer">
+        <label className="text-sm w-full text-secondary text-center mt-2 cursor-pointer">
           <Input
             variant="bordered"
             classNames={{
@@ -93,7 +77,8 @@ export default function UploadForm(props) {
                   onClick={(e) => {
                     e.preventDefault(); // Prevent the click event from propagating to the file input
                     field.onChange(null);
-                    onHandleDeleteImage();
+
+                    if (isWithPreview) onHandleDeleteImage();
                   }}
                 >
                   <IoMdCloseCircle size={20} />

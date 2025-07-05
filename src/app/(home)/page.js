@@ -7,18 +7,21 @@ import Topics from "@/components/pages/home/topics";
 import Partner from "@/components/pages/home/partner";
 import Testimoni from "@/components/pages/home/testimoni";
 import { useGetHome } from "@/hooks/home/useGetHome";
+import { TopicProvider } from "@/context/topic-context";
 
 export default function IndexPage() {
   const { data, isLoading } = useGetHome();
 
   return (
-    <DefaultLayout isDark>
-      <HomeBanner />
-      <CustomerCounter data={data?.home_score} isLoading={isLoading} />
-      <HomeCarousel />
-      <Topics />
-      <Partner data={data?.home_partner_list} isLoading={isLoading} />
-      <Testimoni />
-    </DefaultLayout>
+    <TopicProvider>
+      <DefaultLayout isDark>
+        <HomeBanner />
+        <CustomerCounter data={data?.home_score} isLoading={isLoading} />
+        <HomeCarousel />
+        <Topics />
+        <Partner data={data?.home_partner_list} isLoading={isLoading} />
+        <Testimoni data={data?.home_review_list} isLoading={isLoading} />
+      </DefaultLayout>
+    </TopicProvider>
   );
 }

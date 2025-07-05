@@ -14,6 +14,7 @@ import { useParams } from "next/navigation";
 import { Spinner } from "@heroui/spinner";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { trainerFormSchema } from "./validation/schema";
+import useUpdateTrainer from "@/hooks/admin/useUpdateTrainer";
 
 export default function EditTrainerForm() {
   const params = useParams();
@@ -23,7 +24,7 @@ export default function EditTrainerForm() {
       id: params?.id,
     },
   });
-  const { mutate, isLoading: isLoadingEdit } = useCreateTrainer();
+  const { mutate, isPending: isLoadingEdit } = useUpdateTrainer();
   const [image, setImage] = useState("");
   const queryClient = useQueryClient();
 
@@ -46,6 +47,7 @@ export default function EditTrainerForm() {
     if (data?.data?.length > 0) {
       const trainerData = data?.data[0];
       reset({
+        id: trainerData.id || 0,
         full_name: trainerData.full_name || "",
         email: trainerData.email || "",
         job: trainerData.job || "",

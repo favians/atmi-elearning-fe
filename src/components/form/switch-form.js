@@ -22,7 +22,7 @@ export default function SwitchForm(props) {
         // />
         <>
           <label className=" text-small">{props.label}</label>
-          <Switch checked={field.value} onChange={field.onChange}>
+          <Switch isSelected={field.value} onChange={field.onChange}>
             {field.value ? "Ya" : "Tidak"}
           </Switch>
         </>

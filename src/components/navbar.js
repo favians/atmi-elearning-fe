@@ -35,9 +35,50 @@ import {
   DropdownTrigger,
 } from "@heroui/dropdown";
 import Image from "next/image";
+import { useGetCategoryNavbar } from "@/hooks/home/useGetCategoryNavbar";
+import { useTopic } from "@/context/topic-context";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSearchTraining } from "@/hooks/home/useSearchTraining";
+import { Spinner } from "@heroui/spinner";
 
 export const Navbar = ({ isDark }) => {
   // const [isOpen, setIsOpen] = React.useState(false);
+  const { data } = useGetCategoryNavbar();
+  const [searchValue, setSearchValue] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  const [isSearching, setIsSearching] = useState(false);
+  const skipQuery = debouncedSearch.trim() === "";
+  const { data: dataSearch, isLoading: isSearchLoading } = useSearchTraining({
+    params: {
+      limit: 10,
+      name_search: debouncedSearch || "",
+    },
+    enabled: !skipQuery,
+  });
+
+  console.log("dataSearch", dataSearch);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(searchValue);
+    }, 500);
+
+    return () => clearTimeout(handler);
+  }, [searchValue]);
+
+  // Optional: lakukan pencarian
+  useEffect(() => {
+    if (debouncedSearch) {
+      console.log("Searching for:", debouncedSearch);
+      // fetchData(debouncedSearch); // atau setFilter, dll
+    }
+  }, [debouncedSearch]);
+
+  const router = useRouter();
+  const { _, setSelectedTopicId } = useTopic();
+  const [selectedDropdown, setSelectedDropdown] = useState(null);
   const searchInput = (
     <Input
       aria-label="Search"
@@ -49,6 +90,11 @@ export const Navbar = ({ isDark }) => {
       labelPlacement="outside"
       variant={isDark ? "flat" : "bordered"}
       placeholder="Cari kursus di sini"
+      onChange={(e) => {
+        setIsSearching(true);
+        setSearchValue(e.target.value);
+      }}
+      value={searchValue}
       startContent={
         <SearchIcon
           className={
@@ -90,10 +136,11 @@ export const Navbar = ({ isDark }) => {
         </NavbarBrand>
         <div className="hidden lg:flex gap-8 justify-start ml-2">
           <Dropdown
-          // isOpen={isOpen}
-          // onMouseLeave={() => {
-          //   setIsOpen(false);
-          // }}
+            classNames={{ content: "p-0" }}
+            // isOpen={isOpen}
+            // onMouseLeave={() => {
+            //   setIsOpen(false);
+            // }}
           >
             <NavbarItem>
               <DropdownTrigger>
@@ -113,6 +160,9 @@ export const Navbar = ({ isDark }) => {
                   // onMouseEnter={() => {
                   //   setIsOpen(true);
                   // }}
+                  onClick={() => {
+                    setSelectedDropdown(null);
+                  }}
                 >
                   Kategori
                 </Button>
@@ -120,17 +170,57 @@ export const Navbar = ({ isDark }) => {
             </NavbarItem>
             <DropdownMenu
               aria-label="Link Actions"
-              className="w-[240px]"
+              color="primary"
+              classNames={{
+                base: "w-[240px] p-0 gap-4   overflow-visible bg-white text-black",
+              }}
               itemClasses={{
-                base: "gap-4",
+                base: "static data-[hover=true]:bg-green-100 data-[hover=true]:text-black data-[hover=true]:rounded-none",
               }}
             >
-              <DropdownItem href="/category/rekayasa-printing">
-                <Link className="flex">Kategori 1</Link>
-              </DropdownItem>
-              <DropdownItem href="/category/video-grapich">
-                <Link className="flex">Kategori 2</Link>
-              </DropdownItem>
+              {data?.map((category) => (
+                <DropdownItem
+                  itemClasses={{
+                    content: "p-0",
+                  }}
+                  onFocus={() => {
+                    setSelectedDropdown(category.id);
+                  }}
+                  onPress={() => {
+                    setSelectedTopicId(category.id);
+                    const el = document.getElementById("topics");
+                    if (el) {
+                      el.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }
+                  }}
+                  key={category.id}
+                  className=" group p-0 overflow-visible"
+                >
+                  <div className="w-full px-4 py-2 text-left  cursor-pointer">
+                    {category?.title}
+                  </div>
+
+                  {/* Submenu - appears on hover */}
+                  {selectedDropdown === category.id &&
+                    category?.trainings.length > 0 && (
+                      <div className="absolute left-full top-0  group-hover:block bg-white border shadow-lg z-10 min-w-[280px]">
+                        <ul className="text-sm text-gray-700">
+                          {category?.trainings?.map((topic) => (
+                            <li
+                              key={topic?.id}
+                              className="px-4 py-2 hover:bg-green-100 cursor-pointer"
+                              onClick={() => {
+                                router.push(`/topic/${topic?.id}`);
+                              }}
+                            >
+                              {topic?.title}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                </DropdownItem>
+              ))}
             </DropdownMenu>
           </Dropdown>
 
@@ -149,8 +239,37 @@ export const Navbar = ({ isDark }) => {
           </NavbarItem>
         </div>
 
-        <NavbarItem className="hidden w-full lg:flex ml-4">
+        <NavbarItem className="hidden relative w-full lg:flex ml-4">
           {searchInput}
+
+          {isSearching && (
+            <div
+              onMouseLeave={() => {
+                setIsSearching(false);
+              }}
+              className="absolute left-0 top-10  group-hover:block bg-white  z-10 min-w-full"
+            >
+              <ul className="text-sm text-gray-700">
+                {isSearchLoading ? (
+                  <div className="p-4">
+                    <Spinner />
+                  </div>
+                ) : (
+                  dataSearch?.map((item) => (
+                    <li
+                      key={item?.id}
+                      className="px-4 py-2 hover:bg-green-100 cursor-pointer"
+                      onClick={() => {
+                        router.push(`/topic/${item?.id}`);
+                      }}
+                    >
+                      {item?.title}
+                    </li>
+                  ))
+                )}
+              </ul>
+            </div>
+          )}
         </NavbarItem>
       </NavbarContent>
 

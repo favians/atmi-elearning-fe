@@ -1,27 +1,58 @@
 "use client";
 import InputForm from "@/components/form/input-form";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Button } from "@heroui/button";
 import TextAreaForm from "@/components/form/textarea-form";
 import { Avatar } from "@heroui/avatar";
 import toast from "react-hot-toast";
 import InputPasswordForm from "@/components/form/input-password-form";
 import SelectForm from "@/components/form/select-form";
-import DatePickerForm from "@/components/form/date-picker-form";
-import { useState } from "react";
-import useCreateTrainee from "@/hooks/admin/useCreateTrainee";
+import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryClientKeys } from "@/constants/query-client-keys";
+import { editTraineeFormSchema } from "./validation/schema";
+import { useGetTrainingList } from "@/hooks/admin/useGetTraining";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useGetTrainee } from "@/hooks/admin/useGetTrainee";
+import { Spinner } from "@heroui/spinner";
+import useUpdateTrainee from "@/hooks/admin/useUpdateTrainee";
 
 export default function EditTraineeForm() {
   const router = useRouter();
-  const { mutate, isLoading } = useCreateTrainee();
+  const params = useParams();
+  const { mutate, isPending: isLoading } = useUpdateTrainee();
+  const { data, isLoading: isLoadingTrainee } = useGetTrainee({
+    params: {
+      limit: 1,
+      id: params?.id,
+    },
+  });
+  const { data: dataTraining, isLoading: isLoadingTraining } =
+    useGetTrainingList();
   const [image, setImage] = useState("");
-  const { control, handleSubmit, setValue } = useForm({
+  const { control, handleSubmit, setValue, reset } = useForm({
     mode: "onChange",
+    resolver: yupResolver(editTraineeFormSchema),
   });
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (data?.data?.length > 0) {
+      const traineeData = data?.data[0];
+      reset({
+        id: traineeData.id || 0,
+        full_name: traineeData.full_name || "",
+        email: traineeData.email || "",
+        instance: traineeData.instance || "",
+        phone: traineeData.phone || "",
+        address: traineeData.address || "",
+        profile_photo: null,
+        training_id: String(traineeData?.user_training?.[0]?.id || ""),
+      });
+      setImage(traineeData.profile_url || "");
+    }
+  }, [data, reset]);
   const onSubmit = (data) => {
     mutate(data, {
       onSuccess: (res) => {
@@ -65,115 +96,117 @@ export default function EditTraineeForm() {
     };
   };
 
-  const animals = [
-    { key: "cat", label: "Cat" },
-    { key: "dog", label: "Dog" },
-    { key: "elephant", label: "Elephant" },
-    { key: "lion", label: "Lion" },
-  ];
-
   return (
     <div className="p-6 w-3/4">
       <form onSubmit={handleSubmit(onSubmit)} className="gap-6 flex">
-        <div>
-          <Avatar
-            size="lg"
-            className="w-20 h-20"
-            radius="md"
-            src={image || ""}
-          />
-          <label className="text-sm text-secondary text-center mt-2 cursor-pointer">
-            <div className="mt-1">Ubah Foto</div>
-            <input
-              type="file"
-              className="hidden"
-              onChange={onChangePhoto}
-              value=""
-              accept={"image/png, image/jpg, image/jpeg"}
-            />
-          </label>
-        </div>
-        <div className="flex flex-1 gap-4 flex-col">
-          <InputForm
-            label="Nama"
-            placeholder="cth. Rizal Candra"
-            name="full_name"
-            control={control}
-            labelPlacement="outside"
-          />
-          <InputForm
-            label="Email"
-            placeholder="cth. rizal.candra@gmail.com"
-            name="email"
-            type="email"
-            control={control}
-            labelPlacement="outside"
-          />
+        {isLoadingTrainee ? (
+          <Spinner />
+        ) : (
+          <>
+            <div>
+              <Avatar
+                size="lg"
+                className="w-20 h-20"
+                radius="md"
+                src={image || ""}
+              />
+              <label className="text-sm text-secondary text-center mt-2 cursor-pointer">
+                <div className="mt-1">Ubah Foto</div>
+                <input
+                  type="file"
+                  className="hidden"
+                  onChange={onChangePhoto}
+                  value=""
+                  accept={"image/png, image/jpg, image/jpeg"}
+                />
+              </label>
+            </div>
+            <div className="flex flex-1 gap-4 flex-col">
+              <InputForm
+                label="Nama"
+                placeholder="cth. Rizal Candra"
+                name="full_name"
+                control={control}
+                labelPlacement="outside"
+              />
+              <InputForm
+                label="Email"
+                placeholder="cth. rizal.candra@gmail.com"
+                name="email"
+                type="email"
+                control={control}
+                labelPlacement="outside"
+              />
 
-          <InputForm
-            label="Nomor Telepon"
-            placeholder="cth. 0838344992211"
-            name="phone"
-            control={control}
-            labelPlacement="outside"
-          />
+              <InputForm
+                label="Nomor Telepon"
+                placeholder="cth. 0838344992211"
+                name="phone"
+                control={control}
+                labelPlacement="outside"
+              />
 
-          <InputForm
-            label="Asal Instansi"
-            placeholder="cth. PT. ABC"
-            name="instance"
-            control={control}
-            labelPlacement="outside"
-          />
+              <InputForm
+                label="Asal Instansi"
+                placeholder="cth. PT. ABC"
+                name="instance"
+                control={control}
+                labelPlacement="outside"
+              />
 
-          <TextAreaForm
-            label="Alamat"
-            placeholder="cth. Jl. Raya No. 1, Jakarta"
-            name="address"
-            control={control}
-            labelPlacement="outside"
-          />
+              <TextAreaForm
+                label="Alamat"
+                placeholder="cth. Jl. Raya No. 1, Jakarta"
+                name="address"
+                control={control}
+                labelPlacement="outside"
+              />
 
-          <InputPasswordForm
-            label="Password"
-            placeholder="cth. qwerty123"
-            name="password"
-            control={control}
-            labelPlacement="outside"
-          />
+              <InputPasswordForm
+                label="Password Baru"
+                placeholder="cth. qwerty123"
+                name="password"
+                control={control}
+                description="Kosongkan jika tidak ingin mengubah password"
+                labelPlacement="outside"
+              />
 
-          <SelectForm
-            label="Pelatihan"
-            placeholder="Pilih Pelatihan"
-            name="course"
-            control={control}
-            data={animals}
-            labelPlacement="outside"
-          />
+              <SelectForm
+                label="Pelatihan"
+                placeholder="Pilih Pelatihan"
+                name="training_id"
+                control={control}
+                data={dataTraining || []}
+                isDisabled
+                isLoading={isLoadingTraining}
+                labelPlacement="outside" // Default to "3" if no training_id is available
+              />
 
-          <DatePickerForm
+              {/* <DatePickerForm
             label="Tanggal Pelatihan"
             placeholder="Tanggal"
             name="date"
             control={control}
             data={animals}
             labelPlacement="outside"
-          />
+          /> */}
 
-          <div className="flex items-center mt-2 justify-end gap-2">
-            <Button color="primary" variant="light">
-              Batalkan
-            </Button>
-            <Button
-              className="w-36"
-              isLoading={isLoading}
-              color="primary"
-              type="submit"
-            >
-              Simpan
-            </Button>
-          </div>
-        </div>
+              <div className="flex items-center mt-2 justify-end gap-2">
+                <Button color="primary" variant="light">
+                  Batalkan
+                </Button>
+                <Button
+                  className="w-36"
+                  isLoading={isLoading}
+                  color="primary"
+                  type="submit"
+                >
+                  Simpan
+                </Button>
+              </div>
+            </div>
+          </>
+        )}
       </form>
     </div>
   );

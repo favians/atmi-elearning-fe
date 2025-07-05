@@ -15,10 +15,13 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryClientKeys } from "@/constants/query-client-keys";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { traineeFormSchema } from "./validation/schema";
+import { useGetTrainingList } from "@/hooks/admin/useGetTraining";
 
 export default function CreateTraineeForm() {
   const router = useRouter();
-  const { mutate, isLoading } = useCreateTrainee();
+  const { mutate, isPending: isLoading } = useCreateTrainee();
+  const { data: dataTraining, isLoading: isLoadingTraining } =
+    useGetTrainingList();
   const [image, setImage] = useState("");
   const { control, handleSubmit, setValue } = useForm({
     mode: "onChange",
@@ -26,6 +29,7 @@ export default function CreateTraineeForm() {
   });
   const queryClient = useQueryClient();
   const onSubmit = (data) => {
+    console.log(data);
     mutate(data, {
       onSuccess: (res) => {
         toast.success("Berhasil menambahkan trainee");
@@ -67,13 +71,6 @@ export default function CreateTraineeForm() {
       setImage("");
     };
   };
-
-  const animals = [
-    { key: "cat", label: "Cat" },
-    { key: "dog", label: "Dog" },
-    { key: "elephant", label: "Elephant" },
-    { key: "lion", label: "Lion" },
-  ];
 
   return (
     <div className="p-6 w-3/4">
@@ -148,20 +145,20 @@ export default function CreateTraineeForm() {
           <SelectForm
             label="Pelatihan"
             placeholder="Pilih Pelatihan"
-            name="course"
+            name="training_id"
             control={control}
-            data={animals}
+            data={dataTraining || []}
+            isLoading={isLoadingTraining}
             labelPlacement="outside"
           />
 
-          <DatePickerForm
+          {/* <DatePickerForm
             label="Tanggal Pelatihan"
             placeholder="Tanggal"
             name="date"
             control={control}
-            data={animals}
             labelPlacement="outside"
-          />
+          /> */}
 
           <div className="flex items-center mt-2 justify-end gap-2">
             <Button color="primary" variant="light">

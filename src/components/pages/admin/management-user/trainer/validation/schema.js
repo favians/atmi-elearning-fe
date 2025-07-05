@@ -4,7 +4,6 @@ export const trainerFormSchema = Yup.object().shape({
   email: Yup.string()
     .email("Email tidak valid")
     .required("Email tidak boleh kosong"),
-  password: Yup.string().required("Password tidak boleh kosong"),
   full_name: Yup.string().required("Nama tidak boleh kosong"),
   job: Yup.string().required("Pekerjaan tidak boleh kosong"),
   instance: Yup.string().required("Perusahaan tidak boleh kosong"),
