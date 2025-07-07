@@ -12,7 +12,6 @@ import {
 import { Button } from "@heroui/button";
 import { Link } from "@heroui/link";
 import { Input } from "@heroui/input";
-import { link as linkStyles } from "@heroui/theme";
 import NextLink from "next/link";
 import clsx from "clsx";
 
@@ -227,7 +226,6 @@ export const Navbar = ({ isDark }) => {
           <NavbarItem>
             <NextLink
               className={clsx(
-                linkStyles({ color: "foreground" }),
                 isDark ? "text-white " : "text-black",
                 " data-[active=true]:text-primary  data-[active=true]:font-medium",
               )}
@@ -280,7 +278,6 @@ export const Navbar = ({ isDark }) => {
         <NavbarItem key={"/login"}>
           <NextLink
             className={clsx(
-              linkStyles({ color: "foreground" }),
               isDark ? "text-white " : "text-black",
               "border-r-1 px-4",
             )}
