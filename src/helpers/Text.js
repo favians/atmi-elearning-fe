@@ -59,7 +59,6 @@ export {
   toCapitalize,
   toCapitalizeEachWord,
   trunc,
-  truncNext,
   formatLink,
   formatSizeUnits,
   phoneNumber,
