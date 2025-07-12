@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  atmi_lsp_fe:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3001
+    image: atmi-elearning-fe
+    container_name: atmi-elearning-fe
+
+networks:
+  default:
+    name: my-shared-network
