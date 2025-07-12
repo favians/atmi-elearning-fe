@@ -30,7 +30,7 @@ export default function AboutCategory({ data, isLoading }) {
         <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
           <Image
             alt="Card background"
-            className="object-cover"
+            className="object-cover opacity-100"
             src={data?.image_url}
             width={270}
             radius="sm"

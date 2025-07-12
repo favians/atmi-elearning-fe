@@ -62,7 +62,7 @@ export default function RecomendedCourse({ data, isLoading }) {
                 <CardBody className="overflow-visible px-1">
                   <h3
                     className={subtitle({
-                      class: "font-semibold my-2  line-clamp-2",
+                      class: "font-semibold my-2  line-clamp-1",
                     })}
                   >
                     {item.title}
@@ -71,7 +71,7 @@ export default function RecomendedCourse({ data, isLoading }) {
                     className={subtitle({
                       size: "sm",
                       color: "grey",
-                      class: "mb-2  line-clamp-3",
+                      class: "mb-2 line-clamp-3 min-h-[66px]",
                     })}
                   >
                     {item.small_description}

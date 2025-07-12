@@ -5,29 +5,38 @@ import { useGetTopic } from "@/hooks/home/useGetTopic";
 import { useGetTraining } from "@/hooks/home/useGetTraining";
 import Section from "@/layouts/section";
 import { Avatar } from "@heroui/avatar";
+import { Button } from "@heroui/button";
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Chip } from "@heroui/chip";
 import { Image } from "@heroui/image";
 import { Spinner } from "@heroui/spinner";
 import { Tab, Tabs } from "@heroui/tabs";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Topics() {
   const router = useRouter();
   const { selectedTopicId, setSelectedTopicId } = useTopic();
   const { data: dataTopic, isLoading: isLoadingTopic } = useGetTopic();
-  const { data: dataTraining, isLoading: isLoadingTraining } = useGetTraining({
+  const [page, setPage] = useState(1);
+  const limit = 8;
+  const {
+    data: dataTraining,
+    isLoading: isLoadingTraining,
+    isFetching,
+  } = useGetTraining({
     params: {
       topic_id: selectedTopicId,
+      page,
+      limit,
     },
   });
 
   useEffect(() => {
-    if (dataTopic?.length > 0 && selectedTopicId === null) {
-      setSelectedTopicId(dataTopic[0].id); // default to first tab
+    if (dataTopic?.data?.length > 0 && selectedTopicId === null) {
+      setSelectedTopicId(dataTopic?.data[0].id); // default to first tab
     }
-  }, [dataTopic]);
+  }, [dataTopic?.data]);
   return (
     <Section
       className="bg-dark-blue "
@@ -55,10 +64,10 @@ export default function Topics() {
             "text-white group-data-[selected=true]:text-[#000] group-data-[selected=true]:font-semibold",
         }}
       >
-        {dataTopic?.map((item) => {
+        {dataTopic?.data?.map((item) => {
           return (
             <Tab key={item?.id} title={item?.title}>
-              <div className="flex flex-wrap justify-center items-center w-full  mt-8">
+              <div className="flex flex-wrap justify-center items-stretch w-full mt-8">
                 {isLoadingTraining ? (
                   <Spinner />
                 ) : (
@@ -66,10 +75,10 @@ export default function Topics() {
                     return (
                       <div
                         key={item.title}
-                        className="w-1/4 p-3"
+                        className="w-1/4 p-3 h-full"
                         onClick={() => router.push(`/topic/${item?.id}`)}
                       >
-                        <Card className="p-2 cursor-pointer">
+                        <Card className="p-2 h-full flex flex-col justify-between cursor-pointer">
                           <CardHeader className="px-1 py-0.5 flex-col items-start">
                             <div className="relative">
                               <Image
@@ -94,45 +103,52 @@ export default function Topics() {
                               {item?.material_count_fmt}
                             </h4>
                           </CardHeader>
-                          <CardBody className="overflow-visible px-1">
-                            <h3
-                              className={subtitle({
-                                class: "font-semibold my-2  line-clamp-2",
-                              })}
-                            >
-                              {item.title}
-                            </h3>
-                            <h4
-                              className={subtitle({
-                                size: "sm",
-                                color: "grey",
-                                class: "mb-2  line-clamp-3",
-                              })}
-                            >
-                              {item.small_description}
-                            </h4>
-                            <div className="flex items-center ">
-                              <h4
+
+                          <CardBody className="py-1 overflow-visible px-1 flex flex-col justify-between flex-1">
+                            <div>
+                              <h3
                                 className={subtitle({
-                                  class: "font-semibold flex-none mb-2 mr-2",
+                                  class: "font-semibold my-2 line-clamp-1",
                                 })}
                               >
-                                {item.price_fmt}
+                                {item.title}
+                              </h3>
+                              <h4
+                                className={subtitle({
+                                  size: "sm",
+                                  color: "grey",
+                                  class: "mb-2 line-clamp-3 min-h-[66px]",
+                                })}
+                              >
+                                {item.small_description}
                               </h4>
-                              {item?.discounted_price_fmt && (
+
+                              <div className="flex items-center">
                                 <h4
                                   className={subtitle({
-                                    class: "line-through mb-2",
-                                    size: "sm",
-                                    color: "red",
+                                    class: "font-semibold flex-none mb-2 mr-2",
                                   })}
                                 >
-                                  {item.discounted_price_fmt}
+                                  {item.price_fmt}
                                 </h4>
-                              )}
+                                {item?.discounted_price_fmt && (
+                                  <h4
+                                    className={subtitle({
+                                      class: "line-through mb-2",
+                                      size: "sm",
+                                      color: "red",
+                                    })}
+                                  >
+                                    {item.discounted_price_fmt}
+                                  </h4>
+                                )}
+                              </div>
                             </div>
 
-                            <div className="flex gap-2 my-2 items-center">
+                            {/* Space putih tambahan */}
+                            <div className="flex-grow" />
+
+                            <div className="flex gap-2 mt-4 items-center">
                               <Avatar src={item?.trainer?.profile_url} />
                               <div>
                                 <h4
@@ -143,11 +159,7 @@ export default function Topics() {
                                 >
                                   {item?.trainer?.full_name}
                                 </h4>
-                                <h4
-                                  className={subtitle({
-                                    size: "sm",
-                                  })}
-                                >
+                                <h4 className={subtitle({ size: "sm" })}>
                                   {item?.trainer?.job}
                                 </h4>
                               </div>
@@ -163,9 +175,16 @@ export default function Topics() {
           );
         })}
       </Tabs>
-      {/* <Button radius="sm" className="bg-white font-semibold text-blue">
-        Lihat Kursus Lainnya
-      </Button> */}
+
+      {dataTopic?.pagination?.next_page == true && (
+        <Button
+          radius="sm"
+          onPress={() => setPage((prev) => prev + 1)}
+          className="bg-white font-semibold text-blue"
+        >
+          Lihat Kursus Lainnya
+        </Button>
+      )}
     </Section>
   );
 }

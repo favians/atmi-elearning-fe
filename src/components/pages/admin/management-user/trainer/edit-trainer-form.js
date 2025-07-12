@@ -8,15 +8,15 @@ import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryClientKeys } from "@/constants/query-client-keys";
-import useCreateTrainer from "@/hooks/admin/useCreateTrainer";
 import { useGetTrainer } from "@/hooks/admin/useGetTrainer";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Spinner } from "@heroui/spinner";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { trainerFormSchema } from "./validation/schema";
 import useUpdateTrainer from "@/hooks/admin/useUpdateTrainer";
 
 export default function EditTrainerForm() {
+  const router = useRouter();
   const params = useParams();
   const { data, isLoading } = useGetTrainer({
     params: {
