@@ -79,7 +79,7 @@ export default function CreateAdminForm() {
 
             <SwitchForm
               label="Super Admin"
-              name="type"
+              name="role"
               control={control}
               labelPlacement="outside"
             />

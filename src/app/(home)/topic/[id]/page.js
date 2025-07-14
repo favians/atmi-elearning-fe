@@ -21,12 +21,15 @@ export default function CategoryPage() {
     },
   });
 
-  const { data: dataTraining, isLoading: isLoadingTraining } = useGetTraining({
-    params: {
-      topic_id: data?.topic_id,
-      limit: 4, // Limit to 4 recommended courses
-    },
+  const {
+    data: dataTraining,
+
+    isFetching: isLoadingTraining,
+  } = useGetTraining({
+    params: { topic_id: data?.topic_id, limit: 4 }, // Limit to 4 recommended courses
   });
+
+  const allTrainings = dataTraining?.pages.flatMap((page) => page.data) ?? [];
   return (
     <DefaultLayout>
       <AboutCategory data={data} isLoading={isLoading} />
@@ -34,7 +37,7 @@ export default function CategoryPage() {
       <HowToJoin />
       <TestimoniCategory />
       <FAQ />
-      <RecomendedCourse data={dataTraining} isLoading={isLoadingTraining} />
+      <RecomendedCourse data={allTrainings} isLoading={isLoadingTraining} />
       <CTA />
     </DefaultLayout>
   );

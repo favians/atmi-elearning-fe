@@ -12,34 +12,36 @@ import { Image } from "@heroui/image";
 import { Spinner } from "@heroui/spinner";
 import { Tab, Tabs } from "@heroui/tabs";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 export default function Topics() {
   const router = useRouter();
   const { selectedTopicId, setSelectedTopicId } = useTopic();
   const { data: dataTopic, isLoading: isLoadingTopic } = useGetTopic();
-  const [page, setPage] = useState(1);
   const limit = 8;
+
   const {
-    data: dataTraining,
-    isLoading: isLoadingTraining,
-    isFetching,
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+
+    isFetching: isLoadingTraining,
   } = useGetTraining({
-    params: {
-      topic_id: selectedTopicId,
-      page,
-      limit,
-    },
+    params: { topic_id: selectedTopicId, limit },
   });
 
+  const allTrainings = data?.pages.flatMap((page) => page.data) ?? [];
+
   useEffect(() => {
-    if (dataTopic?.data?.length > 0 && selectedTopicId === null) {
-      setSelectedTopicId(dataTopic?.data[0].id); // default to first tab
+    if (dataTopic?.length > 0 && selectedTopicId === null) {
+      setSelectedTopicId(dataTopic[0].id); // default to first tab
     }
-  }, [dataTopic?.data]);
+  }, [dataTopic]);
+
   return (
     <Section
-      className="bg-dark-blue "
+      className="bg-dark-blue"
       id="topics"
       wrapperClass={"p-16 flex flex-col items-center"}
     >
@@ -49,6 +51,7 @@ export default function Topics() {
       <h4 className={subtitle({ color: "white", class: "text-center" })}>
         Pilih kursus yang Anda inginkan
       </h4>
+
       <Tabs
         radius="full"
         variant={"light"}
@@ -64,17 +67,17 @@ export default function Topics() {
             "text-white group-data-[selected=true]:text-[#000] group-data-[selected=true]:font-semibold",
         }}
       >
-        {dataTopic?.data?.map((item) => {
+        {dataTopic?.map((item) => {
           return (
             <Tab key={item?.id} title={item?.title}>
               <div className="flex flex-wrap justify-center items-stretch w-full mt-8">
-                {isLoadingTraining ? (
+                {isLoadingTraining && !data?.pages.length ? (
                   <Spinner />
                 ) : (
-                  dataTraining?.map((item) => {
+                  allTrainings.map((item) => {
                     return (
                       <div
-                        key={item.title}
+                        key={item.id}
                         className="w-1/4 p-3 h-full"
                         onClick={() => router.push(`/topic/${item?.id}`)}
                       >
@@ -145,7 +148,6 @@ export default function Topics() {
                               </div>
                             </div>
 
-                            {/* Space putih tambahan */}
                             <div className="flex-grow" />
 
                             <div className="flex gap-2 mt-4 items-center">
@@ -171,20 +173,20 @@ export default function Topics() {
                   })
                 )}
               </div>
+              {hasNextPage && (
+                <Button
+                  radius="sm"
+                  isLoading={isFetchingNextPage}
+                  onPress={() => fetchNextPage()}
+                  className="bg-white flex mx-auto font-semibold text-blue mt-6"
+                >
+                  Lihat Kursus Lainnya
+                </Button>
+              )}
             </Tab>
           );
         })}
       </Tabs>
-
-      {dataTopic?.pagination?.next_page == true && (
-        <Button
-          radius="sm"
-          onPress={() => setPage((prev) => prev + 1)}
-          className="bg-white font-semibold text-blue"
-        >
-          Lihat Kursus Lainnya
-        </Button>
-      )}
     </Section>
   );
 }

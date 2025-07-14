@@ -12,7 +12,7 @@ import { useGetAdmin } from "@/hooks/admin/useGetAdmin";
 import { useEffect } from "react";
 import { Spinner } from "@heroui/spinner";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { adminFormSchema } from "./validation/schema";
+import { updateFormSchema } from "./validation/schema";
 import useUpdateAdmin from "@/hooks/admin/useUpdateAdmin";
 
 export default function EditAdminForm() {
@@ -27,7 +27,7 @@ export default function EditAdminForm() {
   const { mutate, isPending: isLoadingEdit } = useUpdateAdmin();
   const { control, handleSubmit, reset } = useForm({
     mode: "onChange",
-    resolver: yupResolver(adminFormSchema),
+    resolver: yupResolver(updateFormSchema),
   });
 
   const queryClient = useQueryClient();
@@ -36,13 +36,14 @@ export default function EditAdminForm() {
     if (data?.data?.length > 0) {
       const adminData = data?.data[0];
       reset({
+        id: adminData.id || 0,
         full_name: adminData.id || 0,
         full_name: adminData.full_name || "",
         email: adminData.email || "",
         job: adminData.job || "",
         label: adminData.label || "",
         phone: adminData.phone || "",
-        is_super_admin: adminData.role == "SUPER_ADMIN" ? true : false,
+        role: adminData.role == "SUPER_ADMIN" ? true : false,
       });
     }
   }, [data, reset]);
@@ -109,7 +110,7 @@ export default function EditAdminForm() {
                 />
                 <SwitchForm
                   label="Super Admin"
-                  name="type"
+                  name="role"
                   control={control}
                   labelPlacement="outside"
                 />

@@ -30,7 +30,7 @@ export const homeService = {
     const url = sprintf(URL_TOPIC);
 
     return api.get(url).then((res) => {
-      return res?.data;
+      return res?.data?.data;
     });
   },
   getTraining: async ({ params }) => {
@@ -38,7 +38,7 @@ export const homeService = {
     const url = sprintf(URL_TRAINING, { params: queryParamString });
 
     return api.get(url).then((res) => {
-      return res?.data?.data;
+      return res?.data;
     });
   },
   getDetailTraining: async ({ params }) => {

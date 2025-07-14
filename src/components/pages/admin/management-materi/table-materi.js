@@ -155,7 +155,7 @@ export default function TableTrainee() {
         )}
       </TableHeader>
       <TableBody
-        emptyContent={"No users found"}
+        emptyContent={"No materi found"}
         items={data?.data || []}
         isLoading={isLoading}
         loadingContent={<Spinner />}

@@ -21,6 +21,11 @@ export const URL_INTERNAL_TRAINING = "/internal/trainings";
 export const URL_INTERNAL_TRAINING_LIST =
   "/internal/trainings/list?page=1&limit=999";
 
+export const URL_BADGE_TRAINING_LIST = "/internal/badges?page=1&limit=999";
+export const URL_TOPIC_TRAINING_LIST = "/internal/topics?page=1&limit=999";
+export const URL_TRAINER_TRAINING_LIST =
+  "/internal/trainers/list?page=1&limit=999";
+
 export const URL_INTERNAL_PROFILE = "/internal/auth/current";
 //trainee
 export const URL_TRAINEE_CERTIFICATE = "/trainee/certificates?%(params)s";

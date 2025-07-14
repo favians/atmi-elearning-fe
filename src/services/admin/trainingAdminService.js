@@ -1,6 +1,9 @@
 import {
+  URL_BADGE_TRAINING_LIST,
   URL_INTERNAL_TRAINING,
   URL_INTERNAL_TRAINING_LIST,
+  URL_TOPIC_TRAINING_LIST,
+  URL_TRAINER_TRAINING_LIST,
 } from "@/constants/urls";
 import { api } from "@/utils/api";
 import { apiUpload } from "@/utils/apiUpload";
@@ -25,10 +28,6 @@ export const trainingAdminService = {
 
     const data = {
       ...currentData,
-      topic_id: "1",
-      badge_tagging: "Most popular",
-      training_group: "group 1",
-      trainer_id: "1",
     };
 
     for (let key in data) {
@@ -56,6 +55,41 @@ export const trainingAdminService = {
       const transformed = res?.data?.data.map((user) => ({
         key: user.id,
         label: user.title,
+      }));
+      return transformed;
+    });
+  },
+
+  getBadgeList: async () => {
+    const url = sprintf(URL_BADGE_TRAINING_LIST);
+
+    return api.get(url).then((res) => {
+      const transformed = res?.data?.data.map((user) => ({
+        key: user.name,
+        label: user.name,
+      }));
+      return transformed;
+    });
+  },
+
+  getTopicList: async () => {
+    const url = sprintf(URL_TOPIC_TRAINING_LIST);
+
+    return api.get(url).then((res) => {
+      const transformed = res?.data?.data.map((user) => ({
+        key: user.id,
+        label: user.title,
+      }));
+      return transformed;
+    });
+  },
+  getTrainerList: async () => {
+    const url = sprintf(URL_TRAINER_TRAINING_LIST);
+
+    return api.get(url).then((res) => {
+      const transformed = res?.data?.data.map((user) => ({
+        key: user.id,
+        label: user.full_name,
       }));
       return transformed;
     });

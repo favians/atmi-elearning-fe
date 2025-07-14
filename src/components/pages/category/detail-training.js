@@ -55,7 +55,8 @@ export const DetailTraining = ({ data, isLoading }) => {
                         {item?.title}
                       </h4>
                       <h4 className={subtitle({ size: "xs", color: "grey" })}>
-                        2 Topik • 12 Menit
+                        {item?.material_content?.length} Topik •{" "}
+                        {item?.total_all_duration_fmt}
                       </h4>
                     </div>
                   }
@@ -74,7 +75,7 @@ export const DetailTraining = ({ data, isLoading }) => {
                         {material?.topic_title}
                       </h4>
                       <h4 className={subtitle({ size: "xs", color: "grey" })}>
-                        6 Menit
+                        {material?.total_duration_fmt}
                       </h4>
                     </div>
                   ))}

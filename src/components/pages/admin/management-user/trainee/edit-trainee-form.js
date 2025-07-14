@@ -40,7 +40,6 @@ export default function EditTraineeForm() {
   useEffect(() => {
     if (data?.data?.length > 0) {
       const traineeData = data?.data[0];
-      alert(traineeData?.user_training?.[0]?.id);
       reset({
         id: traineeData.id || 0,
         full_name: traineeData.full_name || "",

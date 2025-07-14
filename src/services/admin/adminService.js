@@ -8,7 +8,7 @@ export const _generateAdminData = (values) => {
 
   Object.entries(values).forEach(([key, value]) => {
     if (value !== undefined && value !== null && value !== "") {
-      if (key === "type") {
+      if (key === "role") {
         data[key] = value ? "SUPER_ADMIN" : "ADMIN";
       } else {
         data[key] = value;

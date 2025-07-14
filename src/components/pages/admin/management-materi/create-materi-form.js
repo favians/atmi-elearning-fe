@@ -16,6 +16,9 @@ import { useUploadProgress } from "@/context/upload-context";
 import { queryClientKeys } from "@/constants/query-client-keys";
 import toast from "react-hot-toast";
 import { trainingAdminService } from "@/services/admin/trainingAdminService";
+import { useGetBadgeList } from "@/hooks/admin/useGetBadge";
+import { useGetTopicList } from "@/hooks/admin/useGetTopic";
+import { useGetTrainerList } from "@/hooks/admin/useGetTrainerList";
 
 export default function CreateMateriForm({ step, handleStep }) {
   const router = useRouter();
@@ -24,6 +27,10 @@ export default function CreateMateriForm({ step, handleStep }) {
   const schema = getValidationSchemaByStep(step);
   const [isLoading, setIsLoading] = useState(false);
   const { setProgress } = useUploadProgress();
+  const { data: dataBadge, isLoading: isLoadingBadge } = useGetBadgeList();
+  const { data: dataTopic, isLoading: isLoadingTopic } = useGetTopicList();
+  const { data: dataTrainer, isLoading: isLoadingTrainer } =
+    useGetTrainerList();
 
   const queryClient = useQueryClient();
   const { control, handleSubmit, formState } = useForm({
@@ -31,7 +38,7 @@ export default function CreateMateriForm({ step, handleStep }) {
     defaultValues: {
       module: [
         {
-          title: "Modul 1",
+          title: "",
           topics: [
             {
               topic_title: "",
@@ -59,6 +66,7 @@ export default function CreateMateriForm({ step, handleStep }) {
       .then(() => {
         toast.success("Berhasil membuat pelatihan");
         queryClient.invalidateQueries([queryClientKeys.GET_INTERNAL_MATERIAL]);
+        router.back();
       })
       .catch((err) => {
         toast.error(err?.message);
@@ -103,13 +111,6 @@ export default function CreateMateriForm({ step, handleStep }) {
     handleStep(1);
   };
 
-  const animals = [
-    { key: "cat", label: "Cat" },
-    { key: "dog", label: "Dog" },
-    { key: "elephant", label: "Elephant" },
-    { key: "lion", label: "Lion" },
-  ];
-
   return (
     <div className="flex gap-2">
       <div className="p-6 w-1/2">
@@ -138,7 +139,8 @@ export default function CreateMateriForm({ step, handleStep }) {
                   placeholder="Pilih kelompok pelatihan"
                   name="topic_id"
                   control={control}
-                  data={animals}
+                  data={dataTopic || []}
+                  isLoading={isLoadingTopic}
                   labelPlacement="outside"
                   isRequired
                 />
@@ -148,7 +150,8 @@ export default function CreateMateriForm({ step, handleStep }) {
                   placeholder="Pilih badge"
                   name="badge_tagging"
                   control={control}
-                  data={animals}
+                  data={dataBadge || []}
+                  isLoading={isLoadingBadge}
                   labelPlacement="outside"
                 />
 
@@ -200,7 +203,8 @@ export default function CreateMateriForm({ step, handleStep }) {
                   placeholder="Pilih trainer"
                   name="trainer_id"
                   control={control}
-                  data={animals}
+                  data={dataTrainer || []}
+                  isLoading={isLoadingTrainer}
                   isRequired
                   labelPlacement="outside"
                 />
