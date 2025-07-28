@@ -10,7 +10,7 @@ export const CompaniesDropdown = () => {
   const [company] = useState({
     name: "Acme Co.",
     location: "Palo Alto, CA",
-    logo: <Image src={logo} alt={"Logo"} width={100} className="h-fit " />,
+    logo: <Image src={logo} alt={"Logo"} width={50} className="h-fit " />,
   });
   return (
     <Dropdown

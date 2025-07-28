@@ -50,8 +50,8 @@ export default function EditCertificateForm() {
     if (data?.data?.length > 0) {
       const certificate = data?.data[0];
       reset({
-        user_id: certificate.trainee_id || "",
-        scheme_id: certificate.training_id || "",
+        trainee_id: certificate.trainee_id || "",
+        training_id: certificate.training_id || "",
         assign_date: parseDate(parseDateToIso(certificate?.assign_date)),
         certificate_number: certificate.certificate_number || "",
         download_url: certificate.download_url || "",
@@ -86,7 +86,7 @@ export default function EditCertificateForm() {
                 <SelectForm
                   label="Nama Trainee"
                   placeholder="Pilih User"
-                  name="user_id"
+                  name="trainee_id"
                   control={control}
                   data={dataTrainee || []}
                   labelPlacement="outside"
@@ -96,7 +96,7 @@ export default function EditCertificateForm() {
                 <SelectForm
                   label="Pelatihan"
                   placeholder="Pilih Pelatihan"
-                  name="scheme_id"
+                  name="training_id"
                   control={control}
                   data={dataTraining || []}
                   isLoading={isLoadingTraining}

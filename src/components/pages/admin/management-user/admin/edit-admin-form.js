@@ -72,6 +72,7 @@ export default function EditAdminForm() {
                   label="Nama"
                   placeholder="cth. Rizal Candra"
                   name="full_name"
+                  isRequired
                   control={control}
                   labelPlacement="outside"
                 />
@@ -80,6 +81,7 @@ export default function EditAdminForm() {
                   placeholder="cth. rizal.candra@gmail.com"
                   name="email"
                   type="email"
+                  isRequired
                   control={control}
                   labelPlacement="outside"
                 />
@@ -88,6 +90,7 @@ export default function EditAdminForm() {
                   label="Nomor Telepon"
                   placeholder="cth. 0838344992211"
                   name="phone"
+                  isRequired
                   control={control}
                   labelPlacement="outside"
                 />
@@ -96,6 +99,7 @@ export default function EditAdminForm() {
                   label="Label Admin"
                   placeholder="cth. Admin"
                   name="label"
+                  isRequired
                   control={control}
                   labelPlacement="outside"
                 />

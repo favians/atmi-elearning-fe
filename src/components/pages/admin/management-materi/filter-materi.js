@@ -24,7 +24,7 @@ export default function FilterMateri(props) {
       <form className=" gap-4 flex justify-between">
         <div className=" flex w-1/2">
           <InputForm
-            label="Search"
+            label=" "
             placeholder="Search..."
             name="username"
             control={control}

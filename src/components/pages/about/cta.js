@@ -14,7 +14,14 @@ export default function CTA() {
       <h4 className={subtitle({ class: "mb-6" })}>
         Kembangkan potensi diri bersama ATMI E-learning
       </h4>
-      <Button color="primary">Gabung Sekarang</Button>
+      <Button
+        color="primary"
+        onPress={() =>
+          window.open("https://forms.gle/q43rtuwZqPn2TXjg7", "_blank")
+        }
+      >
+        Gabung Sekarang
+      </Button>
     </Section>
   );
 }

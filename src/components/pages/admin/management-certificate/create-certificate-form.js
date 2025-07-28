@@ -37,7 +37,7 @@ export default function CreateCertificateForm() {
   const onSubmit = (data) => {
     mutate(data, {
       onSuccess: (res) => {
-        toast.success("Berhasil menambahkan cerftificate");
+        toast.success("Berhasil menambahkan sertifikat");
         queryClient.invalidateQueries([
           queryClientKeys.GET_INTERNAL_CERTIFICATE,
         ]);
@@ -57,7 +57,7 @@ export default function CreateCertificateForm() {
             <SelectForm
               label="Nama Trainee"
               placeholder="Pilih User"
-              name="user_id"
+              name="trainee_id"
               control={control}
               data={dataTrainee || []}
               labelPlacement="outside"
@@ -67,7 +67,7 @@ export default function CreateCertificateForm() {
             <SelectForm
               label="Pelatihan"
               placeholder="Pilih Pelatihan"
-              name="scheme_id"
+              name="training_id"
               control={control}
               data={dataTraining || []}
               isLoading={isLoadingTraining}
@@ -94,6 +94,8 @@ export default function CreateCertificateForm() {
               placeholder="Upload dokumen sertifikat"
               name="certificate_file"
               control={control}
+              accept="application/pdf"
+              description="File yang didukung pdf"
               isRequired
               labelPlacement="outside"
             />

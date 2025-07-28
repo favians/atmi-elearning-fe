@@ -9,7 +9,7 @@ import React from "react";
 import { FaPlay } from "react-icons/fa";
 import { FiAlertCircle } from "react-icons/fi";
 
-export const CardTraining = () => {
+export const CardTraining = ({ data }) => {
   const router = useRouter();
   return (
     <Card className="py-0 h-fit">
@@ -17,7 +17,7 @@ export const CardTraining = () => {
         <Image
           alt="Card background"
           className="object-cover rounded-xl"
-          src="https://heroui.com/images/hero-card-complete.jpeg"
+          src={data?.user_training?.photo_url}
           width={270}
         />
         <div className="absolute flex items-center rounded-md px-2 text-xs gap-1 py-1 top-6 text-grey-900 right-6 z-10 bg-white">
@@ -26,24 +26,24 @@ export const CardTraining = () => {
       </CardHeader>
       <CardBody className="overflow-visible pt-0 ">
         <h4 className={subtitle({ size: "xs" })}>
-          30 Materi Pembelajaran • 1Jam 40Menit
+          {data?.user_training?.material_count} Materi Pembelajaran • 1Jam
+          40Menit
         </h4>
         <h3 className={subtitle({ class: "mt-2 font-semibold" })}>
-          Teknik Desain Manufaktur berbasis pengembangan teknologi polimer
+          {data?.user_training?.title}
         </h3>
         <h4 className={subtitle({ size: "sm", class: "mt-2" })}>
-          Merancang dan merencanakan mesin, komponen mekanis dan otomasi.
+          {data?.user_training?.small_description}
         </h4>
 
         <div className="mt-4 items-center gap-2 flex">
-          <Avatar
-            size="sm"
-            src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
-          />
+          <Avatar size="sm" src={data?.trainer_data?.photo_profile_url} />
           <div>
-            <h4 className={subtitle({ size: "sm" })}>Jessie Stan</h4>
+            <h4 className={subtitle({ size: "sm" })}>
+              {data?.trainer_data?.full_name}
+            </h4>
             <h4 className={subtitle({ size: "xs", color: "grey" })}>
-              Trainer Rekayasa Manufaktur
+              {data?.trainer_data?.job}
             </h4>
           </div>
         </div>
@@ -66,7 +66,8 @@ export const CardTraining = () => {
                 class: "flex gap-1",
               })}
             >
-              0% <div className="font-semibold">of</div> 100%
+              {data?.training_progress?.percentage_fmt}{" "}
+              <div className="font-semibold">of</div> 100%
             </h4>
           </div>
         </div>
@@ -76,7 +77,7 @@ export const CardTraining = () => {
             aria-label="Loading..."
             className="max-w-md h-2"
             size="md"
-            value={60}
+            value={data?.training_progress?.percentage}
             color="warning"
           />
         </div>
@@ -86,7 +87,9 @@ export const CardTraining = () => {
           startContent={<FaPlay />}
           className="mt-2"
           color="primary"
-          onPress={() => router.push(`/dashboard/training/1`)}
+          onPress={() =>
+            router.push(`/dashboard/training/${data?.user_training?.id}`)
+          }
         >
           Mulai Pelatihan
         </Button>

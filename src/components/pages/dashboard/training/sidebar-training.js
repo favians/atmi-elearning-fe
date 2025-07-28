@@ -1,182 +1,158 @@
 import { subtitle } from "@/components/primitives";
 import { Sidebar } from "@/components/shared/sidebar/sidebar.styles";
+import { useModule } from "@/context/module-context";
 import { Accordion, AccordionItem } from "@heroui/accordion";
 import { Checkbox } from "@heroui/checkbox";
 import { Divider } from "@heroui/divider";
 import { Progress } from "@heroui/progress";
+import { Spinner } from "@heroui/spinner";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { GoArrowLeft } from "react-icons/go";
 import { LuSquareCheckBig } from "react-icons/lu";
 
-export const SidebarTraining = () => {
+export const SidebarTraining = ({ data, isLoading }) => {
   const router = useRouter();
+  const { selectedModule, setSelectedModule } = useModule();
+  useEffect(() => {
+    if (!isLoading && data && data.module_user_training && !selectedModule) {
+      for (const module of data.module_user_training) {
+        const firstUnfinished = module.training_materials.find(
+          (m) => !m.is_done,
+        );
+        if (firstUnfinished) {
+          setSelectedModule(firstUnfinished);
+          break;
+        }
+      }
+    }
+  }, [isLoading, data, selectedModule, setSelectedModule]);
+
   return (
-    <aside className=" w-80 fixed min-h-full border-r pt-5 left-0 top-0 bg-white">
+    <aside className=" w-80 fixed min-h-full border-r pt-5  left-0 top-0 bg-white">
       <div className={Sidebar()}>
-        <div className="flex flex-1 mt-8 flex-col justify-between ">
-          <div
-            onClick={() => router.back()}
-            className="text-primary cursor-pointer flex items-center text-sm gap-2"
-          >
-            <GoArrowLeft /> Kembali ke Pelatihan Saya
-          </div>
-          <h4 className={subtitle({ class: "font-semibold mt-2", size: "sm" })}>
-            3D Printing Untuk Rekayasa Manufaktur dan Industri
-          </h4>
-          <div className="flex mt-4 items-center">
-            <h4
-              className={subtitle({
-                size: "sm",
-                color: "grey",
-                className: "flex flex-1",
-              })}
+        {isLoading ? (
+          <Spinner className="mt-12" />
+        ) : (
+          <div className="flex-1 py-8 flex flex-col justify-between overflow-y-auto max-h-[calc(100vh)] scrollbar-hidden">
+            <div
+              onClick={() => router.back()}
+              className="text-primary cursor-pointer flex items-center text-sm gap-2"
             >
-              Progress
+              <GoArrowLeft /> Kembali ke Pelatihan Saya
+            </div>
+            <h4
+              className={subtitle({ class: "font-semibold mt-2", size: "sm" })}
+            >
+              {data?.training_title}
             </h4>
-            <div>
+            <div className="flex mt-4 items-center">
               <h4
                 className={subtitle({
-                  size: "xs",
+                  size: "sm",
                   color: "grey",
-                  class: "flex gap-1",
+                  className: "flex flex-1",
                 })}
               >
-                0% <div className="font-semibold">of</div> 100%
+                Progress
               </h4>
+              <div>
+                <h4
+                  className={subtitle({
+                    size: "xs",
+                    color: "grey",
+                    class: "flex gap-1",
+                  })}
+                >
+                  {data?.progress_percentage}%{" "}
+                  <div className="font-semibold">of</div> 100%
+                </h4>
+              </div>
             </div>
-          </div>
 
-          <div className="my-2">
-            <Progress
-              aria-label="Loading..."
-              className="max-w-md h-2"
-              size="md"
-              value={60}
-              color="warning"
-            />
-          </div>
-          <Divider className="my-4 " />
+            <div className="my-2">
+              <Progress
+                aria-label="Loading..."
+                className="max-w-md h-2"
+                size="md"
+                value={data?.progress_percentage}
+                color="warning"
+              />
+            </div>
+            <Divider className="my-4 " />
 
-          <Accordion
-            defaultExpandedKeys={["2"]}
-            className="px-0"
-            itemClasses={{
-              trigger: "items-start ",
-              indicator: "mt-1 rotate-90   data-[open=true]:-rotate-90 ",
-              content: "pt-0",
-              title: "font-semibold text-sm",
-            }}
-          >
-            <AccordionItem
-              key="1"
-              aria-label="Accordion 1"
-              subtitle={
-                <h4 className={subtitle({ size: "xs" })}>2 Topik • 12 Menit</h4>
+            <Accordion
+              defaultExpandedKeys={
+                data?.module_user_training
+                  ? [
+                      String(
+                        data.module_user_training.find((m) => !m.is_complete)
+                          ?.module_id ??
+                          data.module_user_training[0]?.module_id,
+                      ),
+                    ]
+                  : []
               }
-              title="Bagian 1: Introduction"
-              startContent={<LuSquareCheckBig className="text-primary mt-1" />}
+              className="px-0 pb-8"
+              itemClasses={{
+                trigger: "items-start ",
+                indicator: "mt-1 rotate-90   data-[open=true]:-rotate-90 ",
+                content: "pt-0",
+                title: "font-semibold text-sm",
+              }}
             >
-              <Checkbox
-                size="sm"
-                classNames={{ label: "ml-1" }}
-                className="flex mb-2"
-                defaultSelected
-              >
-                <h4
-                  className={subtitle({ class: "font-semibold", size: "xs" })}
+              {data?.module_user_training.map((module, index) => (
+                <AccordionItem
+                  key={String(module?.module_id)}
+                  aria-label={`Accordion ${index + 1}`}
+                  subtitle={
+                    <h4 className={subtitle({ size: "xs" })}>
+                      {module?.material_count} Topik •{" "}
+                      {module?.duration_total_in_second} Menit
+                    </h4>
+                  }
+                  title={module?.title}
+                  startContent={
+                    <LuSquareCheckBig
+                      className={`${module?.is_complete ? "text-primary" : "text-orange"} mt-1`}
+                    />
+                  }
                 >
-                  Persiapan Sketching
-                </h4>
-                <h4 className={subtitle({ size: "xs" })}>2 Topik • 12 Menit</h4>
-              </Checkbox>
-              <Checkbox
-                classNames={{ label: "ml-1" }}
-                size="sm"
-                className="flex mb-2"
-                defaultSelected
-              >
-                <h4
-                  className={subtitle({ class: "font-semibold", size: "xs" })}
-                >
-                  Gunakan beberapa fitur Sketsa yang rumit
-                </h4>
-                <h4 className={subtitle({ size: "xs" })}>2 Topik • 12 Menit</h4>
-              </Checkbox>
-            </AccordionItem>
-            <AccordionItem
-              key="2"
-              aria-label="Accordion 2"
-              subtitle={
-                <h4 className={subtitle({ size: "xs" })}>2 Topik • 12 Menit</h4>
-              }
-              title="Bagian 2: Sketching"
-              startContent={<LuSquareCheckBig className="text-primary mt-1" />}
-            >
-              <Checkbox
-                size="sm"
-                classNames={{ label: "ml-1" }}
-                className="flex mb-2"
-                defaultSelected
-              >
-                <h4
-                  className={subtitle({ class: "font-semibold", size: "xs" })}
-                >
-                  Persiapan Sketching
-                </h4>
-                <h4 className={subtitle({ size: "xs" })}>2 Topik • 12 Menit</h4>
-              </Checkbox>
-              <Checkbox
-                classNames={{ label: "ml-1" }}
-                size="sm"
-                className="flex mb-2"
-                defaultSelected
-              >
-                <h4
-                  className={subtitle({ class: "font-semibold", size: "xs" })}
-                >
-                  Gunakan beberapa fitur Sketsa yang rumit
-                </h4>
-                <h4 className={subtitle({ size: "xs" })}>2 Topik • 12 Menit</h4>
-              </Checkbox>
-            </AccordionItem>
-            <AccordionItem
-              key="3"
-              aria-label="Accordion 3"
-              subtitle={
-                <h4 className={subtitle({ size: "xs" })}>2 Topik • 12 Menit</h4>
-              }
-              title="Bagian 3: Membuat 3D Model"
-              startContent={<LuSquareCheckBig className="text-orange mt-1" />}
-            >
-              <Checkbox
-                size="sm"
-                classNames={{ label: "ml-1" }}
-                className="flex mb-2"
-                defaultSelected
-              >
-                <h4
-                  className={subtitle({ class: "font-semibold", size: "xs" })}
-                >
-                  Persiapan Sketching
-                </h4>
-                <h4 className={subtitle({ size: "xs" })}>2 Topik • 12 Menit</h4>
-              </Checkbox>
-              <Checkbox
-                classNames={{ label: "ml-1" }}
-                size="sm"
-                className="flex mb-2"
-              >
-                <h4
-                  className={subtitle({ class: "font-semibold", size: "xs" })}
-                >
-                  Gunakan beberapa fitur Sketsa yang rumit
-                </h4>
-                <h4 className={subtitle({ size: "xs" })}>2 Topik • 12 Menit</h4>
-              </Checkbox>
-            </AccordionItem>
-          </Accordion>
-        </div>
+                  {module?.training_materials.map((material) => {
+                    const isSelected =
+                      selectedModule?.material_id === material?.material_id;
+                    return (
+                      <Checkbox
+                        key={material?.material_id}
+                        size="sm"
+                        classNames={{
+                          label: "ml-1",
+                          base: `min-w-full max-w-full m-0 -my-1 ${isSelected ? "bg-primary/10" : ""}  hover:bg-primary/10`,
+                        }}
+                        onChange={() => setSelectedModule(material)}
+                        className="flex mb-2"
+                        defaultSelected={material?.is_done}
+                        isSelected={material?.is_done}
+                      >
+                        <h4
+                          className={subtitle({
+                            class: "font-semibold",
+                            size: "xs",
+                          })}
+                        >
+                          {material?.title}
+                        </h4>
+                        <h4 className={subtitle({ size: "xs" })}>
+                          2 Topik • 12 Menit
+                        </h4>
+                      </Checkbox>
+                    );
+                  })}
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        )}
         {/* <Image
               src={misc1}
               alt="Cristal Misc"

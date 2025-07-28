@@ -1,16 +1,21 @@
-import { LogoWhite } from "@/components/icons";
 import { subtitle, title } from "@/components/primitives";
 import shapeCircle from "@/assets/images/illustration/shape_circle.png";
 import Image from "next/image";
 import { Link } from "@heroui/link";
 import LoginAdmin from "@/components/pages/login/login-admin";
+import logoWhite from "@/assets/images/logo/logo_white.png";
 
 export default function LoginPage() {
   return (
     <div className="grid grid-cols-3 h-screen">
       <div className="col-span-2 flex flex-col bg-gradient-to-bl  from-[#05AAE6]  to-[#003452] p-4 ">
         <Link href="/">
-          <LogoWhite size={90} />
+          <Image
+            src={logoWhite}
+            alt="Logo White"
+            height={40}
+            className="mr-10 object-cover"
+          />
         </Link>
         <div className="flex  flex-col  flex-1 justify-center w-3/4 mx-auto">
           <h3 className={title({ color: "white", class: "mb-4" })}>

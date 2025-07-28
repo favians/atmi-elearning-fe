@@ -36,7 +36,7 @@ export default function FilterCertificate(props) {
     <div className="-mt-2">
       <form className=" gap-4 flex ">
         <InputForm
-          label="Search"
+          label=" "
           placeholder="Search..."
           name="search"
           control={control}

@@ -161,6 +161,7 @@ export default function CreateMateriForm({ step, handleStep }) {
                   name="small_description"
                   control={control}
                   labelPlacement="outside"
+                  maxLength={225}
                 />
                 <TextAreaForm
                   label="Deskripsi Lengkap"
@@ -175,6 +176,7 @@ export default function CreateMateriForm({ step, handleStep }) {
                   placeholder="cth. 50.000"
                   name="price"
                   isRequired
+                  isCurrency
                   startContent={
                     <div className="bg-grey-400 p-1 rounded-lg px-2 font-semibold -ml-2.5">
                       Rp

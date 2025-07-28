@@ -51,6 +51,7 @@ export const TopicForm = (props) => {
               placeholder="cth. Tulis deskripsi lengkap disini"
               name={`${name}.${index}.summary`}
               control={control}
+              isRequired
               labelPlacement="outside"
             />
             <UploadForm
@@ -58,9 +59,9 @@ export const TopicForm = (props) => {
               name={`${name}.${index}.learning_material_file`}
               control={control}
               isRequired
-              description="File yang didukung PDF, PNG, JPG & JPEG"
+              description="File yang didukung PDF, PPT, PNG, JPG & JPEG"
               labelPlacement="outside"
-              accept="application/pdf, image/*"
+              accept="application/pdf, image/*, application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.presentationml.presentation"
             />
             <Divider className="my-2" />
           </div>

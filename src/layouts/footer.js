@@ -6,26 +6,29 @@ import { Input } from "@heroui/input";
 import {
   FacebookIcon,
   InstagramIcon,
-  LogoWhite,
   TwitterIcon,
   YoutubeIcon,
 } from "@/components/icons";
 import { Button } from "@heroui/button";
 import { useForm } from "react-hook-form";
 import InputForm from "@/components/form/input-form";
+import Image from "next/image";
+
+import logoWhite from "@/assets/images/logo/logo_white.png";
 
 const info = [
-  { title: "Company", link: "/company" },
-  { title: "Products", link: "/producs" },
-  { title: "Engineering", link: "/engineering" },
+  { title: "ATMI BizDec", link: "/home" },
+  { title: "Registrasi Training", link: "/producs" },
   { title: "Services", link: "/services" },
-  { title: "Productions", link: "/productions" },
 ];
 
 const about = [
-  { title: "Gallery", link: "/about" },
-  { title: "Technologies", link: "/tech" },
-  { title: "Contacts", link: "/contacts" },
+  { title: "Tentang E-learning ATMI", link: "/about" },
+  { title: "Kontak kami", link: "/" },
+  {
+    title: "Experience",
+    link: "/",
+  },
 ];
 export default function Footer() {
   const { control, handleSubmit } = useForm({
@@ -42,38 +45,31 @@ export default function Footer() {
         wrapperClass="grid grid-cols-5 p-16 gap-24"
       >
         <div className="col-span-2 bg-[#17181C] rounded-xl p-6">
-          <h4
-            className={subteks({
-              color: "orange",
-              class: "mb-4",
-            })}
-          >
-            FEEDBACK
-          </h4>
           <h3
             className={headline({
               color: "white",
               class: "font-normal",
+              size: "lg",
             })}
           >
             <span className="opacity-50 mr-2">
-              Seeking personalized support?
+              Belum menemukan kelas yang cocok?
             </span>
-            <span>Request a call from our team</span>
+            <span>Tanya tim kami untuk lebih detail</span>
           </h3>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="mt-4 gap-4  dark flex flex-col"
           >
             <InputForm
-              label="YOUR NAME"
+              label="Nama Anda"
               placeholder="Masukkan nama Anda"
               name="name"
               isDark
               control={control}
             />
             <InputForm
-              label="PHONE NUMBER"
+              label="Nomor Telepon"
               placeholder="Masukkan nomer handphone Anda"
               name="phone"
               isDark
@@ -81,10 +77,10 @@ export default function Footer() {
             />
             <Button
               radius="full"
-              className="bg-orange-bricks max-w-44 text-white"
+              className="bg-primary max-w-44 text-white"
               type="submit"
             >
-              Send a request
+              Tanya CS
             </Button>
           </form>
         </div>
@@ -94,7 +90,7 @@ export default function Footer() {
               <div className="footer-info mb-16">
                 <h4
                   className={subteks({
-                    color: "orange",
+                    color: "primary",
                     class: "mb-4",
                   })}
                 >
@@ -120,7 +116,7 @@ export default function Footer() {
               <div className="footer-contact mb-16">
                 <h4
                   className={subteks({
-                    color: "orange",
+                    color: "primary",
                     class: "mb-4",
                   })}
                 >
@@ -133,11 +129,12 @@ export default function Footer() {
                     size: "sm",
                   })}
                 >
-                  +1 (999) 999-99-99
+                  Telepon: (0271) 746 2535
                   <br />
-                  hello@logoipsum.com
+                  E-mail: marketing@atmibizdec.id
                   <br />
-                  London
+                  Jl. Adisucipto Km. 9.5, Blulukan, Colomadu, Surakarta, Central
+                  Java, Indonesia.
                 </h4>
               </div>
             </div>
@@ -145,7 +142,7 @@ export default function Footer() {
               <div className="footer-info mb-16">
                 <h4
                   className={subteks({
-                    color: "orange",
+                    color: "primary",
                     class: "mb-4",
                   })}
                 >
@@ -169,26 +166,15 @@ export default function Footer() {
               </div>
             </div>
             <div className="text-white">
-              <LogoWhite size={100} />
+              <Image
+                src={logoWhite}
+                alt="Logo White"
+                height={80}
+                className="mr-10 object-cover"
+              />
             </div>
           </div>
-          <div className="footer-subs mb-16">
-            <h4
-              className={subteks({
-                color: "orange",
-                class: "mb-4",
-              })}
-            >
-              Subscription
-            </h4>
-            <Input
-              placeholder="E-mail"
-              radius="sm"
-              classNames={{
-                inputWrapper: "bg-transparent border-1 border-grey-900",
-              }}
-            />
-          </div>
+
           <div className="footer-social flex gap-2 text-white">
             <Button
               isIconOnly
@@ -225,7 +211,7 @@ export default function Footer() {
               <TwitterIcon size={16} />
             </Button>
             <div className="flex flex-1 justify-end items-end text-xs text-gray-500">
-              © 2023 — Copyright
+              © 2025 — Copyright All right reserved PT ATMI BizDec
             </div>
           </div>
         </div>

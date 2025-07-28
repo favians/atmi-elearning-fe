@@ -30,7 +30,13 @@ export default function HomeBanner() {
           Menyediakan berbagai kursus dan sertifikasi terbaik untuk membantu
           individu dan usaha berkembang tanpa batas
         </h4>
-        <Button color="primary" className="mb-8">
+        <Button
+          color="primary"
+          className="mb-8"
+          onPress={() =>
+            window.open("https://forms.gle/q43rtuwZqPn2TXjg7", "_blank")
+          }
+        >
           Gabung Sekarang
         </Button>
       </div>

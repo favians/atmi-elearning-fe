@@ -42,6 +42,7 @@ export default function CreateAdminForm() {
               placeholder="cth. Rizal Candra"
               name="full_name"
               control={control}
+              isRequired
               labelPlacement="outside"
             />
             <InputForm
@@ -49,6 +50,7 @@ export default function CreateAdminForm() {
               placeholder="cth. rizal.candra@gmail.com"
               name="email"
               type="email"
+              isRequired
               control={control}
               labelPlacement="outside"
             />
@@ -57,6 +59,7 @@ export default function CreateAdminForm() {
               label="Nomor Telepon"
               placeholder="cth. 0838344992211"
               name="phone"
+              isRequired
               control={control}
               labelPlacement="outside"
             />
@@ -65,6 +68,7 @@ export default function CreateAdminForm() {
               label="Label Admin"
               placeholder="cth. Admin"
               name="label"
+              isRequired
               control={control}
               labelPlacement="outside"
             />
@@ -73,6 +77,7 @@ export default function CreateAdminForm() {
               label="Password"
               placeholder="cth. qwerty123"
               name="password"
+              isRequired
               control={control}
               labelPlacement="outside"
             />

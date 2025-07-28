@@ -30,5 +30,9 @@ export const URL_INTERNAL_PROFILE = "/internal/auth/current";
 //trainee
 export const URL_TRAINEE_CERTIFICATE = "/trainee/certificates?%(params)s";
 export const URL_TRAINEE_PROFILE = "/auth/current";
+export const URL_TRAINEE_TRAINING = "/trainings/current?%(params)s";
+export const URL_TRAINEE_TRAINING_DETAIL = "/trainee/trainings?%(params)s";
 export const URL_TRAINEE_NOTIFICATION =
   "/trainee/notifications?page=1&limit=10";
+
+export const URL_TRAINEE_UPDATE_PROGRESS = "/trainee/trainings/isdone";

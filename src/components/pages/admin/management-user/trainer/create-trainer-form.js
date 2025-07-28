@@ -86,6 +86,7 @@ export default function CreateTrainerForm() {
             label="Nama"
             placeholder="cth. Rizal Candra"
             name="full_name"
+            isRequired
             control={control}
             labelPlacement="outside"
           />
@@ -94,6 +95,7 @@ export default function CreateTrainerForm() {
             placeholder="cth. rizal.candra@gmail.com"
             name="email"
             type="email"
+            isRequired
             control={control}
             labelPlacement="outside"
           />
@@ -102,6 +104,7 @@ export default function CreateTrainerForm() {
             label="Pekerjaan atau Keahlian"
             placeholder="cth. Kepala Teknisi"
             name="job"
+            isRequired
             control={control}
             labelPlacement="outside"
           />
@@ -110,6 +113,7 @@ export default function CreateTrainerForm() {
             label="Perusahaan"
             placeholder="cth. PT. ABC"
             name="instance"
+            isRequired
             control={control}
             labelPlacement="outside"
           />
@@ -118,6 +122,7 @@ export default function CreateTrainerForm() {
             label="Nomor Telepon"
             placeholder="cth. 0838344992211"
             name="phone"
+            isRequired
             control={control}
             labelPlacement="outside"
           />
@@ -127,6 +132,7 @@ export default function CreateTrainerForm() {
             placeholder="cth. Trainer berpengalaman di bidang..."
             name="about_trainer"
             control={control}
+            isRequired
             labelPlacement="outside"
           />
 

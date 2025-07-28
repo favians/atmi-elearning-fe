@@ -48,7 +48,7 @@ export default function EditTraineeForm() {
         phone: traineeData.phone || "",
         address: traineeData.address || "",
         profile_photo: null,
-        training_id: String(traineeData?.user_training?.[0]?.id || ""),
+        training_id: String(traineeData?.user_training?.[0]?.training_id || ""),
       });
       setImage(traineeData.profile_url || "");
     }
@@ -56,7 +56,7 @@ export default function EditTraineeForm() {
   const onSubmit = (data) => {
     mutate(data, {
       onSuccess: (res) => {
-        toast.success("Berhasil menambahkan trainee");
+        toast.success("Berhasil mengubah trainee");
         queryClient.invalidateQueries([queryClientKeys.GET_INTERNAL_TRAINEE]);
         router.back();
       },
@@ -126,6 +126,7 @@ export default function EditTraineeForm() {
                 label="Nama"
                 placeholder="cth. Rizal Candra"
                 name="full_name"
+                isRequired
                 control={control}
                 labelPlacement="outside"
               />
@@ -133,6 +134,7 @@ export default function EditTraineeForm() {
                 label="Email"
                 placeholder="cth. rizal.candra@gmail.com"
                 name="email"
+                isRequired
                 type="email"
                 control={control}
                 labelPlacement="outside"
@@ -142,6 +144,7 @@ export default function EditTraineeForm() {
                 label="Nomor Telepon"
                 placeholder="cth. 0838344992211"
                 name="phone"
+                isRequired
                 control={control}
                 labelPlacement="outside"
               />
@@ -150,6 +153,7 @@ export default function EditTraineeForm() {
                 label="Asal Instansi"
                 placeholder="cth. PT. ABC"
                 name="instance"
+                isRequired
                 control={control}
                 labelPlacement="outside"
               />
@@ -158,6 +162,7 @@ export default function EditTraineeForm() {
                 label="Alamat"
                 placeholder="cth. Jl. Raya No. 1, Jakarta"
                 name="address"
+                isRequired
                 control={control}
                 labelPlacement="outside"
               />

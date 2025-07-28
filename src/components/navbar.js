@@ -40,6 +40,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSearchTraining } from "@/hooks/home/useSearchTraining";
 import { Spinner } from "@heroui/spinner";
+import { GoChevronRight } from "react-icons/go";
 
 export const Navbar = ({ isDark }) => {
   // const [isOpen, setIsOpen] = React.useState(false);
@@ -195,8 +196,9 @@ export const Navbar = ({ isDark }) => {
                   key={category.id}
                   className=" group p-0 overflow-visible"
                 >
-                  <div className="w-full px-4 py-2 text-left  cursor-pointer">
-                    {category?.title}
+                  <div className="w-full px-4 flex items-center py-2 text-left  cursor-pointer">
+                    <span className="flex flex-1 ">{category?.title}</span>
+                    <GoChevronRight className="w-4 h-4 text-muted-foreground " />
                   </div>
 
                   {/* Submenu - appears on hover */}
@@ -289,15 +291,16 @@ export const Navbar = ({ isDark }) => {
         <NavbarItem className="hidden md:flex">
           <Button
             isExternal
-            as={Link}
             className={clsx(
               isDark ? "text-primary bg-default-100" : "",
               "text-sm font-normal ",
             )}
             size="sm"
             color="primary"
-            href={siteConfig.links.sponsor}
             variant={isDark ? "flat" : "solid"}
+            onPress={() =>
+              window.open("https://forms.gle/q43rtuwZqPn2TXjg7", "_blank")
+            }
           >
             Daftar
           </Button>

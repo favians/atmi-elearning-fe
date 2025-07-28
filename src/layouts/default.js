@@ -5,7 +5,7 @@ export default function DefaultLayout({ isDark, children }) {
   return (
     <div>
       <Navbar isDark={isDark} />
-      <Breadcrumb />
+      {/* <Breadcrumb /> */}
       <main>{children}</main>
     </div>
   );

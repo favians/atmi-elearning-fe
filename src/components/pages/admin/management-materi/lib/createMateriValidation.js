@@ -78,9 +78,13 @@ export const step2Validation = Yup.object().shape({
                   "Format file tidak didukung",
                   (value) =>
                     value &&
-                    ["application/pdf", "image/jpeg", "image/png"].includes(
-                      value.type,
-                    ),
+                    [
+                      "application/pdf",
+                      "image/jpeg",
+                      "image/png",
+                      "application/vnd.ms-powerpoint", // .ppt
+                      "application/vnd.openxmlformats-officedocument.presentationml.presentation", // .pptx
+                    ].includes(value.type),
                 ),
             }),
           )

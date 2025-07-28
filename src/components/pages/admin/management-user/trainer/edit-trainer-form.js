@@ -131,6 +131,7 @@ export default function EditTrainerForm() {
                 placeholder="cth. Rizal Candra"
                 name="full_name"
                 control={control}
+                isRequired
                 labelPlacement="outside"
               />
               <InputForm
@@ -138,6 +139,7 @@ export default function EditTrainerForm() {
                 placeholder="cth. rizal.candra@gmail.com"
                 name="email"
                 type="email"
+                isRequired
                 control={control}
                 labelPlacement="outside"
               />
@@ -146,6 +148,7 @@ export default function EditTrainerForm() {
                 label="Pekerjaan atau Keahlian"
                 placeholder="cth. Kepala Teknisi"
                 name="job"
+                isRequired
                 control={control}
                 labelPlacement="outside"
               />
@@ -154,6 +157,7 @@ export default function EditTrainerForm() {
                 label="Perusahaan"
                 placeholder="cth. PT. ABC"
                 name="instance"
+                isRequired
                 control={control}
                 labelPlacement="outside"
               />
@@ -162,6 +166,7 @@ export default function EditTrainerForm() {
                 label="Nomor Telepon"
                 placeholder="cth. 0838344992211"
                 name="phone"
+                isRequired
                 control={control}
                 labelPlacement="outside"
               />
@@ -170,6 +175,7 @@ export default function EditTrainerForm() {
                 label="Tentang Trainer"
                 placeholder="cth. Trainer berpengalaman di bidang..."
                 name="about_trainer"
+                isRequired
                 control={control}
                 labelPlacement="outside"
               />

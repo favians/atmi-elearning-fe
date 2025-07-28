@@ -1,8 +1,8 @@
 import * as Yup from "yup";
 
 export const certificateFormSchema = Yup.object().shape({
-  user_id: Yup.string().required("Nama tidak boleh kosong"),
-  scheme_id: Yup.string().required("Pelatihan tidak boleh kosong"),
+  trainee_id: Yup.string().required("Nama tidak boleh kosong"),
+  training_id: Yup.string().required("Pelatihan tidak boleh kosong"),
   certificate_number: Yup.string().required(
     "Nomor sertifikat tidak boleh kosong",
   ),
@@ -17,7 +17,7 @@ export const certificateFormSchema = Yup.object().shape({
     .test(
       "fileType",
       "Format File tidak Didukung",
-      (value) => value && ["image/png", "image/jpeg"].includes(value.type),
+      (value) => value && ["application/pdf"].includes(value.type),
     ),
 
   image_file: Yup.mixed()

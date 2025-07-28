@@ -4,9 +4,12 @@ import { Alert } from "@heroui/alert";
 import { Tab, Tabs } from "@heroui/tabs";
 import { DashboardLayout } from "@/layouts/dashboard-layout";
 import { CardTraining } from "@/components/pages/dashboard/training/card-training";
+import { useGetTraining } from "@/hooks/trainee/useGetTraining";
+import { Spinner } from "@heroui/spinner";
 
 export default function DashboardPage() {
   const tabs = ["Belum Selesai", "Sudah Selesai"];
+  const { data, isLoading } = useGetTraining({ params: { page: 1 } });
   return (
     <DashboardLayout>
       <div key={"primary"} className="w-full flex items-center">
@@ -38,7 +41,13 @@ export default function DashboardPage() {
           {tabs.map((item) => (
             <Tab key={item} title={item}>
               <div className="grid grid-cols-4">
-                <CardTraining />
+                {isLoading ? (
+                  <Spinner />
+                ) : (
+                  data?.data?.map((item) => (
+                    <CardTraining key={item?.id} data={item} />
+                  ))
+                )}
               </div>
             </Tab>
           ))}

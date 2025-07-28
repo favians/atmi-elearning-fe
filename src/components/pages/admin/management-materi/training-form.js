@@ -43,7 +43,19 @@ export const TrainingForm = (props) => {
         startContent={<FaCirclePlus />}
         fullWidth
         className="mt-2"
-        onPress={() => append({ title: "" })}
+        onPress={() =>
+          append({
+            title: "",
+            topics: [
+              {
+                topic_title: "",
+                training_file: null,
+                summary: "",
+                learning_material_file: null,
+              },
+            ],
+          })
+        }
         variant="bordered"
       >
         Tambahkan Modul

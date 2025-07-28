@@ -1,34 +1,22 @@
-import { useEffect, useState } from "react";
-// Core viewer
-import { Viewer } from "@react-pdf-viewer/core";
+import { useState } from "react";
+import { Document, Page, pdfjs } from "react-pdf";
 
-// Plugins
-import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
+// 🧠 Setup manual worker (harus ada di public/pdfjs)
+pdfjs.GlobalWorkerOptions.workerSrc = "/pdfjs/pdf.worker.min.js";
 
-// Import styles
-import "@react-pdf-viewer/core/lib/styles/index.css";
-import "@react-pdf-viewer/default-layout/lib/styles/index.css";
-import * as pdfjsLib from "pdfjs-dist";
-import pdfWorker from "pdfjs-dist/build/pdf.worker.min?url";
+export default function PDFViewer({ url }) {
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
 
-export const PDFViewer = ({ url }) => {
-  const defaultLayoutPluginInstance = defaultLayoutPlugin();
-  useEffect(() => {
-    pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
-  }, []);
   return (
-    <div
-      style={{
-        height: "450px",
-      }}
+    <Document
+      file={{ url }}
+      onLoadSuccess={({ numPages }) => setNumPages(numPages)}
     >
-      <Viewer
-        fileUrl={url}
-        plugins={[
-          // Register plugins
-          defaultLayoutPluginInstance,
-        ]}
-      />
-    </div>
+      <Page pageNumber={pageNumber} />
+      <p>
+        Page {pageNumber} of {numPages}
+      </p>
+    </Document>
   );
-};
+}

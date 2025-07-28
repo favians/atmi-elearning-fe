@@ -98,6 +98,7 @@ export default function CreateTraineeForm() {
             label="Nama"
             placeholder="cth. Rizal Candra"
             name="full_name"
+            isRequired
             control={control}
             labelPlacement="outside"
           />
@@ -107,6 +108,7 @@ export default function CreateTraineeForm() {
             name="email"
             type="email"
             control={control}
+            isRequired
             labelPlacement="outside"
           />
 
@@ -115,6 +117,7 @@ export default function CreateTraineeForm() {
             placeholder="cth. 0838344992211"
             name="phone"
             control={control}
+            isRequired
             labelPlacement="outside"
           />
 
@@ -122,6 +125,7 @@ export default function CreateTraineeForm() {
             label="Asal Instansi"
             placeholder="cth. PT. ABC"
             name="instance"
+            isRequired
             control={control}
             labelPlacement="outside"
           />
@@ -130,6 +134,7 @@ export default function CreateTraineeForm() {
             label="Alamat"
             placeholder="cth. Jl. Raya No. 1, Jakarta"
             name="address"
+            isRequired
             control={control}
             labelPlacement="outside"
           />
@@ -138,6 +143,7 @@ export default function CreateTraineeForm() {
             label="Password"
             placeholder="cth. qwerty123"
             name="password"
+            isRequired
             control={control}
             labelPlacement="outside"
           />
@@ -146,6 +152,7 @@ export default function CreateTraineeForm() {
             label="Pelatihan"
             placeholder="Pilih Pelatihan"
             name="training_id"
+            isRequired
             control={control}
             data={dataTraining || []}
             isLoading={isLoadingTraining}

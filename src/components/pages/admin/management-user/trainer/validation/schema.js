@@ -9,7 +9,4 @@ export const trainerFormSchema = Yup.object().shape({
   instance: Yup.string().required("Perusahaan tidak boleh kosong"),
   phone: Yup.string().required("Nomor telepon tidak boleh kosong"),
   about_trainer: Yup.string().required("Tentang trainer tidak boleh kosong"),
-  linkedin_url: Yup.string()
-    .url("URL tidak valid")
-    .required("LinkedIn URL tidak boleh kosong"),
 });
