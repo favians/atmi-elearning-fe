@@ -64,7 +64,11 @@ export const DetailTraining = ({ data, isLoading }) => {
                 >
                   {item?.material_content?.map((material) => (
                     <div className="flex items-center gap-2 mb-2">
-                      <VideoRecorder />
+                      {material?.link_file_url?.includes(".pdf") ? (
+                        <PDFIcon />
+                      ) : (
+                        <VideoRecorder />
+                      )}
                       <h4
                         className={subtitle({
                           size: "sm",

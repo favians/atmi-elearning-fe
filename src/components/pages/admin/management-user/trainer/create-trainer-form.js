@@ -145,7 +145,11 @@ export default function CreateTrainerForm() {
           />
 
           <div className="flex items-center mt-2 justify-end gap-2">
-            <Button color="primary" variant="light">
+            <Button
+              onPress={() => router.back()}
+              color="primary"
+              variant="light"
+            >
               Batalkan
             </Button>
             <Button

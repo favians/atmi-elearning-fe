@@ -26,8 +26,8 @@ export const CardTraining = ({ data }) => {
       </CardHeader>
       <CardBody className="overflow-visible pt-0 ">
         <h4 className={subtitle({ size: "xs" })}>
-          {data?.user_training?.material_count} Materi Pembelajaran • 1Jam
-          40Menit
+          {data?.user_training?.material_count} Materi Pembelajaran •{" "}
+          {data?.user_training?.duration_fmt}
         </h4>
         <h3 className={subtitle({ class: "mt-2 font-semibold" })}>
           {data?.user_training?.title}

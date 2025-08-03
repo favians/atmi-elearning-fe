@@ -8,10 +8,17 @@ import { PDFIcon } from "@/assets/icons/general/pdf";
 import VideoViewer from "@/components/video-viewer";
 import { useModule } from "@/context/module-context";
 import useUpdateProgress from "@/hooks/trainee/useUpdateProgress";
-import PDFViewer from "@/components/pdf-viewer";
+import PDFViewer from "@/components/pages/pdf/pdf-viewer";
+import { useQueryClient } from "@tanstack/react-query";
+import { queryClientKeys } from "@/constants/query-client-keys";
+import { useParams } from "next/navigation";
 
 export const TrainingContent = ({ data }) => {
   const { selectedModule, setSelectedModule } = useModule();
+
+  const params = useParams();
+
+  const queryClient = useQueryClient();
 
   const { mutate, isPending } = useUpdateProgress();
   const onFindMaterial = (materialId) => {
@@ -35,11 +42,21 @@ export const TrainingContent = ({ data }) => {
   };
 
   const onUpdateProgress = () => {
-    if (selectedModule) {
-      mutate({
-        id: selectedModule?.material_id,
-      });
-    }
+    if (!selectedModule?.id) return;
+
+    mutate(
+      { id: selectedModule.id },
+      {
+        onSuccess: () => {
+          // ✅ Update the cached detail directly
+          queryClient.refetchQueries([
+            queryClientKeys.GET_TRAINEE_TRAINING_DETAIL,
+            { training_id: params?.id },
+          ]);
+          onFindMaterial(selectedModule.learning_material_after?.material_id);
+        },
+      },
+    );
   };
   if (!selectedModule) {
     return (
@@ -60,7 +77,10 @@ export const TrainingContent = ({ data }) => {
             onFinishWatched={onUpdateProgress}
           />
         ) : (
-          <PDFViewer url={selectedModule?.link_file_url} />
+          <PDFViewer
+            url={selectedModule?.link_file_url}
+            onFinishRead={onUpdateProgress}
+          />
         )}
       </div>
       <div className="flex flex-wrap flex-grow flex-col rounded-md bg-white mx-6 p-4">
@@ -76,7 +96,13 @@ export const TrainingContent = ({ data }) => {
                 color: "grey",
               })}
             >
-              • <VideoRecorder /> {selectedModule?.duration_in_second} Menit
+              •{" "}
+              {selectedModule?.type == "VIDEO" ? (
+                <VideoRecorder />
+              ) : (
+                <PDFIcon />
+              )}{" "}
+              {selectedModule?.duration_in_second} Menit
             </h4>
           </div>
 

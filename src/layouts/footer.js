@@ -44,7 +44,7 @@ export default function Footer() {
         className="bg-[#22242A]"
         wrapperClass="grid grid-cols-5 p-16 gap-24"
       >
-        <div className="col-span-2 bg-[#17181C] rounded-xl p-6">
+        <div className="col-span-2 max-h-fit bg-[#17181C] rounded-xl p-6">
           <h3
             className={headline({
               color: "white",
@@ -61,24 +61,13 @@ export default function Footer() {
             onSubmit={handleSubmit(onSubmit)}
             className="mt-4 gap-4  dark flex flex-col"
           >
-            <InputForm
-              label="Nama Anda"
-              placeholder="Masukkan nama Anda"
-              name="name"
-              isDark
-              control={control}
-            />
-            <InputForm
-              label="Nomor Telepon"
-              placeholder="Masukkan nomer handphone Anda"
-              name="phone"
-              isDark
-              control={control}
-            />
             <Button
               radius="full"
-              className="bg-primary max-w-44 text-white"
+              className="bg-primary mb-4 max-w-44 text-white"
               type="submit"
+              onPress={() =>
+                window.open("https://wa.me/6281336707074", "_blank")
+              }
             >
               Tanya CS
             </Button>

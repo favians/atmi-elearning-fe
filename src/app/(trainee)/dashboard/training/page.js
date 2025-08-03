@@ -6,10 +6,15 @@ import { DashboardLayout } from "@/layouts/dashboard-layout";
 import { CardTraining } from "@/components/pages/dashboard/training/card-training";
 import { useGetTraining } from "@/hooks/trainee/useGetTraining";
 import { Spinner } from "@heroui/spinner";
+import { useState } from "react";
 
 export default function DashboardPage() {
   const tabs = ["Belum Selesai", "Sudah Selesai"];
-  const { data, isLoading } = useGetTraining({ params: { page: 1 } });
+  const [selectedTab, setSelectedTab] = useState(0);
+  const status = selectedTab === 0 ? "IN_PROGRESS" : "DONE";
+  const { data, isLoading } = useGetTraining({
+    params: { page: 1, status: status },
+  });
   return (
     <DashboardLayout>
       <div key={"primary"} className="w-full flex items-center">
@@ -27,6 +32,11 @@ export default function DashboardPage() {
       <div className="flex flex-wrap flex-grow flex-col">
         <Tabs
           aria-label="Options"
+          selectedKey={tabs[selectedTab]}
+          onSelectionChange={(key) => {
+            const index = tabs.findIndex((tab) => tab === key);
+            setSelectedTab(index);
+          }}
           classNames={{
             tabList:
               "gap-8 w-full relative w-fit rounded-none p-0 border-divider mx-6",

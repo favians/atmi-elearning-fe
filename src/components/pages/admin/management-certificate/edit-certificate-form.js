@@ -145,7 +145,11 @@ export default function EditCertificateForm() {
                 />
 
                 <div className="flex items-center mt-2 justify-end gap-2">
-                  <Button color="primary" variant="light">
+                  <Button
+                    color="primary"
+                    onPress={() => router.back()}
+                    variant="light"
+                  >
                     Batalkan
                   </Button>
                   <Button
