@@ -33,3 +33,33 @@ export const certificateFormSchema = Yup.object().shape({
       (value) => value && ["image/png", "image/jpeg"].includes(value.type),
     ),
 });
+
+export const editCertificateFormSchema = Yup.object().shape({
+  trainee_id: Yup.string().required("Nama tidak boleh kosong"),
+  training_id: Yup.string().required("Pelatihan tidak boleh kosong"),
+  certificate_number: Yup.string().required(
+    "Nomor sertifikat tidak boleh kosong",
+  ),
+  assign_date: Yup.string().required("Tanggal tidak boleh kosong"),
+  certificate_file: Yup.mixed()
+    .nullable()
+    .test("fileSize", "Ukuran File terlalu besar", (value) => {
+      if (!value) return true;
+      return value.size <= 10 * 1024 * 1024;
+    })
+    .test("fileType", "Format File tidak Didukung", (value) => {
+      if (!value) return true;
+      return ["application/pdf"].includes(value.type);
+    }),
+
+  image_file: Yup.mixed()
+    .nullable()
+    .test("fileSize", "Ukuran File terlalu besar", (value) => {
+      if (!value) return true;
+      return value.size <= 10 * 1024 * 1024;
+    })
+    .test("fileType", "Format File tidak didukung", (value) => {
+      if (!value) return true;
+      return ["image/png", "image/jpeg"].includes(value.type);
+    }),
+});

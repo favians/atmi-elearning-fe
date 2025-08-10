@@ -8,7 +8,6 @@ export default function SelectForm(props) {
       name={name}
       control={control}
       render={({ field, fieldState }) => {
-        console.log(field.value);
         return (
           <Select
             variant="bordered"

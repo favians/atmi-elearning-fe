@@ -1,3 +1,4 @@
+import { trunc } from "@/helpers/Text";
 import { Input } from "@heroui/input";
 import { Controller } from "react-hook-form";
 import { IoMdCloseCircle } from "react-icons/io";
@@ -9,6 +10,7 @@ export default function UploadForm(props) {
     isWithPreview,
     onHandleImageChange,
     onHandleDeleteImage,
+    defaultValue,
   } = props;
 
   const onChangeFile = (e, onChange) => {
@@ -55,13 +57,17 @@ export default function UploadForm(props) {
             }}
             startContent={
               <>
-                <div className="px-1 py-1 m-1 rounded-md border-1 text-sm text-secondary">
+                <div className="px-1 py-1 m-1 rounded-md border-1 max-h-60 text-sm text-secondary">
                   Browser File
                 </div>
 
                 {field.value?.name ? (
                   <div className="text-sm ml-2 text-black">
                     {field.value.name}
+                  </div>
+                ) : defaultValue ? (
+                  <div className="text-sm ml-2 line-clamp-1 text-black">
+                    {trunc(defaultValue, 60)}
                   </div>
                 ) : (
                   <div className="text-grey-800 text-sm ml-2">

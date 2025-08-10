@@ -17,7 +17,7 @@ export default function CreateCertificatePage() {
           <h1 className={subtitle({ color: "primary" })}>Sertifikat</h1>
         </div>
         <div className="inline-block max-w-lg justify-center">
-          <h1 className={headline({})}>Buat Sertifikat</h1>
+          <h1 className={headline({})}>Ubah Sertifikat</h1>
         </div>
       </section>
       <div className="flex bg-white flex-wrap flex-grow flex-col">

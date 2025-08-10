@@ -29,7 +29,6 @@ export default function CreateTraineeForm() {
   });
   const queryClient = useQueryClient();
   const onSubmit = (data) => {
-    console.log(data);
     mutate(data, {
       onSuccess: (res) => {
         toast.success("Berhasil menambahkan trainee");

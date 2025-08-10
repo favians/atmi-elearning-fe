@@ -42,7 +42,7 @@ export const TrainingContent = ({ data }) => {
   };
 
   const onUpdateProgress = () => {
-    if (!selectedModule?.id) return;
+    if (!selectedModule?.id || selectedModule?.is_done) return;
 
     mutate(
       { id: selectedModule.id },

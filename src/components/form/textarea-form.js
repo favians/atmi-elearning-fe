@@ -19,7 +19,7 @@ export default function TextAreaForm(props) {
         };
 
         return (
-          <div className="relative">
+          <div className="relative w-full">
             <Textarea
               {...rest}
               value={field.value || ""}

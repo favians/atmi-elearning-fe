@@ -92,7 +92,11 @@ export default function TableTrainee() {
       case "updated_at":
         return (
           <div className="flex gap-3 items-center">
-            <span>{parseDate(cellValue, "DD MMM YYYY, HH:mm")}</span>
+            <span>
+              {cellValue != ""
+                ? parseDate(cellValue, "DD MMM YYYY, HH:mm")
+                : "-"}
+            </span>
           </div>
         );
       case "actions":

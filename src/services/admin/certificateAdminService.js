@@ -40,4 +40,23 @@ export const certificateAdminService = {
         return res?.data?.data;
       });
   },
+  updateCertificate: async (payload) => {
+    const url = sprintf(URL_INTERNAL_CERTIFICATE, { params: "" });
+    const formData = new FormData();
+    const data = _generateCertificateData(payload);
+
+    for (let key in data) {
+      const value = data[key];
+      formData.append(key, value);
+    }
+    return api
+      .put(url, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        return res?.data?.data;
+      });
+  },
 };

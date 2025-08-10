@@ -11,7 +11,6 @@ const useSignIn = () => {
   const mutation = useMutation({
     mutationFn: authService.signIn,
     onSuccess: (data) => {
-      console.log(data);
       setCookie(storageKeys.AUTH_TOKEN, data?.data?.token);
 
       setCookie(storageKeys.ROLE, "USER");

@@ -37,7 +37,6 @@ export default function EditAdminForm() {
       const adminData = data?.data[0];
       reset({
         id: adminData.id || 0,
-        full_name: adminData.id || 0,
         full_name: adminData.full_name || "",
         email: adminData.email || "",
         job: adminData.job || "",

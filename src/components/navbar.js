@@ -58,8 +58,6 @@ export const Navbar = ({ isDark }) => {
     enabled: !skipQuery,
   });
 
-  console.log("dataSearch", dataSearch);
-
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearch(searchValue);
@@ -71,7 +69,6 @@ export const Navbar = ({ isDark }) => {
   // Optional: lakukan pencarian
   useEffect(() => {
     if (debouncedSearch) {
-      console.log("Searching for:", debouncedSearch);
       // fetchData(debouncedSearch); // atau setFilter, dll
     }
   }, [debouncedSearch]);

@@ -20,9 +20,9 @@ export const CardTraining = ({ data }) => {
           src={data?.user_training?.photo_url}
           width={270}
         />
-        <div className="absolute flex items-center rounded-md px-2 text-xs gap-1 py-1 top-6 text-grey-900 right-6 z-10 bg-white">
+        {/* <div className="absolute flex items-center rounded-md px-2 text-xs gap-1 py-1 top-6 text-grey-900 right-6 z-10 bg-white">
           <FiAlertCircle size={15} /> Lihat Info
-        </div>
+        </div> */}
       </CardHeader>
       <CardBody className="overflow-visible pt-0 ">
         <h4 className={subtitle({ size: "xs" })}>

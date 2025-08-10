@@ -9,35 +9,35 @@ import DatePickerForm from "@/components/form/date-picker-form";
 import UploadForm from "@/components/form/upload-form";
 import { useGetTraineeList } from "@/hooks/admin/useGetTrainee";
 import { useGetTrainingList } from "@/hooks/admin/useGetTraining";
-import useCreateCertificate from "@/hooks/admin/useCreateCertificate";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryClientKeys } from "@/constants/query-client-keys";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { certificateFormSchema } from "./validation/schema";
+import { editCertificateFormSchema } from "./validation/schema";
 import { subtitle } from "@/components/primitives";
 import { useEffect, useState } from "react";
 import { useGetCertificate } from "@/hooks/admin/useGetCertificate";
 import { Spinner } from "@heroui/spinner";
 import { parseDate } from "@internationalized/date";
 import { parseDateToIso } from "@/helpers/Date";
+import useUpdateCertificate from "@/hooks/admin/useUpdateCertificate";
 
 export default function EditCertificateForm() {
   const router = useRouter();
   const params = useParams();
   const queryClient = useQueryClient();
 
-  const [image, setImage] = useState("");
+  const [imageCover, setImageCover] = useState("");
   const { data: dataTrainee, isLoading: isLoadingTrainee } =
     useGetTraineeList();
 
   const { data: dataTraining, isLoading: isLoadingTraining } =
     useGetTrainingList();
 
-  const { mutate, isPending: isLoading } = useCreateCertificate();
+  const { mutate, isPending: isLoading } = useUpdateCertificate();
   const { control, handleSubmit, reset } = useForm({
     mode: "onChange",
 
-    resolver: yupResolver(certificateFormSchema),
+    resolver: yupResolver(editCertificateFormSchema),
   });
   const { data, isLoading: isLoadingCertificate } = useGetCertificate({
     params: {
@@ -50,19 +50,22 @@ export default function EditCertificateForm() {
     if (data?.data?.length > 0) {
       const certificate = data?.data[0];
       reset({
-        trainee_id: certificate.trainee_id || "",
-        training_id: certificate.training_id || "",
+        id: certificate.id || 0,
+        trainee_id: String(certificate.trainee_id || ""),
+        training_id: String(certificate.training_id || ""),
         assign_date: parseDate(parseDateToIso(certificate?.assign_date)),
         certificate_number: certificate.certificate_number || "",
-        download_url: certificate.download_url || "",
+        image_file: null,
+        certificate_file: null,
       });
-      setImage(certificate.image_url || "");
+      setImageCover(certificate.image_url || "");
     }
   }, [data, reset]);
   const onSubmit = (data) => {
+    console.log("VALIDATED DATA ✅:", data);
     mutate(data, {
       onSuccess: (res) => {
-        toast.success("Berhasil menambahkan cerftificate");
+        toast.success("Berhasil mengubah sertifikat");
         queryClient.invalidateQueries([
           queryClientKeys.GET_INTERNAL_CERTIFICATE,
         ]);
@@ -74,10 +77,14 @@ export default function EditCertificateForm() {
     });
   };
 
+  const onError = (formErrors) => {
+    console.log("VALIDATION FAILED ❌:", formErrors);
+  };
+
   return (
     <div className="flex gap-2">
       <div className="p-6 w-full">
-        <form onSubmit={handleSubmit(onSubmit)} className="gap-6 flex">
+        <form onSubmit={handleSubmit(onSubmit, onError)} className="gap-6 flex">
           {isLoadingCertificate ? (
             <Spinner />
           ) : (
@@ -88,6 +95,7 @@ export default function EditCertificateForm() {
                   placeholder="Pilih User"
                   name="trainee_id"
                   control={control}
+                  isRequired
                   data={dataTrainee || []}
                   labelPlacement="outside"
                   isLoading={isLoadingTrainee}
@@ -98,6 +106,7 @@ export default function EditCertificateForm() {
                   placeholder="Pilih Pelatihan"
                   name="training_id"
                   control={control}
+                  isRequired
                   data={dataTraining || []}
                   isLoading={isLoadingTraining}
                   labelPlacement="outside"
@@ -108,6 +117,7 @@ export default function EditCertificateForm() {
                   placeholder="Tanggal"
                   name="assign_date"
                   control={control}
+                  isRequired
                   labelPlacement="outside"
                 />
                 <InputForm
@@ -115,6 +125,7 @@ export default function EditCertificateForm() {
                   placeholder="cth. 123456789"
                   name="certificate_number"
                   control={control}
+                  isRequired
                   labelPlacement="outside"
                 />
 
@@ -123,7 +134,7 @@ export default function EditCertificateForm() {
                   placeholder="Upload dokumen sertifikat"
                   name="certificate_file"
                   control={control}
-                  isRequired
+                  defaultValue={data?.data[0]?.download_url || null}
                   labelPlacement="outside"
                 />
 
@@ -134,12 +145,12 @@ export default function EditCertificateForm() {
                   description="File yang didukung png & jpeg (rekomendasi ukuran 920 x 525) "
                   control={control}
                   isWithPreview
-                  isRequired
+                  defaultValue={data?.data[0]?.image_url || null}
                   onHandleImageChange={(file) => {
-                    setImage(file);
+                    setImageCover(file);
                   }}
                   onHandleDeleteImage={() => {
-                    setImage("");
+                    setImageCover("");
                   }}
                   labelPlacement="outside"
                 />
@@ -163,7 +174,7 @@ export default function EditCertificateForm() {
                 </div>
               </div>
               <div className="flex flex-1 flex-col px-4">
-                {image && (
+                {imageCover && (
                   <>
                     <h4
                       className={subtitle({
@@ -174,9 +185,9 @@ export default function EditCertificateForm() {
                       Preview Cover Sertifikat
                     </h4>
                     <div className="flex ">
-                      {image && (
+                      {imageCover && (
                         <img
-                          src={image}
+                          src={imageCover}
                           alt="Preview"
                           className="aspect-[920/525] border  w-full object-cover rounded-lg"
                         />

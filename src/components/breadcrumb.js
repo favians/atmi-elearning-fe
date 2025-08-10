@@ -8,7 +8,6 @@ export default function Breadcrumb() {
   const paths = usePathname();
   const links = paths?.split("/");
   const pathName = usePathname();
-  console.log(pathName);
   if (pathName == "/") return;
   return (
     <div className="bg-dark-blue p-2">

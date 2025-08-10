@@ -59,6 +59,7 @@ export default function CreateCertificateForm() {
               placeholder="Pilih User"
               name="trainee_id"
               control={control}
+              isRequired
               data={dataTrainee || []}
               labelPlacement="outside"
               isLoading={isLoadingTrainee}
@@ -69,6 +70,7 @@ export default function CreateCertificateForm() {
               placeholder="Pilih Pelatihan"
               name="training_id"
               control={control}
+              isRequired
               data={dataTraining || []}
               isLoading={isLoadingTraining}
               labelPlacement="outside"
@@ -78,6 +80,7 @@ export default function CreateCertificateForm() {
               label="Tanggal Terbit"
               placeholder="Tanggal"
               name="assign_date"
+              isRequired
               control={control}
               labelPlacement="outside"
             />
@@ -86,6 +89,7 @@ export default function CreateCertificateForm() {
               placeholder="cth. 123456789"
               name="certificate_number"
               control={control}
+              isRequired
               labelPlacement="outside"
             />
 
