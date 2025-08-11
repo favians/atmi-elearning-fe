@@ -1,7 +1,5 @@
-const withTM = require("next-transpile-modules")(["pdfjs-dist"]);
-
 /** @type {import('next').NextConfig} */
-const nextConfig = withTM({
+const nextConfig = {
   reactStrictMode: true,
 
   webpack(config) {
@@ -13,6 +11,6 @@ const nextConfig = withTM({
 
     return config;
   },
-});
+};
 
 module.exports = nextConfig;

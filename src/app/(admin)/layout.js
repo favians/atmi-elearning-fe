@@ -2,7 +2,6 @@
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 
 import { fontSans, fontMono } from "@/config/fonts";
-import "@/styles/globals.css";
 import { Providers } from "../provider";
 import "swiper/css";
 import { AdminLayout } from "@/layouts/admin-layout";

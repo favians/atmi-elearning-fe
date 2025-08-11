@@ -2,10 +2,8 @@
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 
 import { fontSans, fontMono } from "@/config/fonts";
-import "@/styles/globals.css";
 import { Providers } from "../provider";
 import "swiper/css";
-import { DashboardLayout } from "@/layouts/dashboard-layout";
 export default function RootLayout({ children }) {
   return (
     <Providers>
