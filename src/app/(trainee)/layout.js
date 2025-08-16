@@ -1,9 +1,10 @@
 "use client";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-
+import "@/styles/globals.css";
 import { fontSans, fontMono } from "@/config/fonts";
 import { Providers } from "../provider";
 import "swiper/css";
+
 export default function RootLayout({ children }) {
   return (
     <Providers>
