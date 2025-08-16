@@ -70,4 +70,8 @@ module.exports = {
   },
   darkMode: "class",
   plugins: [heroui()],
+  safelist: [
+    // safelist untuk floating label HeroUI biar tidak kepotong di production
+    "group-data-[filled-within=true]:-translate-y-[calc(50%+var(--heroui-font-size-small)/2-6px-var(--heroui-border-width-medium))]",
+  ],
 };
