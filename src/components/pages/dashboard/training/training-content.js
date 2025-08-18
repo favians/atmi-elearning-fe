@@ -102,7 +102,7 @@ export const TrainingContent = ({ data }) => {
               ) : (
                 <PDFIcon />
               )}{" "}
-              {selectedModule?.duration_in_second} Menit
+              {selectedModule?.duration_fmt}
             </h4>
           </div>
 
