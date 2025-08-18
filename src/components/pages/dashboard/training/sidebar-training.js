@@ -108,13 +108,15 @@ export const SidebarTraining = ({ data, isLoading }) => {
                   subtitle={
                     <h4 className={subtitle({ size: "xs" })}>
                       {module?.material_count} Topik •{" "}
-                      {module?.duration_total_in_second} Menit
+                      {module?.duration_total_in_second_fmt}
                     </h4>
                   }
                   title={module?.title}
                   startContent={
                     <LuSquareCheckBig
-                      className={`${module?.is_complete ? "text-primary" : "text-orange"} mt-1`}
+                      className={`${
+                        module?.is_complete ? "text-primary" : "text-orange"
+                      } mt-1`}
                     />
                   }
                 >
@@ -127,7 +129,9 @@ export const SidebarTraining = ({ data, isLoading }) => {
                         size="sm"
                         classNames={{
                           label: "ml-1",
-                          base: `min-w-full max-w-full m-0 -my-1 ${isSelected ? "bg-primary/10" : ""}  hover:bg-primary/10`,
+                          base: `min-w-full max-w-full m-0 -my-1 ${
+                            isSelected ? "bg-primary/10" : ""
+                          }  hover:bg-primary/10`,
                         }}
                         onChange={() => setSelectedModule(material)}
                         className="flex mb-2"

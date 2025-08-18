@@ -1,5 +1,5 @@
 FROM node:22-alpine AS deps
-RUN apk add --no-cache libc6-compat
+# RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 RUN apk add python3
@@ -15,20 +15,13 @@ RUN set -ex; \
     npm install canvas; \
     apk del .gyp
 
-
 COPY ["package*.json","./"]
-RUN npm install --legacy-peer-deps --production
-RUN npm install --legacy-peer-deps swiper@11.1.12 tailwindcss@3.4.3 postcss@8.4.38 autoprefixer@10.4.19
+RUN npm install --force
 
 FROM node:22-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-
-ENV NEXT_TELEMETRY_DISABLED 1
-
-RUN npm install --legacy-peer-deps --production
-RUN npm install --legacy-peer-deps swiper@11.1.12 tailwindcss@3.4.3 postcss@8.4.38 autoprefixer@10.4.19
 
 RUN npm run build
 
@@ -36,15 +29,12 @@ FROM node:22-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
 COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app ./
 
 USER nextjs
 

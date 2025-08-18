@@ -46,7 +46,8 @@ export default function ProfileForm() {
             size="lg"
             className="w-20 h-20"
             radius="md"
-            src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+            name="profile_url"
+            src={control}
           />
           <label className="text-sm text-secondary text-center mt-2 cursor-pointer">
             <div className="mt-1">Ubah Foto</div>
