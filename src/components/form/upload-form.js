@@ -63,11 +63,11 @@ export default function UploadForm(props) {
 
                 {field.value?.name ? (
                   <div className="text-sm ml-2 text-black">
-                    {field.value.name}
+                    {trunc(field.value.name, 42)}
                   </div>
                 ) : defaultValue ? (
                   <div className="text-sm ml-2 line-clamp-1 text-black">
-                    {trunc(defaultValue, 60)}
+                    {trunc(defaultValue, 42)}
                   </div>
                 ) : (
                   <div className="text-grey-800 text-sm ml-2">

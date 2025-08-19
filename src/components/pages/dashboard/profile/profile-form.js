@@ -6,19 +6,26 @@ import { Button } from "@heroui/button";
 import TextAreaForm from "@/components/form/textarea-form";
 import { Avatar } from "@heroui/avatar";
 import toast from "react-hot-toast";
+import { useGetProfile } from "@/hooks/trainee/useGetProfile";
+import { useEffect } from "react";
 
 export default function ProfileForm() {
   const router = useRouter();
-  const { control, handleSubmit } = useForm({
+  const { data, isLoading } = useGetProfile();
+  const { control, handleSubmit, reset } = useForm({
     mode: "onChange",
-    defaultValues: {
-      name: "Dhian Jois",
-      email: "dhianjois@gmail.com",
-      phone: "+6283834499312",
-      alamat:
-        "Jl. M.H. Thamrin, RT.2/RW.3, Gambir, Kecamatan Gambir, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta",
-    },
   });
+
+  useEffect(() => {
+    if (data) {
+      reset({
+        name: data.data?.full_name || "",
+        email: data.data?.email || "",
+        phone: data.data?.phone || "",
+        alamat: data.data?.address || "",
+      });
+    }
+  }, [data, reset]);
   const onSubmit = (data) => {
     toast.success("Sukses update");
   };
@@ -46,7 +53,7 @@ export default function ProfileForm() {
             size="lg"
             className="w-20 h-20"
             radius="md"
-            src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+            src={!isLoading ? data.data?.profile_url : ""}
           />
           <label className="text-sm text-secondary text-center mt-2 cursor-pointer">
             <div className="mt-1">Ubah Foto</div>

@@ -72,7 +72,7 @@ export const CertificateItems = ({ onOpen }) => {
                   <h4 className={subtitle({ size: "sm", color: "grey" })}>
                     Tanggal Terbit:
                     <br />
-                    {parseDate(item?.assign_date, "DD MMMM yyyy", "dd/mm/yyyy")}
+                    {item?.assign_date}
                   </h4>
                 </CardBody>
                 <CardFooter className="gap-3 flex-col">

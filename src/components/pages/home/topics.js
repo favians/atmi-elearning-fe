@@ -86,7 +86,7 @@ export default function Topics() {
                             <div className="relative">
                               <Image
                                 alt="Card background"
-                                className="object-cover rounded-xl mb-1"
+                                className="object-cover rounded-xl mb-2"
                                 src={item?.image_url}
                                 width={356}
                                 height={151}

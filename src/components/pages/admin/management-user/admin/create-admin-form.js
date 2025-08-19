@@ -18,6 +18,7 @@ export default function CreateAdminForm() {
   const { control, handleSubmit } = useForm({
     mode: "onChange",
     resolver: yupResolver(adminFormSchema),
+    defaultValues: { role: false },
   });
   const queryClient = useQueryClient();
   const onSubmit = (data) => {

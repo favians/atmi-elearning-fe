@@ -51,9 +51,7 @@ export const PreviewCertificate = ({ item }) => {
         <div className="flex items-center text-black font-semibold gap-2">
           <h4 className="min-w-32">Tanggal terbit</h4>
           <h4>:</h4>
-          <h4 className="font-normal text-grey-900">
-            {parseDate(item?.assign_date, "DD MMMM yyyy", "dd/mm/yyyy")}
-          </h4>
+          <h4 className="font-normal text-grey-900">{item?.assign_date}</h4>
         </div>
 
         <div className="flex gap-2 mt-4 mr-4">
