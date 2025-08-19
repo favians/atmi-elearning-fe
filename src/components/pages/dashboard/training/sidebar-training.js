@@ -108,7 +108,7 @@ export const SidebarTraining = ({ data, isLoading }) => {
                   subtitle={
                     <h4 className={subtitle({ size: "xs" })}>
                       {module?.material_count} Topik •{" "}
-                      {module?.duration_total_in_second_fmt}
+                      {module?.duration_total_fmt}
                     </h4>
                   }
                   title={module?.title}
@@ -147,7 +147,7 @@ export const SidebarTraining = ({ data, isLoading }) => {
                           {material?.title}
                         </h4>
                         <h4 className={subtitle({ size: "xs" })}>
-                          2 Topik • 12 Menit
+                          {material?.duration_in_second_fmt}
                         </h4>
                       </Checkbox>
                     );

@@ -98,11 +98,12 @@ export const TrainingContent = ({ data }) => {
             >
               •{" "}
               {selectedModule?.type == "VIDEO" ? (
-                <VideoRecorder />
+                <>
+                  <VideoRecorder /> {selectedModule?.duration_fmt}
+                </>
               ) : (
                 <PDFIcon />
-              )}{" "}
-              {selectedModule?.duration_fmt}
+              )}
             </h4>
           </div>
 
