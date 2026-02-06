@@ -43,58 +43,57 @@ export default function FilterCertificate(props) {
     { key: "desc", label: "DESC" },
   ];
   return (
-    <div className="-mt-2">
-      <form className=" gap-4 flex ">
-        <InputForm
-          label=" "
-          placeholder="Search..."
-          name="username"
-          control={control}
-          startContent={<CiSearch />}
-          labelPlacement="outside"
-          classNames={{ label: "hidden" }}
-          onValueChange={onSearchChange}
-          ariaLabelledby="username"
-        />
-        <SelectForm
-          placeholder="Pelatihan"
-          name="training_id"
-          control={control}
-          data={dataTraining || []}
-          isLoading={isLoadingTraining}
-          labelPlacement="outside"
-          classNames={{ label: "hidden" }}
-          onSelectionChange={onTrainingChange}
-          ariaLabelledby="training_id"
-        />
+    <div className="">
+      <form className=" gap-4 flex justify-around items-center ">
+        <div className="w-3/4 -mt-1 flex justify-start">
+          <div className="w-[400px]">
+            <InputForm
+              label=" "
+              placeholder="Search..."
+              name="search"
+              control={control}
+              startContent={<CiSearch />}
+              labelPlacement="outside"
+              classNames={{ label: "hidden" }}
+              onValueChange={onSearchChange}
+            />
+          </div>
+        </div>
+        <div className="w-full flex justify-end items-center gap-4">
+          {" "}
+          <SelectForm
+            placeholder="Pelatihan"
+            name="training_id"
+            control={control}
+            data={dataTraining || []}
+            isLoading={isLoadingTraining}
+            labelPlacement="outside"
+            classNames={{ label: "hidden" }}
+            onSelectionChange={onTrainingChange}
+            ariaLabelledby="training_id"
+          />
+          <SelectForm
+            placeholder="Sort"
+            name="sort"
+            control={control}
+            data={sort}
+            labelPlacement="outside"
+            classNames={{ label: "hidden" }}
+            onSelectionChange={onSortChange}
+          />
+          <Button
+            className="min-w-28 "
+            onPress={() => {
+              const value = { name_search: "", order_rule: "DESC" };
 
-        <SelectForm
-          label="Sort"
-          placeholder="Sort"
-          name="sort"
-          control={control}
-          data={sort}
-          labelPlacement="outside"
-          classNames={{ label: "hidden" }}
-          onSelectionChange={onSortChange}
-        />
-
-        <Button
-          onPress={() => {
-            const value = {
-              name_search: "",
-              order_rule: "DESC",
-              training_id: "",
-            };
-
-            reset();
-            props.onValueChange(value);
-          }}
-          className="min-w-28 mt-6"
-          color="primary"
-        >
-          Reset Filter
-        </Button>
+              reset();
+              props.onValueChange(value);
+            }}
+            color="primary"
+          >
+            Reset Filter
+          </Button>
+        </div>
       </form>
     </div>
   );

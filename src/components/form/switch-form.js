@@ -3,7 +3,7 @@ import { Switch } from "@heroui/switch";
 import { Controller } from "react-hook-form";
 
 export default function SwitchForm(props) {
-  const { control, name, isDark } = props;
+  const { control, name, labelYes, labelNo } = props;
   return (
     <Controller
       name={name}
@@ -20,12 +20,12 @@ export default function SwitchForm(props) {
         //   {...props}
         //   {...field}
         // />
-        <>
+        <div>
           <label className=" text-small">{props.label}</label>
           <Switch isSelected={field.value} onChange={field.onChange}>
-            {field.value ? "Ya" : "Tidak"}
+            {field.value ? labelYes || "Ya" : labelNo || "Tidak"}
           </Switch>
-        </>
+        </div>
       )}
     />
   );

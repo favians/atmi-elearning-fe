@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Table,
   TableHeader,
@@ -25,7 +25,7 @@ export const columns = [
 
 export default function TableTrainee() {
   const router = useRouter();
-  const [filter, setFilter] = React.useState({
+  const [filter, setFilter] = useState({
     page: 1,
     name_search: "",
     order_rule: "DESC",

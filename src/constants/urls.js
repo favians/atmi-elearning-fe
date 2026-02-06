@@ -10,6 +10,12 @@ export const URL_SEARCH_TRAINING = "/trainings?%(params)s";
 
 //admin
 export const URL_INTERNAL_TRAINEE = "/internal/trainees?%(params)s";
+export const URL_INTERNAL_QUESTIONNAIRE =
+  "/internal/questionnaire/template?%(params)s";
+export const URL_INTERNAL_QUESTIONNAIRE_TRAINING =
+  "/internal/questionnaire/training?%(params)s";
+export const URL_INTERNAL_QUESTIONNAIRE_RESULT =
+  "/internal/questionnaire/result?%(params)s";
 export const URL_INTERNAL_TRAINER = "/internal/trainers?%(params)s";
 export const URL_INTERNAL_ADMIN = "/internal/admins?%(params)s";
 export const URL_INTERNAL_MATERIAL = "/internal/trainings?%(params)s";

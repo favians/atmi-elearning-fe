@@ -32,7 +32,7 @@ export default function FilterQuestionnaire() {
     <div className="-mt-2">
       <form onSubmit={handleSubmit(onSubmit)} className=" gap-4 flex ">
         <InputForm
-          label="Search"
+          label=" "
           placeholder="Search..."
           name="username"
           control={control}

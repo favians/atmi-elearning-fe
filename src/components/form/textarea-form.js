@@ -2,7 +2,7 @@ import { Textarea } from "@heroui/input";
 import { Controller } from "react-hook-form";
 
 export default function TextAreaForm(props) {
-  const { control, name, isDark, maxLength, ...rest } = props;
+  const { control, name, bgWhite, isDark, maxLength, ...rest } = props;
 
   return (
     <Controller
@@ -31,6 +31,7 @@ export default function TextAreaForm(props) {
               classNames={{
                 label: "mb-0",
                 input: ["placeholder:text-grey", isDark ? "text-white" : ""],
+                inputWrapper: bgWhite ? "bg-white" : "",
               }}
               isInvalid={fieldState.invalid}
               errorMessage={fieldState.error?.message}

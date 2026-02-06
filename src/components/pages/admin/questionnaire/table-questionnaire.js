@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Table,
   TableHeader,
@@ -6,70 +6,77 @@ import {
   TableColumn,
   TableRow,
   TableCell,
-  getKeyValue,
 } from "@heroui/table";
 import { Pagination } from "@heroui/pagination";
-import {
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-} from "@heroui/dropdown";
+
 import { Button } from "@heroui/button";
 import { IoMdArrowDropdown } from "react-icons/io";
-export const users = [];
+import emptyImage from "@/assets/images/illustration/documents.png";
+import Image from "next/image";
+import { subtitle } from "@/components/primitives";
+import { useGetQustionnaireTraining } from "@/hooks/admin/useGetQustionnaireTraining";
 
 export const columns = [
-  { name: "Nama", uid: "name" },
-  { name: "Label Admin", uid: "name" },
-  { name: "Email", uid: "email" },
-  { name: "Dibuat", uid: "created_at" },
-  { name: "Pembuat", uid: "creator" },
+  { name: "Dipasang oleh", uid: "created_by" },
+  { name: "Pelatihan", uid: "training_data" },
+  { name: "Tanggal", uid: "created_at" },
   { name: "", uid: "actions" },
 ];
 
-export default function TableQuestionnaire() {
+export default function TableQuestionnaire({ id }) {
   const [page, setPage] = React.useState(1);
-  const rowsPerPage = 10;
 
-  const pages = Math.ceil(users.length / rowsPerPage);
+  const { data, isLoading } = useGetQustionnaireTraining({
+    params: {
+      page,
+      questionnaire_template_id: id,
+    },
+  });
+  const list = data?.data ?? [];
+  const pagination = data?.pagination;
+  const limit = pagination?.limit || 10;
+  const totalData = pagination?.data_total || list.length;
 
+  const totalPages = Math.max(
+    pagination?.page_total || Math.ceil(totalData / limit),
+    1,
+  );
   const items = React.useMemo(() => {
-    const start = (page - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-
-    return users.slice(start, end);
-  }, [page, users]);
-
-  const renderCell = React.useCallback((user, columnKey) => {
-    const cellValue = user[columnKey];
-
+    return list;
+  }, [list]);
+  useEffect(() => {
+    setPage(1);
+  }, [id]);
+  const renderCell = React.useCallback((item, columnKey) => {
     switch (columnKey) {
+      case "training_data":
+        return item.training_data?.title || "-";
+
+      case "created_at":
+        const date = new Date(item.created_at);
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear();
+
+        return `${day}/${month}/${year}`;
+
       case "actions":
         return (
           <div className="relative flex justify-end items-center gap-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button
-                  size="sm"
-                  endContent={<IoMdArrowDropdown size={16} />}
-                  variant="bordered"
-                  color="secondary"
-                  className="border-1 border-slate-300"
-                >
-                  Details
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem key="view">View</DropdownItem>
-                <DropdownItem key="edit">Edit</DropdownItem>
-                <DropdownItem key="delete">Delete</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+            <Button
+              size="sm"
+              endContent={<IoMdArrowDropdown size={16} />}
+              variant="bordered"
+              color="primary"
+              className="border-1 border-slate-300"
+            >
+              Hapus dari Pelatihan
+            </Button>
           </div>
         );
+
       default:
-        return cellValue;
+        return item[columnKey] || "-";
     }
   }, []);
 
@@ -84,8 +91,8 @@ export default function TableQuestionnaire() {
             showShadow
             color="secondary"
             page={page}
-            total={pages}
-            onChange={(page) => setPage(page)}
+            total={totalPages}
+            onChange={setPage}
           />
         </div>
       }
@@ -104,7 +111,35 @@ export default function TableQuestionnaire() {
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody emptyContent={"No users found"} items={items}>
+      <TableBody
+        isLoading={isLoading}
+        loadingContent={
+          <div className="py-10 text-center">
+            <span className="loading loading-spinner loading-lg text-secondary" />
+            <p className="mt-3 text-sm text-gray-500">
+              Memuat data kuesioner...
+            </p>
+          </div>
+        }
+        emptyContent={
+          <div>
+            <Image
+              src={emptyImage}
+              alt="Course Bundle Image"
+              width={250}
+              className="mx-auto"
+            />
+            <h3 className={subtitle({ size: "sm", class: "font-semibold" })}>
+              Daftar kuesioner akan muncul disini
+            </h3>
+            <h4 className={subtitle({ color: "grey", size: "sm" })}>
+              Add sources to your AI learning from the{" "}
+              <strong className="font-semibold">Add learning</strong> button
+            </h4>
+          </div>
+        }
+        items={items}
+      >
         {(item) => (
           <TableRow key={item.id}>
             {(columnKey) => (

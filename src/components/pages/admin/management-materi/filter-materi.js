@@ -20,36 +20,36 @@ export default function FilterMateri(props) {
   const onSearchChange = debounce(onValueChange, 500);
 
   return (
-    <div className="-mt-2">
-      <form className=" gap-4 flex justify-between">
-        <div className=" flex w-1/2">
-          <InputForm
-            label=" "
-            placeholder="Search..."
-            name="username"
-            control={control}
-            startContent={<CiSearch />}
-            labelPlacement="outside"
-            classNames={{ label: "hidden" }}
-            onValueChange={onSearchChange}
-            ariaLabelledby="username"
-          />
+    <div className="mt-2">
+      <form className=" gap-4 flex justify-around items-center ">
+        <div className="w-full -mt-1 flex justify-start">
+          <div className="w-[350px]">
+            <InputForm
+              label=" "
+              placeholder="Search..."
+              name="search"
+              control={control}
+              startContent={<CiSearch />}
+              labelPlacement="outside"
+              classNames={{ label: "hidden" }}
+              onValueChange={onSearchChange}
+            />
+          </div>
         </div>
+        <div className="w-[600px] flex justify-end items-center gap-4">
+          <Button
+            className="min-w-28 "
+            onPress={() => {
+              const value = { name_search: "", order_rule: "DESC" };
 
-        <Button
-          onPress={() => {
-            const value = {
-              name_search: "",
-            };
-
-            reset();
-            props.onValueChange(value);
-          }}
-          className="min-w-28 mt-6"
-          color="primary"
-        >
-          Reset Filter
-        </Button>
+              reset();
+              props.onValueChange(value);
+            }}
+            color="primary"
+          >
+            Reset Filter
+          </Button>
+        </div>
       </form>
     </div>
   );
