@@ -13,7 +13,7 @@ import { LuSquareCheckBig } from "react-icons/lu";
 
 export const SidebarTraining = ({ data, isLoading }) => {
   const router = useRouter();
-  const { selectedModule, setSelectedModule } = useModule();
+  const { selectedModule, setSelectedModule, setSelectedView } = useModule();
   useEffect(() => {
     if (!isLoading && data && data.module_user_training && !selectedModule) {
       for (const module of data.module_user_training) {
@@ -133,7 +133,10 @@ export const SidebarTraining = ({ data, isLoading }) => {
                             isSelected ? "bg-primary/10" : ""
                           }  hover:bg-primary/10`,
                         }}
-                        onChange={() => setSelectedModule(material)}
+                        onChange={() => {
+                          setSelectedView("module");
+                          setSelectedModule(material);
+                        }}
                         className="flex mb-2"
                         defaultSelected={material?.is_done}
                         isSelected={material?.is_done}
@@ -154,6 +157,41 @@ export const SidebarTraining = ({ data, isLoading }) => {
                   })}
                 </AccordionItem>
               ))}
+              <AccordionItem
+                title="Ulasan Untuk Kami"
+                startContent={
+                  <LuSquareCheckBig
+                    className={`${
+                      data?.is_already_submit_questionnaire
+                        ? "text-primary"
+                        : "text-orange"
+                    } mt-1`}
+                  />
+                }
+              >
+                <Checkbox
+                  size="sm"
+                  classNames={{
+                    label: "ml-1",
+                    base: "min-w-full max-w-full m-0 -my-1 hover:bg-primary/10",
+                  }}
+                  onChange={() => {
+                    setSelectedView("review");
+                  }}
+                  isDisabled={data?.progress_percentage < 95}
+                  isSelected={data?.is_already_submit_questionnaire}
+                  className="flex mb-2"
+                >
+                  <h4
+                    className={subtitle({
+                      class: "font-semibold",
+                      size: "xs",
+                    })}
+                  >
+                    Kuisinoner Ulasan
+                  </h4>
+                </Checkbox>
+              </AccordionItem>
             </Accordion>
           </div>
         )}

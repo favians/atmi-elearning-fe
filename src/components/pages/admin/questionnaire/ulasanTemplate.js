@@ -22,6 +22,8 @@ import {
 import { Pagination } from "@heroui/pagination";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { I18nProvider } from "@react-aria/i18n";
+import useDownloadCSV from "@/hooks/admin/useDownloadCSV";
 const trainings = [
   { key: "1", label: "Pelatihan Frontend" },
   { key: "2", label: "Pelatihan Backend" },
@@ -48,11 +50,19 @@ export default function UlasanTemplate() {
   const [isExportComplete, setIsExportComplete] = useState(false);
   const router = useRouter();
 
-  const formatDate = (date) => {
+  const formatDateToTimestamp = (date, isEnd = false) => {
     if (!date) return null;
-    return `${date.year}-${String(date.month).padStart(2, "0")}-${String(
+
+    const jsDate = new Date(
+      date.year,
+      date.month - 1,
       date.day,
-    ).padStart(2, "0")}`;
+      isEnd ? 23 : 0,
+      isEnd ? 59 : 0,
+      isEnd ? 59 : 0,
+    );
+
+    return Math.floor(jsDate.getTime() / 1000);
   };
   const [page, setPage] = useState(1);
   const params = {
@@ -68,15 +78,16 @@ export default function UlasanTemplate() {
   }
 
   if (startDate) {
-    params.start_date = formatDate(startDate);
+    params.created_date_from = formatDateToTimestamp(startDate);
   }
 
   if (endDate) {
-    params.end_date = formatDate(endDate);
+    params.created_date_to = formatDateToTimestamp(endDate, true);
   }
   const { data, isLoading } = useGetQustionnaireResult({
     params,
   });
+  const { mutate: downloadCSV, isPending } = useDownloadCSV();
   const items = data?.data ?? [];
   const pagination = data?.pagination;
   const totalPages = pagination?.page_total || 1;
@@ -87,41 +98,66 @@ export default function UlasanTemplate() {
       `${d.year}-${String(d.month).padStart(2, "0")}-${String(d.day).padStart(2, "0")}`;
     return `${f(range.start)} s/d ${f(range.end)}`;
   };
-  const formatDateTable = (date) => {
-    if (!date) return "-";
-    return new Date(date).toLocaleDateString("id-ID", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
+  const formatDateTable = (dateString) => {
+    if (!dateString) return "-";
+
+    const date = new Date(dateString);
+
+    const day = String(date.getUTCDate()).padStart(2, "0");
+    const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+    const year = date.getUTCFullYear();
+
+    return `${day}/${month}/${year}`;
   };
   const handleExport = () => {
+    if (!exportDateRange) return;
+
     setIsExportOpen(false);
     setIsExportLoadingOpen(true);
     setIsExportComplete(false);
-    setExportProgress(0);
 
-    const interval = setInterval(() => {
-      setExportProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval);
+    const params = {
+      page: 1,
+      limit: 999,
+    };
 
-          setIsExportComplete(true);
+    if (exportDateRange?.start) {
+      params.created_date_from = formatDateToTimestamp(exportDateRange.start);
+    }
 
-          // tunggu 1 detik sebelum close
-          setTimeout(() => {
-            setIsExportLoadingOpen(false);
-            console.log("Download XLS otomatis");
+    if (exportDateRange?.end) {
+      params.created_date_to = formatDateToTimestamp(exportDateRange.end, true);
+    }
 
-            // TODO: trigger real download XLS
-          }, 1500);
+    downloadCSV(params, {
+      onSuccess: (response) => {
+        const blob = new Blob([response.data], {
+          type: "text/csv;charset=utf-8;",
+        });
+        // const blob = new Blob(["\uFEFF", response.data], {
+        //   type: "text/csv;charset=utf-8;",
+        // });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `questionnaire-export-${Date.now()}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
 
-          return 100;
-        }
-        return prev + 10;
-      });
-    }, 400);
+        setIsExportComplete(true);
+
+        setTimeout(() => {
+          setIsExportLoadingOpen(false);
+        }, 1200);
+      },
+      onError: () => {
+        setIsExportLoadingOpen(false);
+        alert("Gagal download file");
+      },
+    });
   };
+
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearch(search);
@@ -146,40 +182,46 @@ export default function UlasanTemplate() {
       case "trainee":
         return (
           <div className="flex items-center gap-2">
-            <Image
-              src={item.admin_data?.profile_url}
-              alt="avatar"
-              width={32}
-              height={32}
-              className="rounded-full"
-            />
-            <span className="font-medium">{item.admin_data?.name ?? "-"}</span>
+            <span className="font-normal text-gray-500">
+              {item.trainee_data?.full_name?.String ?? "-"}
+            </span>
           </div>
         );
 
       case "email":
-        return <span className="text-gray-500">-</span>;
+        return (
+          <span className="text-gray-500">
+            {item.trainee_data?.email?.String ?? "-"}
+          </span>
+        );
 
       case "training":
-        return <span>{trainingId ? `Pelatihan ${trainingId}` : "-"}</span>;
+        return (
+          <span className="text-gray-500">
+            {" "}
+            {item.training_data?.title ?? "-"}{" "}
+          </span>
+        );
 
       case "template":
         return (
           <div>
             <p className="font-medium">{item.name}</p>
-            <p className="text-xs text-gray-500">
-              {item.form_data?.length ?? 0} Pertanyaan
+            <p className=" text-gray-500">
+              {item.questionnaire_template_data?.name ?? "-"}
             </p>
           </div>
         );
 
       case "date":
-        return formatDateTable(item.created_at);
+        return (
+          <p className=" text-gray-500">{formatDateTable(item.created_at)}</p>
+        );
 
       case "actions":
         return (
           <Button
-            size="sm"
+            size="md"
             variant="light"
             color="primary"
             onPress={() => {
@@ -212,25 +254,27 @@ export default function UlasanTemplate() {
 
         <div className="w-full flex justify-end items-center gap-4">
           <div className="relative inline-block">
-            <DateRangePicker
-              className="max-w-xs pr-10" // kasih space buat icon
-              placeholder="Tanggal"
-              selectorButtonPlacement="start"
-              value={dateRange}
-              onChange={(range) => {
-                setDateRange(range);
-                setPage(1);
+            <I18nProvider locale="id-ID">
+              <DateRangePicker
+                className="max-w-xs pr-10" // kasih space buat icon
+                placeholder="Tanggal"
+                selectorButtonPlacement="start"
+                value={dateRange}
+                onChange={(range) => {
+                  setDateRange(range);
+                  setPage(1);
 
-                if (!range) {
-                  setStartDate(null);
-                  setEndDate(null);
-                  return;
-                }
+                  if (!range) {
+                    setStartDate(null);
+                    setEndDate(null);
+                    return;
+                  }
 
-                setStartDate(range.start);
-                setEndDate(range.end);
-              }}
-            />
+                  setStartDate(range.start);
+                  setEndDate(range.end);
+                }}
+              />
+            </I18nProvider>
 
             {dateRange && (
               <button
@@ -289,14 +333,17 @@ export default function UlasanTemplate() {
               {/* BODY */}
               <div className="flex flex-col gap-3 px-4">
                 <p className="text-sm font-semibold">Ekspor dari tanggal ke</p>
-                <DateRangePicker
-                  value={exportDateRange}
-                  onChange={setExportDateRange}
-                />
+                <I18nProvider locale="id-ID">
+                  {" "}
+                  <DateRangePicker
+                    value={exportDateRange}
+                    onChange={setExportDateRange}
+                  />
+                </I18nProvider>
 
                 <p className="text-sm text-[#232933] mr-8">
                   Hasil ekspor memerlukan waktu 1–3 menit untuk dihasilkan dan
-                  akan diunduh secara otomatis sebagai file .xls.
+                  akan diunduh secara otomatis sebagai file .csv.
                 </p>
               </div>
 
@@ -335,38 +382,32 @@ export default function UlasanTemplate() {
             <>
               {/* HEADER */}
               <ModalHeader className="text-lg font-semibold">
-                Processing
+                Processing Export
               </ModalHeader>
 
               {/* BODY */}
               <ModalBody>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    {/* ICON */}
-                    {isExportComplete ? (
-                      <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
-                        <FiCheck className="text-white" size={20} />
-                      </div>
-                    ) : (
-                      <div className="w-10 h-10 border-4 border-gray-300 border-t-primary rounded-full animate-spin" />
-                    )}
-
-                    {/* TEXT */}
-                    <div>
-                      <div className="font-medium">
-                        {isExportComplete
-                          ? "File XLS siap diunduh"
-                          : "Creating file XLS"}
-                      </div>
-                      <div className="text-sm text-gray-500">
-                        {formatRange(exportDateRange)}
-                      </div>
+                <div className="flex flex-col items-center justify-center py-6 gap-4">
+                  {/* ICON */}
+                  {isExportComplete ? (
+                    <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center">
+                      <FiCheck className="text-white" size={28} />
                     </div>
-                  </div>
+                  ) : (
+                    <div className="w-14 h-14 border-4 border-gray-300 border-t-primary rounded-full animate-spin" />
+                  )}
 
-                  {/* PROGRESS */}
-                  <div className="font-semibold text-lg text-primary">
-                    {isExportComplete ? "Complete" : `${exportProgress}%`}
+                  {/* TEXT */}
+                  <div className="text-center">
+                    <div className="font-medium text-base">
+                      {isExportComplete
+                        ? "File CSV siap diunduh"
+                        : "Sedang menyiapkan file export..."}
+                    </div>
+
+                    <div className="text-sm text-gray-500 mt-1">
+                      {formatRange(exportDateRange)}
+                    </div>
                   </div>
                 </div>
               </ModalBody>
@@ -374,6 +415,7 @@ export default function UlasanTemplate() {
           )}
         </ModalContent>
       </Modal>
+
       <Table
         aria-label="Daftar hasil kuesioner"
         bottomContent={

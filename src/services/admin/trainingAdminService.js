@@ -4,6 +4,7 @@ import {
   URL_INTERNAL_TRAINING_LIST,
   URL_TOPIC_TRAINING_LIST,
   URL_TRAINER_TRAINING_LIST,
+  URL_TRAINING_SUBMIT_QUIS,
 } from "@/constants/urls";
 import { api } from "@/utils/api";
 import { apiUpload } from "@/utils/apiUpload";
@@ -93,5 +94,16 @@ export const trainingAdminService = {
       }));
       return transformed;
     });
+  },
+  submitQuis: async (payload) => {
+    const url = sprintf(URL_TRAINING_SUBMIT_QUIS);
+
+    return api
+      .post(url, payload, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => res?.data?.data);
   },
 };

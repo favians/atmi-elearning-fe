@@ -2,14 +2,16 @@
 
 import DetailAnswerQuestionaire from "@/components/pages/admin/questionnaire/detailAnswerQuestionaire";
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 
 export default function CategoryPage() {
   const { id } = useParams();
   const router = useRouter();
   const [meta, setMeta] = useState(null);
-
+  const handleLoaded = useCallback((data) => {
+    setMeta(data);
+  }, []);
   return (
     <>
       <section className="flex flex-col justify-center gap-2 p-4">
@@ -31,10 +33,7 @@ export default function CategoryPage() {
 
       <div className="bg-white grow gap-4 flex flex-col">
         <div className="mt-6 px-6">
-          <DetailAnswerQuestionaire
-            id={id}
-            onLoaded={(value) => setMeta(value)}
-          />
+          <DetailAnswerQuestionaire id={id} onLoaded={handleLoaded} />
         </div>
       </div>
     </>

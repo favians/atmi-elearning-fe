@@ -30,7 +30,6 @@ export default function CategoryPage() {
       <div className="bg-white grow gap-4 flex flex-col">
         <div className="mt-6 px-6">
           <TableQuestionnaire id={id} />
-          {/* <QuestionnaireTrainer id={id} /> */}
         </div>
       </div>
     </>

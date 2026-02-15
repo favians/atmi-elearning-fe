@@ -11,7 +11,7 @@ export default function TemplateCard({
   authorName,
   authorAvatar,
   onDetail,
-  // onDelete,
+  onDelete,
   onEdit,
 }) {
   const [open, setOpen] = useState(false);
@@ -79,7 +79,7 @@ export default function TemplateCard({
               >
                 Edit Template
               </button>
-              {/* <button
+              <button
                 onClick={() => {
                   setOpen(false);
                   onDelete();
@@ -87,7 +87,7 @@ export default function TemplateCard({
                 className="w-full px-4 pt-2 pb-4 text-sm text-left text-[#272B32] hover:bg-gray-100"
               >
                 Hapus Template
-              </button> */}
+              </button>
             </div>
           )}
         </div>

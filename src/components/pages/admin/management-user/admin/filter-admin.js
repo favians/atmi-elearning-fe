@@ -7,6 +7,7 @@ import { Button } from "@heroui/button";
 import debounce from "lodash.debounce";
 import { useState } from "react";
 import { DateRangePicker } from "@heroui/date-picker";
+import { I18nProvider } from "@react-aria/i18n";
 
 export default function FilterAdmin(props) {
   const { control, reset, setValue } = useForm({
@@ -56,23 +57,24 @@ export default function FilterAdmin(props) {
           </div>
         </div>
         <div className="w-[850px] flex justify-end items-center gap-4">
-          {" "}
-          <DateRangePicker
-            placeholder="Tanggal"
-            value={dateRange}
-            onChange={(range) => {
-              setDateRange(range);
+          <I18nProvider locale="id-ID">
+            <DateRangePicker
+              placeholder="Tanggal"
+              value={dateRange}
+              onChange={(range) => {
+                setDateRange(range);
 
-              if (!range) {
-                setStartDate(null);
-                setEndDate(null);
-                return;
-              }
+                if (!range) {
+                  setStartDate(null);
+                  setEndDate(null);
+                  return;
+                }
 
-              setStartDate(range.start);
-              setEndDate(range.end);
-            }}
-          />
+                setStartDate(range.start);
+                setEndDate(range.end);
+              }}
+            />
+          </I18nProvider>
           <SelectForm
             placeholder="Sort"
             name="sort"

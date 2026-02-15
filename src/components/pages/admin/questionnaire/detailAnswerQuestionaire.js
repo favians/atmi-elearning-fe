@@ -30,7 +30,7 @@ export default function DetailAnswerQuestionaire({ id, onLoaded }) {
   useEffect(() => {
     if (onLoaded && result) {
       onLoaded({
-        createdBy: result.created_by || "Anonymous",
+        createdBy: result.trainee_data?.full_name?.String || "Anonymous",
         createdAt: result.created_at,
       });
     }
@@ -42,13 +42,18 @@ export default function DetailAnswerQuestionaire({ id, onLoaded }) {
   if (!result) {
     return <p className="text-sm text-gray-500">Data tidak ditemukan</p>;
   }
+  const profileUrl = result?.trainee_data?.profile_url;
 
+  const imageSrc =
+    profileUrl?.Valid && profileUrl?.String
+      ? `/${profileUrl.String}`
+      : "/avatar-default.png";
   return (
     <div className="space-y-6 mb-10">
       {/* ================= HEADER PROFILE ================= */}
       <div className="flex gap-4 items-center border-b pb-8">
         <Image
-          src="/avatar-default.png" // ganti kalau ada photo asli
+          src={imageSrc}
           alt="profile"
           width={64}
           height={64}
@@ -57,10 +62,10 @@ export default function DetailAnswerQuestionaire({ id, onLoaded }) {
 
         <div className="flex flex-col">
           <span className="font-semibold text-lg">
-            {result.created_by || "Anonymous"}
+            {result.trainee_data?.full_name?.String || "Anonymous"}
           </span>
           <span className="text-sm text-gray-600">
-            Skill: <b>-</b>
+            {result.training_data?.title || "Anonymous"}
           </span>
           <span className="text-xs text-gray-500">
             {formatDate(result.created_at)}

@@ -4,7 +4,7 @@ import { BookIcon } from "@/assets/icons/general/book";
 import { SentIcon } from "@/assets/icons/general/sent";
 import { useRouter } from "next/navigation";
 import succesKuis from "@/assets/images/illustration/succesKuis.png";
-
+import { Suspense } from "react";
 import TabQuestionnaire from "@/components/pages/admin/questionnaire/tab-questionnaire";
 import {
   Modal,
@@ -30,10 +30,7 @@ export default function QuestionnairePage() {
   const { data: questionnaireTemplates, isLoading } =
     useGetQustionnaireTemplate({
       params: {
-        // q: debouncedSearch,
         page: 1,
-
-        // q: debouncedSearch, // ← dikirim ke API
       },
     });
 
@@ -54,7 +51,6 @@ export default function QuestionnairePage() {
     });
     setIsOpen(false);
   };
-  console.log(dataTraining);
   return (
     <>
       <section className="flex flex-col justify-center gap-4 p-4">
@@ -211,7 +207,9 @@ export default function QuestionnairePage() {
       </section>
 
       <div className="bg-white grow gap-4 flex flex-col">
-        <TabQuestionnaire />
+        <Suspense fallback={<div>Loading...</div>}>
+          <TabQuestionnaire />
+        </Suspense>
       </div>
     </>
   );

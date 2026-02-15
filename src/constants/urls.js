@@ -16,6 +16,9 @@ export const URL_INTERNAL_QUESTIONNAIRE_TRAINING =
   "/internal/questionnaire/training?%(params)s";
 export const URL_INTERNAL_QUESTIONNAIRE_RESULT =
   "/internal/questionnaire/result?%(params)s";
+export const URL_INTERNAL_QUESTIONNAIRE_RESULT_DOWNLOAD =
+  "/internal/questionnaire/result/download";
+export const URL_TRAINING_SUBMIT_QUIS = "/trainee/questionnaire/result";
 export const URL_INTERNAL_TRAINER = "/internal/trainers?%(params)s";
 export const URL_INTERNAL_ADMIN = "/internal/admins?%(params)s";
 export const URL_INTERNAL_MATERIAL = "/internal/trainings?%(params)s";

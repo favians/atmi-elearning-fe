@@ -8,13 +8,20 @@ import {
   TableCell,
 } from "@heroui/table";
 import { Pagination } from "@heroui/pagination";
-
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "@heroui/modal";
 import { Button } from "@heroui/button";
 import { IoMdArrowDropdown } from "react-icons/io";
 import emptyImage from "@/assets/images/illustration/documents.png";
 import Image from "next/image";
 import { subtitle } from "@/components/primitives";
 import { useGetQustionnaireTraining } from "@/hooks/admin/useGetQustionnaireTraining";
+import deleteQustionnaireTemplateAssign from "@/hooks/admin/deleteQustionnaireTemplateAssign";
 
 export const columns = [
   { name: "Dipasang oleh", uid: "created_by" },
@@ -25,7 +32,10 @@ export const columns = [
 
 export default function TableQuestionnaire({ id }) {
   const [page, setPage] = React.useState(1);
-
+  const { mutate: deleteAssign, isPending } =
+    deleteQustionnaireTemplateAssign();
+  const [isConfirmOpen, setIsConfirmOpen] = React.useState(false);
+  const [selectedItem, setSelectedItem] = React.useState(null);
   const { data, isLoading } = useGetQustionnaireTraining({
     params: {
       page,
@@ -47,6 +57,28 @@ export default function TableQuestionnaire({ id }) {
   useEffect(() => {
     setPage(1);
   }, [id]);
+  const openDeleteConfirm = (item) => {
+    setSelectedItem(item);
+    setIsConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (!selectedItem) return;
+
+    deleteAssign(
+      { id: selectedItem.id },
+      {
+        onSuccess: () => {
+          toast.success("Kuesioner berhasil dihapus dari pelatihan");
+          setIsConfirmOpen(false);
+          setSelectedItem(null);
+        },
+        onError: () => {
+          toast.error("Gagal menghapus kuesioner");
+        },
+      },
+    );
+  };
   const renderCell = React.useCallback((item, columnKey) => {
     switch (columnKey) {
       case "training_data":
@@ -65,89 +97,118 @@ export default function TableQuestionnaire({ id }) {
           <div className="relative flex justify-end items-center gap-2">
             <Button
               size="sm"
-              endContent={<IoMdArrowDropdown size={16} />}
               variant="bordered"
-              color="primary"
+              color="danger"
               className="border-1 border-slate-300"
+              endContent={<IoMdArrowDropdown size={16} />}
+              onClick={() => openDeleteConfirm(item)}
             >
               Hapus dari Pelatihan
             </Button>
           </div>
         );
-
       default:
         return item[columnKey] || "-";
     }
   }, []);
 
   return (
-    <Table
-      aria-label="Example table with client side pagination"
-      bottomContent={
-        <div className="flex w-full mb-4 justify-center">
-          <Pagination
-            isCompact
-            showControls
-            showShadow
-            color="secondary"
-            page={page}
-            total={totalPages}
-            onChange={setPage}
-          />
-        </div>
-      }
-      classNames={{
-        wrapper: "gap-8 overflow-hidden shadow-none p-0",
-        td: "py-4 border-b-1",
-      }}
-    >
-      <TableHeader columns={columns}>
-        {(column) => (
-          <TableColumn
-            key={column.uid}
-            align={column.uid === "actions" ? "center" : "start"}
-          >
-            {column.name}
-          </TableColumn>
-        )}
-      </TableHeader>
-      <TableBody
-        isLoading={isLoading}
-        loadingContent={
-          <div className="py-10 text-center">
-            <span className="loading loading-spinner loading-lg text-secondary" />
-            <p className="mt-3 text-sm text-gray-500">
-              Memuat data kuesioner...
+    <>
+      <Modal isOpen={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
+        <ModalContent>
+          <ModalHeader>Hapus dari Pelatihan</ModalHeader>
+          <ModalBody>
+            <p className="text-sm">
+              Kuesioner akan <b>dihapus dari pelatihan</b> ini.
+              <br />
+              Data hasil pengisian tidak akan bisa diakses lagi.
+              <br />
+              <br />
+              Apakah kamu yakin ingin melanjutkan?
             </p>
-          </div>
-        }
-        emptyContent={
-          <div>
-            <Image
-              src={emptyImage}
-              alt="Course Bundle Image"
-              width={250}
-              className="mx-auto"
+          </ModalBody>
+          <ModalFooter>
+            <Button variant="light" onPress={() => setIsConfirmOpen(false)}>
+              Batal
+            </Button>
+            <Button
+              color="danger"
+              isLoading={isPending}
+              onPress={handleConfirmDelete}
+            >
+              Ya, hapus
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>{" "}
+      <Table
+        aria-label="Example table with client side pagination"
+        bottomContent={
+          <div className="flex w-full mb-4 justify-center">
+            <Pagination
+              isCompact
+              showControls
+              showShadow
+              color="secondary"
+              page={page}
+              total={totalPages}
+              onChange={setPage}
             />
-            <h3 className={subtitle({ size: "sm", class: "font-semibold" })}>
-              Daftar kuesioner akan muncul disini
-            </h3>
-            <h4 className={subtitle({ color: "grey", size: "sm" })}>
-              Add sources to your AI learning from the{" "}
-              <strong className="font-semibold">Add learning</strong> button
-            </h4>
           </div>
         }
-        items={items}
+        classNames={{
+          wrapper: "gap-8 overflow-hidden shadow-none p-0",
+          td: "py-4 border-b-1",
+        }}
       >
-        {(item) => (
-          <TableRow key={item.id}>
-            {(columnKey) => (
-              <TableCell>{renderCell(item, columnKey)}</TableCell>
-            )}
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+        <TableHeader columns={columns}>
+          {(column) => (
+            <TableColumn
+              key={column.uid}
+              align={column.uid === "actions" ? "center" : "start"}
+            >
+              {column.name}
+            </TableColumn>
+          )}
+        </TableHeader>
+        <TableBody
+          isLoading={isLoading}
+          loadingContent={
+            <div className="py-10 text-center">
+              <span className="loading loading-spinner loading-lg text-secondary" />
+              <p className="mt-3 text-sm text-gray-500">
+                Memuat data kuesioner...
+              </p>
+            </div>
+          }
+          emptyContent={
+            <div>
+              <Image
+                src={emptyImage}
+                alt="Course Bundle Image"
+                width={250}
+                className="mx-auto"
+              />
+              <h3 className={subtitle({ size: "sm", class: "font-semibold" })}>
+                Daftar kuesioner akan muncul disini
+              </h3>
+              <h4 className={subtitle({ color: "grey", size: "sm" })}>
+                Add sources to your AI learning from the{" "}
+                <strong className="font-semibold">Add learning</strong> button
+              </h4>
+            </div>
+          }
+          items={items}
+        >
+          {(item) => (
+            <TableRow key={item.id}>
+              {(columnKey) => (
+                <TableCell>{renderCell(item, columnKey)}</TableCell>
+              )}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </>
   );
 }

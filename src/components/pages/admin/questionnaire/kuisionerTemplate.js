@@ -8,13 +8,38 @@ import { useRouter } from "next/navigation";
 import { Input } from "@heroui/input";
 import { useEffect, useState } from "react";
 import { FiSearch } from "react-icons/fi";
+import { Button } from "@heroui/button";
+import deleteTemplateQuestionnaire from "@/hooks/admin/deleteTemplateQuestionnaire";
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+} from "@heroui/modal";
 
 export default function KuisionerTemplate() {
   const router = useRouter();
 
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const { mutate: deleteTemplate, isPending } = deleteTemplateQuestionnaire();
+  const [selectedId, setSelectedId] = useState(null);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
+  const handleDeleteClick = (id) => {
+    setSelectedId(id);
+    setIsConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    deleteTemplate(selectedId, {
+      onSuccess: () => {
+        setIsConfirmOpen(false);
+        setSelectedId(null);
+      },
+    });
+  };
   // debounce search
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -28,7 +53,6 @@ export default function KuisionerTemplate() {
     params: {
       name_search: debouncedSearch,
       page: 1,
-      // q: debouncedSearch, // ← dikirim ke API
     },
   });
 
@@ -40,6 +64,29 @@ export default function KuisionerTemplate() {
 
   return (
     <div className="space-y-6">
+      <Modal isOpen={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
+        <ModalContent>
+          <ModalHeader>Hapus Template</ModalHeader>
+          <ModalBody>
+            <p>
+              Template kuesioner yang dihapus <b>tidak dapat dikembalikan</b>.
+              Apakah kamu yakin ingin melanjutkan?
+            </p>
+          </ModalBody>
+          <ModalFooter>
+            <Button variant="light" onPress={() => setIsConfirmOpen(false)}>
+              Batal
+            </Button>
+            <Button
+              color="danger"
+              isLoading={isPending}
+              onPress={handleConfirmDelete}
+            >
+              Hapus
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       {/* 🔍 SEARCH */}
       <div className="max-w-sm">
         <Input
@@ -94,9 +141,7 @@ export default function KuisionerTemplate() {
               onEdit={() => {
                 router.push(`/admin/questionnaire/detail-template/${item.id}`);
               }}
-              // onDelete={() => {
-              //   console.log("Delete template:", item.id);
-              // }}
+              onDelete={() => handleDeleteClick(item.id)}
             />
           ))}
         </div>

@@ -7,6 +7,7 @@ import { Select, SelectItem } from "@heroui/select";
 import { FiSearch, FiDownload, FiRotateCcw } from "react-icons/fi";
 import { DateRangePicker } from "@heroui/date-picker";
 import { useGetQustionnaireTraining } from "@/hooks/admin/useGetQustionnaireTraining";
+import { I18nProvider } from "@react-aria/i18n";
 
 const trainings = [
   { key: "1", label: "Pelatihan Frontend" },
@@ -72,23 +73,25 @@ export default function QuestionnaireTrainer({ id }) {
         </div>
 
         <div className="w-full flex justify-end items-center gap-4">
-          <DateRangePicker
-            className="max-w-xs"
-            placeholder="Tanggal"
-            value={dateRange}
-            onChange={(range) => {
-              setDateRange(range);
+          <I18nProvider locale="id-ID">
+            <DateRangePicker
+              className="max-w-xs"
+              placeholder="Tanggal"
+              value={dateRange}
+              onChange={(range) => {
+                setDateRange(range);
 
-              if (!range) {
-                setStartDate(null);
-                setEndDate(null);
-                return;
-              }
+                if (!range) {
+                  setStartDate(null);
+                  setEndDate(null);
+                  return;
+                }
 
-              setStartDate(range.start);
-              setEndDate(range.end);
-            }}
-          />
+                setStartDate(range.start);
+                setEndDate(range.end);
+              }}
+            />
+          </I18nProvider>
 
           <Select
             placeholder="Pilih Pelatihan"

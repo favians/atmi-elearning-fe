@@ -1,6 +1,7 @@
 import {
   URL_INTERNAL_QUESTIONNAIRE,
   URL_INTERNAL_QUESTIONNAIRE_RESULT,
+  URL_INTERNAL_QUESTIONNAIRE_RESULT_DOWNLOAD,
   URL_INTERNAL_QUESTIONNAIRE_TRAINING,
   URL_INTERNAL_TRAINEE_LIST,
 } from "@/constants/urls";
@@ -73,6 +74,13 @@ export const questionnaireAdminService = {
       })
       .then((res) => res?.data?.data);
   },
+  downloadCSV: async (params) => {
+    return api.get("internal/questionnaire/result/download", {
+      params,
+      responseType: "blob",
+    });
+  },
+
   assignQuestionnaire: async (payload) => {
     const url = sprintf(URL_INTERNAL_QUESTIONNAIRE_TRAINING, { params: "" });
 
@@ -91,6 +99,28 @@ export const questionnaireAdminService = {
       .put(url, payload, {
         headers: {
           "Content-Type": "application/json",
+        },
+      })
+      .then((res) => res?.data?.data);
+  },
+  deleteTemplate: async (id) => {
+    const url = sprintf(URL_INTERNAL_QUESTIONNAIRE, { params: "" });
+
+    return api
+      .delete(url, {
+        data: {
+          id: id,
+        },
+      })
+      .then((res) => res?.data?.data);
+  },
+  deleteQuestionaireTraining: async (id) => {
+    const url = sprintf(URL_INTERNAL_QUESTIONNAIRE_TRAINING, { params: "" });
+
+    return api
+      .delete(url, {
+        data: {
+          id: id,
         },
       })
       .then((res) => res?.data?.data);

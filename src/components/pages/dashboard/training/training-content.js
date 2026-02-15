@@ -12,15 +12,28 @@ import PDFViewer from "@/components/pages/pdf/pdf-viewer";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryClientKeys } from "@/constants/query-client-keys";
 import { useParams } from "next/navigation";
+import { TrainingReview } from "./training-review";
 
 export const TrainingContent = ({ data }) => {
-  const { selectedModule, setSelectedModule } = useModule();
+  const { selectedModule, setSelectedModule, selectedView } = useModule();
 
   const params = useParams();
 
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useUpdateProgress();
+  if (selectedView === "review") {
+    return <TrainingReview data={data} />;
+  }
+  if (!selectedModule) {
+    return (
+      <div className="flex ml-[320px] mt-16 flex-col flex-1 gap-6 py-6">
+        <h4 className={subtitle({ class: "mx-6" })}>
+          Silakan pilih materi pada sidebar untuk melihat konten
+        </h4>
+      </div>
+    );
+  }
   const onFindMaterial = (materialId) => {
     const modules = data.module_user_training;
 
