@@ -50,6 +50,7 @@ export default function LoginForm() {
           placeholder="Masukkan username Anda"
           name="password"
           control={control}
+          required
         />
         <Button size="lg" color="primary" isLoading={isPending} type="submit">
           Masuk

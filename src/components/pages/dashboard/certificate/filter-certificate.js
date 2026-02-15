@@ -33,19 +33,21 @@ export default function FilterCertificate(props) {
     { key: "DESC", label: "DESC" },
   ];
   return (
-    <div className="-mt-2">
-      <form className=" gap-4 flex ">
-        <InputForm
-          label=" "
-          placeholder="Search..."
-          name="search"
-          control={control}
-          startContent={<CiSearch />}
-          labelPlacement="outside"
-          classNames={{ label: "hidden" }}
-          onValueChange={onSearchChange}
-        />
-
+    <div>
+      <form className=" gap-4 flex justify-start mt-2">
+        <div className="w-[850px] mt-5">
+          {" "}
+          <InputForm
+            label=" "
+            placeholder="Search..."
+            name="search"
+            control={control}
+            startContent={<CiSearch />}
+            labelPlacement="outside"
+            classNames={{ label: "hidden" }}
+            onValueChange={onSearchChange}
+          />
+        </div>
         <SelectForm
           label="Sort"
           placeholder="Sort"

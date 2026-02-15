@@ -13,12 +13,15 @@ export const DetailTraining = ({ data, isLoading }) => {
   return (
     <Section className="my-16">
       <Tabs
-        key={"secondary"}
+        key="secondary"
         aria-label="Tabs colors"
-        color={"secondary"}
         radius="full"
         size="lg"
-        classNames={{ tab: "m-1", panel: "w-2/3 mt-2" }}
+        classNames={{
+          tab: "m-1 data-[selected=true]:bg-[#047CC1] data-[selected=true]:text-white",
+          tabContent: "group-data-[selected=true]:text-white",
+          panel: "w-2/3 mt-2",
+        }}
       >
         <Tab key="photos" title="Deskripsi">
           <div className="border-1 rounded-lg p-4">

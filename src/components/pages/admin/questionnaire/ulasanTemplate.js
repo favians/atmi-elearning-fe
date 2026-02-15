@@ -20,10 +20,10 @@ import {
   TableRow,
 } from "@heroui/table";
 import { Pagination } from "@heroui/pagination";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { I18nProvider } from "@react-aria/i18n";
 import useDownloadCSV from "@/hooks/admin/useDownloadCSV";
+import { useGetQustionnaireTemplate } from "@/hooks/admin/useGetQustionnaireTemplate";
 const trainings = [
   { key: "1", label: "Pelatihan Frontend" },
   { key: "2", label: "Pelatihan Backend" },
@@ -39,14 +39,13 @@ export const columns = [
 export default function UlasanTemplate() {
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
-  const [trainingId, setTrainingId] = useState(null);
+  const [templateId, setTemplateId] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [dateRange, setDateRange] = useState(null);
   const [isExportOpen, setIsExportOpen] = useState(false);
   const [exportDateRange, setExportDateRange] = useState(null);
   const [isExportLoadingOpen, setIsExportLoadingOpen] = useState(false);
-  const [exportProgress, setExportProgress] = useState(50); // dummy persen
   const [isExportComplete, setIsExportComplete] = useState(false);
   const router = useRouter();
 
@@ -73,8 +72,8 @@ export default function UlasanTemplate() {
     params.NameSearch = debouncedSearch;
   }
 
-  if (trainingId) {
-    params.training_id = trainingId;
+  if (templateId) {
+    params.template_id = templateId;
   }
 
   if (startDate) {
@@ -91,7 +90,12 @@ export default function UlasanTemplate() {
   const items = data?.data ?? [];
   const pagination = data?.pagination;
   const totalPages = pagination?.page_total || 1;
-
+  const { data: questionnaireTemplates, isLoading: isLoadingTemplates } =
+    useGetQustionnaireTemplate({
+      params: {
+        page: 1,
+      },
+    });
   const formatRange = (range) => {
     if (!range?.start || !range?.end) return "-";
     const f = (d) =>
@@ -170,7 +174,7 @@ export default function UlasanTemplate() {
   const handleReset = () => {
     setSearch("");
     setDebouncedSearch("");
-    setTrainingId(null);
+    setTemplateId(null);
     setStartDate(null);
     setEndDate(null);
     setDateRange(null);
@@ -236,7 +240,6 @@ export default function UlasanTemplate() {
         return "-";
     }
   };
-  console.log(items);
   return (
     <div className="space-y-4">
       <div className="flex  items-center justify-around">
@@ -297,22 +300,20 @@ export default function UlasanTemplate() {
             )}
           </div>
           <Select
-            placeholder="Pilih Pelatihan"
-            selectedKeys={trainingId ? [trainingId] : []}
-            onSelectionChange={(keys) => {
-              setTrainingId(Array.from(keys)[0]);
-              setPage(1);
-            }}
-            className="w-48"
+            placeholder="Pilih Template"
+            selectedKeys={templateId ? [templateId] : []}
+            onSelectionChange={(keys) => setTemplateId(Array.from(keys)[0])}
+            className="w-56"
           >
-            {trainings.map((item) => (
-              <SelectItem key={item.key}>{item.label}</SelectItem>
+            {questionnaireTemplates?.data.map((item) => (
+              <SelectItem key={item.id}>{item.name}</SelectItem>
             ))}
           </Select>
           <Popover
             placement="bottom-end"
             isOpen={isExportOpen}
             onOpenChange={setIsExportOpen}
+            shouldCloseOnInteractOutside={() => false}
           >
             <PopoverTrigger>
               <Button

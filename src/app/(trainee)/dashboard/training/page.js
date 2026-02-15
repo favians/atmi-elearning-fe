@@ -7,7 +7,8 @@ import { CardTraining } from "@/components/pages/dashboard/training/card-trainin
 import { useGetTraining } from "@/hooks/trainee/useGetTraining";
 import { Spinner } from "@heroui/spinner";
 import { useState } from "react";
-
+import noTrain from "@/assets/images/illustration/no-train.png";
+import Image from "next/image";
 export default function DashboardPage() {
   const tabs = ["Belum Selesai", "Sudah Selesai"];
   const [selectedTab, setSelectedTab] = useState(0);
@@ -15,6 +16,10 @@ export default function DashboardPage() {
   const { data, isLoading } = useGetTraining({
     params: { page: 1, status: status },
   });
+
+  const trainings = data?.data || [];
+  const isEmpty = !isLoading && trainings.length === 0;
+
   return (
     <DashboardLayout>
       <div key={"primary"} className="w-full flex items-center">
@@ -50,15 +55,45 @@ export default function DashboardPage() {
         >
           {tabs.map((item) => (
             <Tab key={item} title={item}>
-              <div className="grid grid-cols-4">
-                {isLoading ? (
+              {isLoading && (
+                <div className="flex justify-center items-center py-20 w-full">
                   <Spinner />
-                ) : (
-                  data?.data?.map((item) => (
+                </div>
+              )}
+
+              {isEmpty && (
+                <div className="flex flex-col items-center justify-center py-20 text-center w-full">
+                  <div className="text-4xl mb-4">
+                    {" "}
+                    <Image
+                      src={noTrain}
+                      alt="Logo White"
+                      height={160}
+                      className="mx-auto object-cover"
+                    />
+                  </div>
+
+                  <h3 className="text-lg font-semibold">
+                    {selectedTab === 0
+                      ? "Belum Ada Pelatihan"
+                      : "Belum ada pelatihan yang selesai"}
+                  </h3>
+
+                  <p className="text-gray-500 mt-2 max-w-md">
+                    {selectedTab === 0
+                      ? "Anda belum memulai pelatihan apapun, segera mulai pelatihan untuk meningkatkan kompetensi dan dapatkan sertifikat."
+                      : "Selesaikan pelatihan terlebih dahulu, agar pelatihan yang selesai masuk ke dalam menu ini."}
+                  </p>
+                </div>
+              )}
+
+              {!isLoading && !isEmpty && (
+                <div className="grid grid-cols-4 gap-6">
+                  {trainings.map((item) => (
                     <CardTraining key={item?.id} data={item} />
-                  ))
-                )}
-              </div>
+                  ))}
+                </div>
+              )}
             </Tab>
           ))}
         </Tabs>

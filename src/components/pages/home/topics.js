@@ -54,17 +54,23 @@ export default function Topics() {
 
       <Tabs
         radius="full"
-        variant={"light"}
+        variant="light"
         aria-label="Tabs variants"
-        color={"primary"}
-        className="mt-8 tab-topics"
         isDisabled={isLoadingTopic}
         selectedKey={selectedTopicId?.toString()}
         onSelectionChange={(key) => setSelectedTopicId(Number(key))}
+        className="mt-8 tab-topics"
         classNames={{
-          tab: "border-1 border-white",
-          tabContent:
-            "text-white group-data-[selected=true]:text-[#000] group-data-[selected=true]:font-semibold",
+          tab: `
+      border border-white
+      data-[selected=true]:bg-[#AFF4C6]
+      data-[selected=true]:border-[#14AE5C]
+    `,
+          tabContent: `
+      text-white
+      group-data-[selected=true]:text-[#003452]
+      group-data-[selected=true]:font-semibold
+    `,
         }}
       >
         {dataTopic?.map((item) => {
