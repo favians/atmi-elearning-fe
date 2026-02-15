@@ -1,75 +1,75 @@
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 
-// Setup PDF.js worker
-pdfjs.GlobalWorkerOptions.workerSrc = "/pdfjs/pdf.worker.min.js";
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 export default function PDFViewer({ url, onFinishRead }) {
   const [numPages, setNumPages] = useState(null);
-  const containerRef = useRef(null);
   const [containerWidth, setContainerWidth] = useState(600);
   const [hasFinished, setHasFinished] = useState(false);
+  const containerRef = useRef(null);
 
-  // Store stable onFinishRead
-  const onFinishReadRef = useRef(onFinishRead);
-  useEffect(() => {
-    onFinishReadRef.current = onFinishRead;
-  }, [onFinishRead]);
+  // 🔥 Stabilkan file reference (WAJIB)
+  const file = useMemo(() => ({ url }), [url]);
 
-  // Stabilize the URL so <Document file={{ url }} /> doesn't reload
-  const stableFile = useMemo(() => ({ url }), [url]);
+  // 🔥 Stabilkan callback
+  const handleLoadSuccess = useCallback(({ numPages }) => {
+    setNumPages(numPages);
+  }, []);
 
-  // ResizeObserver to track container width
+  // 🔥 Resize observer (tidak bikin re-render loop)
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const resizeObserver = new ResizeObserver(([entry]) => {
-      setContainerWidth(entry.contentRect.width);
+    const observer = new ResizeObserver(([entry]) => {
+      const newWidth = entry.contentRect.width;
+      setContainerWidth((prev) => (prev !== newWidth ? newWidth : prev));
     });
 
-    resizeObserver.observe(containerRef.current);
-    return () => resizeObserver.disconnect();
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
   }, []);
 
-  // Scroll detection
-  const handleScroll = () => {
+  // 🔥 Scroll detection optimized
+  const handleScroll = useCallback(() => {
     const el = containerRef.current;
     if (!el || hasFinished) return;
 
     const scrollPosition = el.scrollTop + el.clientHeight;
     const scrollHeight = el.scrollHeight;
-    const scrollPercent = (scrollPosition / scrollHeight) * 100;
 
-    if (scrollPercent >= 90) {
+    if (scrollPosition / scrollHeight >= 0.9) {
       setHasFinished(true);
-      if (typeof onFinishReadRef.current === "function") {
-        // Call without triggering parent state affecting this component
-        setTimeout(() => onFinishReadRef.current(), 0);
-      }
+      onFinishRead?.();
     }
-  };
+  }, [hasFinished, onFinishRead]);
 
   return (
-    <div>
-      <div
-        ref={containerRef}
-        className="max-h-[400px] overflow-y-auto"
-        onScroll={handleScroll}
+    <div
+      ref={containerRef}
+      className="max-h-[500px] overflow-y-auto"
+      onScroll={handleScroll}
+    >
+      <Document
+        file={file}
+        onLoadSuccess={handleLoadSuccess}
+        loading={<p>Loading PDF…</p>}
+        options={{
+          cMapUrl: "https://unpkg.com/pdfjs-dist@3.11.174/cmaps/",
+          cMapPacked: true,
+        }}
       >
-        <Document
-          file={stableFile}
-          onLoadSuccess={({ numPages }) => setNumPages(numPages)}
-          loading={<p>Loading PDF…</p>}
-        >
-          {Array.from(new Array(numPages), (_, index) => (
+        {numPages &&
+          Array.from({ length: numPages }, (_, index) => (
             <Page
-              key={`page_${index + 1}`}
+              key={index}
               pageNumber={index + 1}
               width={containerWidth}
+              renderAnnotationLayer={false}
+              renderTextLayer={false} // 🔥 ini bikin jauh lebih smooth
             />
           ))}
-        </Document>
-      </div>
+      </Document>
     </div>
   );
 }

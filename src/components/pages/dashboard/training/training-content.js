@@ -91,6 +91,7 @@ export const TrainingContent = ({ data }) => {
           />
         ) : (
           <PDFViewer
+            key={selectedModule?.id}
             url={selectedModule?.link_file_url}
             onFinishRead={onUpdateProgress}
           />
