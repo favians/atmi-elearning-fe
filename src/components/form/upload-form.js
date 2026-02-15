@@ -11,6 +11,8 @@ export default function UploadForm(props) {
     onHandleImageChange,
     onHandleDeleteImage,
     defaultValue,
+    label,
+    ...restProps // <-- ini penting
   } = props;
 
   const onChangeFile = (e, onChange) => {
@@ -21,69 +23,67 @@ export default function UploadForm(props) {
   };
 
   const getBase64 = (e) => {
-    var file = e.target.files[0];
-    let reader = new FileReader();
+    const file = e.target.files[0];
+    const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
       onHandleImageChange(reader.result);
     };
-    reader.onerror = function (error) {
+    reader.onerror = () => {
       onHandleImageChange("");
     };
   };
 
   return (
-    <Controller
-      name={name}
-      control={control}
-      render={({ field, fieldState }) => (
-        <label className="text-sm w-full text-secondary text-center mt-2 cursor-pointer">
+    <div className="w-full mt-2">
+      {/* Label manual di atas */}
+      {label && (
+        <label className="text-sm text-black block mb-1">{label}</label>
+      )}
+
+      <Controller
+        name={name}
+        control={control}
+        render={({ field, fieldState }) => (
           <Input
+            {...restProps} // <-- TIDAK pakai {...props}
             variant="bordered"
+            type="file"
+            label="" // pastikan kosong
+            labelPlacement="outside"
             classNames={{
-              label: "mb-0",
-              base: "cursor-pointer",
-              input: ["placeholder:text-grey cursor-pointer hidden"],
-              inputWrapper: "px-0 !cursor-pointer",
+              base: "cursor-pointer relative",
+              input: "absolute inset-0 w-full h-full opacity-0 cursor-pointer",
+              inputWrapper:
+                "px-3 h-12 flex items-center justify-between cursor-pointer",
               errorMessage: "text-left",
               helperWrapper: "text-left",
             }}
-            type="file"
             isInvalid={fieldState.invalid}
-            errorMessage={fieldState.invalid && fieldState.error?.message}
-            {...props}
-            onChange={(e) => {
-              onChangeFile(e, field.onChange);
-            }}
+            errorMessage={fieldState.error?.message}
+            onChange={(e) => onChangeFile(e, field.onChange)}
             startContent={
-              <>
-                <div className="px-1 py-1 m-1 rounded-md border-1 max-h-60 text-sm text-secondary">
-                  Browser File
+              <div className="flex items-center gap-3 w-full overflow-hidden">
+                <div className="px-3 py-1 rounded-md border text-xs font-medium whitespace-nowrap">
+                  Browse File
                 </div>
 
-                {field.value?.name ? (
-                  <div className="text-sm ml-2 text-black">
-                    {trunc(field.value.name, 42)}
-                  </div>
-                ) : defaultValue ? (
-                  <div className="text-sm ml-2 line-clamp-1 text-black">
-                    {trunc(defaultValue, 42)}
-                  </div>
-                ) : (
-                  <div className="text-grey-800 text-sm ml-2">
-                    {props.placeholder}
-                  </div>
-                )}
-              </>
+                <div className="text-sm text-black truncate">
+                  {field.value?.name
+                    ? trunc(field.value.name, 42)
+                    : defaultValue
+                      ? trunc(defaultValue, 42)
+                      : restProps.placeholder}
+                </div>
+              </div>
             }
             endContent={
               field.value && (
                 <div
-                  className="absolute right-2 z-20 text-grey-800"
+                  className="flex items-center justify-center text-grey-800 hover:text-danger cursor-pointer"
                   onClick={(e) => {
-                    e.preventDefault(); // Prevent the click event from propagating to the file input
+                    e.preventDefault();
                     field.onChange(null);
-
                     if (isWithPreview) onHandleDeleteImage();
                   }}
                 >
@@ -92,8 +92,8 @@ export default function UploadForm(props) {
               )
             }
           />
-        </label>
-      )}
-    />
+        )}
+      />
+    </div>
   );
 }

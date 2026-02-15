@@ -24,6 +24,9 @@ export const TrainingForm = (props) => {
               control={control}
               labelPlacement="outside"
               isRequired
+              classNames={{
+                base: "w-full",
+              }}
             />
             {index > 0 && (
               <AiOutlineMinusCircle
