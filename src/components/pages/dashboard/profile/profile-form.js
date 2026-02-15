@@ -7,7 +7,8 @@ import TextAreaForm from "@/components/form/textarea-form";
 import { Avatar } from "@heroui/avatar";
 import toast from "react-hot-toast";
 import { useGetProfile } from "@/hooks/trainee/useGetProfile";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import useEditAboutProfile from "@/hooks/home/editAboutProfile";
 
 export default function ProfileForm() {
   const router = useRouter();
@@ -15,7 +16,8 @@ export default function ProfileForm() {
   const { control, handleSubmit, reset } = useForm({
     mode: "onChange",
   });
-
+  const [photoFile, setPhotoFile] = useState(null);
+  const { mutate, isPending } = useEditAboutProfile();
   useEffect(() => {
     if (data) {
       reset({
@@ -26,9 +28,29 @@ export default function ProfileForm() {
       });
     }
   }, [data, reset]);
-  const onSubmit = (data) => {
-    toast.success("Sukses update");
+  const onSubmit = (formValues) => {
+    const payload = {
+      full_name: formValues.name,
+      email: formValues.email,
+      phone: formValues.phone,
+      address: formValues.alamat,
+      instance: "atmi", // sesuaikan jika dynamic
+    };
+
+    if (photoFile) {
+      payload.profile_photo = photoFile;
+    }
+
+    mutate(payload, {
+      onSuccess: () => {
+        toast.success("Sukses update profile");
+      },
+      onError: (err) => {
+        toast.error(err?.response?.data?.message || "Gagal update profile");
+      },
+    });
   };
+
   const onChangePhoto = (e) => {
     if (e.target.files?.[0]?.size > 500000) {
       toast.error("File tidak boleh lebih dari 500kbps");
@@ -42,8 +64,6 @@ export default function ProfileForm() {
       toast.error(`File format ${e.target.files?.[0]?.type} belum support`);
       return;
     }
-
-    const formData = new FormData();
   };
   return (
     <div className="p-4 w-3/4">
@@ -107,7 +127,12 @@ export default function ProfileForm() {
             >
               Batalkan
             </Button>
-            <Button className="w-36" color="primary" type="submit">
+            <Button
+              className="w-36"
+              color="primary"
+              type="submit"
+              isLoading={isPending}
+            >
               Simpan Perubahan
             </Button>
           </div>
