@@ -126,7 +126,7 @@ export default function TableAdmin(props) {
           </div>
         }
         classNames={{
-          wrapper: "gap-8 overflow-hidden shadow-none p-0",
+          wrapper: "gap-8 overflow-hidden shadow-none p-0  pr-4 ",
           td: "py-4 border-b-1",
         }}
       >

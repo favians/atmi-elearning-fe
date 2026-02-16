@@ -22,6 +22,7 @@ export default function ManagementUserAdminPage() {
             startContent={<FaPlus />}
             color="primary"
             onPress={() => router.push(`/admin/management-user/admin/create`)}
+            className="mr-4"
           >
             Tambahkan Admin
           </Button>

@@ -2,7 +2,6 @@
 import { headline } from "@/components/primitives";
 import { Button } from "@heroui/button";
 import { FaPlus } from "react-icons/fa";
-import FilterMateri from "@/components/pages/admin/management-materi/filter-materi";
 import TableMateri from "@/components/pages/admin/management-materi/table-materi";
 import { useRouter } from "next/navigation";
 

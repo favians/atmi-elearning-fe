@@ -3,7 +3,6 @@ import { headline } from "@/components/primitives";
 import { Button } from "@heroui/button";
 import { FaPlus } from "react-icons/fa";
 import TableCertificate from "@/components/pages/admin/management-certificate/table-certificate";
-import FilterCertificate from "@/components/pages/admin/management-certificate/filter-certificate";
 import { useRouter } from "next/navigation";
 
 export default function ManagementCertificate() {

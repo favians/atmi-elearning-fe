@@ -2,8 +2,20 @@ import { title, subtitle } from "@/components/primitives";
 import Section from "@/layouts/section";
 import { Button } from "@heroui/button";
 import { Image } from "@heroui/image";
+import IMG1 from "@/assets/images/heroImage/IMG1.png";
+import IMG2 from "@/assets/images/heroImage/IMG2.jpg";
+import IMG3 from "@/assets/images/heroImage/IMG3.jpg";
+import IMG4 from "@/assets/images/heroImage/IMG4.jpg";
+import IMG5 from "@/assets/images/heroImage/IMG5.jpg";
+import IMG6 from "@/assets/images/heroImage/IMG6.jpg";
+import IMG7 from "@/assets/images/heroImage/IMG7.jpg";
+import IMG8 from "@/assets/images/heroImage/IMG8.jpg";
+import IMG9 from "@/assets/images/heroImage/IMG9.jpg";
+import IMG10 from "@/assets/images/heroImage/IMG10.jpg";
 
 export default function HomeBanner() {
+  const imagesLeft = [IMG1, IMG2, IMG3, IMG4, IMG5];
+  const imagesRight = [IMG6, IMG7, IMG8, IMG9, IMG10];
   return (
     <Section
       className="bg-dark-blue flex lg:h-[605px]"
@@ -43,91 +55,28 @@ export default function HomeBanner() {
       <div className="flex-grow  justify-end flex">
         <div className="gap-5 flex ">
           <div className="grid gap-4 animate-rotateBottom ">
-            <Image
-              className="object-cover"
-              width={256}
-              height={360}
-              loading="lazy"
-              alt="NextUI hero Image with delay"
-              src="https://images.unsplash.com/photo-1724709972210-4beb408de580?q=80&w=1087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            />
-            <Image
-              className="object-cover"
-              width={256}
-              height={360}
-              loading="lazy"
-              alt="NextUI hero Image with delay"
-              src="https://images.unsplash.com/photo-1721332154161-847851ea188b?q=80&w=1035&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            />
-
-            <Image
-              className="object-cover"
-              width={256}
-              height={360}
-              loading="lazy"
-              alt="NextUI hero Image with delay"
-              src="https://images.unsplash.com/photo-1719937050792-a6a15d899281?q=80&w=1096&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            />
-            <Image
-              className="object-cover"
-              width={256}
-              height={360}
-              loading="lazy"
-              alt="NextUI hero Image with delay"
-              src="https://plus.unsplash.com/premium_photo-1713184149457-ce10583b4ccd?q=80&w=1087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            />
-
-            <Image
-              className="object-cover"
-              width={256}
-              height={360}
-              loading="lazy"
-              alt="NextUI hero Image with delay"
-              src="https://plus.unsplash.com/premium_photo-1675107359599-a2d0d8983c36?q=80&w=1087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            />
+            {imagesLeft.map((img, i) => (
+              <Image
+                key={i}
+                src={img.src}
+                width={256}
+                height={360}
+                className="object-cover"
+                alt="Hero image"
+              />
+            ))}
           </div>
           <div className="grid gap-3 animate-rotateTop ">
-            <Image
-              className="object-cover"
-              width={256}
-              height={360}
-              loading="lazy"
-              alt="NextUI hero Image with delay"
-              src="https://images.unsplash.com/photo-1709321954258-698bea8a21e6?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            />
-            <Image
-              className="object-cover"
-              width={256}
-              height={360}
-              loading="lazy"
-              alt="NextUI hero Image with delay"
-              src="https://plus.unsplash.com/premium_photo-1692731798118-2880236d32a6?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            />
-
-            <Image
-              className="object-cover"
-              width={256}
-              height={360}
-              loading="lazy"
-              alt="NextUI hero Image with delay"
-              src="https://images.unsplash.com/photo-1724961723763-014c951c1d5e?q=80&w=1282&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            />
-            <Image
-              className="object-cover"
-              width={256}
-              height={360}
-              loading="lazy"
-              alt="NextUI hero Image with delay"
-              src="https://images.unsplash.com/photo-1725398927348-e369991c845b?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            />
-            <Image
-              className="object-cover"
-              width={256}
-              height={360}
-              loading="lazy"
-              alt="NextUI hero Image with delay"
-              src="https://images.unsplash.com/photo-1725053615193-7006e8e941ee?q=80&w=1036&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            />
+            {imagesRight.map((img, i) => (
+              <Image
+                key={i}
+                src={img.src}
+                width={256}
+                height={360}
+                className="object-cover"
+                alt="Hero image"
+              />
+            ))}
           </div>
         </div>
       </div>
