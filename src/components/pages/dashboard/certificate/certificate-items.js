@@ -1,17 +1,17 @@
+"use client";
 import { subtitle } from "@/components/primitives";
-import { dateFormat, parseDate } from "@/helpers/Date";
 import { useGetCertificate } from "@/hooks/trainee/useGetCertificate";
-import { Avatar } from "@heroui/avatar";
 import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import { Divider } from "@heroui/divider";
-import { Image } from "@heroui/image";
 import { Link } from "@heroui/link";
-import React from "react";
+import React, { useCallback, useState } from "react";
 import FilterCertificate from "./filter-certificate";
+import noTrain from "@/assets/images/illustration/no-train.png";
+import Image from "next/image";
 import { Spinner } from "@heroui/spinner";
 
 export const CertificateItems = ({ onOpen }) => {
-  const [filter, setFilter] = React.useState({
+  const [filter, setFilter] = useState({
     page: 1,
     name_search: "",
     order_rule: "DESC",
@@ -27,7 +27,7 @@ export const CertificateItems = ({ onOpen }) => {
     },
   });
 
-  const onValueChange = React.useCallback(
+  const onValueChange = useCallback(
     (value) => {
       setFilter({ ...filter, ...value });
     },
@@ -48,11 +48,31 @@ export const CertificateItems = ({ onOpen }) => {
       </div>
       <div className="m-4 grid grid-cols-3 gap-6">
         {isLoading ? (
-          <Spinner />
+          <div className="col-span-3 flex justify-center">
+            <Spinner />
+          </div>
+        ) : data?.data?.length === 0 ? (
+          <div className="col-span-3 flex flex-col items-center justify-center py-16 text-center">
+            <div className="text-4xl mb-4">
+              {" "}
+              <Image
+                src={noTrain}
+                alt="Logo White"
+                height={160}
+                className="mx-auto object-cover"
+              />
+            </div>
+            <h3 className="text-lg font-semibold text-default-700">
+              Belum ada sertifikat
+            </h3>
+            <p className="text-sm text-default-500">
+              Sertifikat yang tersedia akan muncul di sini
+            </p>
+          </div>
         ) : (
           data?.data?.map((item) => {
             return (
-              <Card shadow="none" className="border-1">
+              <Card key={item?.id} shadow="none" className="border-1">
                 <CardHeader>
                   <Image
                     alt="Card background"
@@ -60,6 +80,7 @@ export const CertificateItems = ({ onOpen }) => {
                     src={item?.image_url}
                   />
                 </CardHeader>
+
                 <CardBody className="px-3 py-4 text-center">
                   <h4
                     className={subtitle({
@@ -69,14 +90,16 @@ export const CertificateItems = ({ onOpen }) => {
                   >
                     ID: {item?.certificate_number}
                   </h4>
+
                   <h4 className={subtitle({ size: "sm", color: "grey" })}>
                     Tanggal Terbit:
                     <br />
                     {item?.assign_date}
                   </h4>
                 </CardBody>
+
                 <CardFooter className="gap-3 flex-col">
-                  <Divider className="" />
+                  <Divider />
                   <div className="flex text-primary gap-4">
                     <Link
                       onPress={() => onOpen(item)}
@@ -85,7 +108,9 @@ export const CertificateItems = ({ onOpen }) => {
                     >
                       Preview
                     </Link>
+
                     <h4> • </h4>
+
                     <Link
                       as={"button"}
                       onPress={() => handleDownload(item?.download_url)}

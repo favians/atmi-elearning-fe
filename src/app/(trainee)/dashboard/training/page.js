@@ -63,15 +63,13 @@ export default function DashboardPage() {
 
               {isEmpty && (
                 <div className="flex flex-col items-center justify-center py-20 text-center w-full">
-                  <div className="text-4xl mb-4">
-                    {" "}
-                    <Image
-                      src={noTrain}
-                      alt="Logo White"
-                      height={160}
-                      className="mx-auto object-cover"
-                    />
-                  </div>
+                  <Image
+                    src={noTrain}
+                    alt="Empty"
+                    width={140}
+                    className="mb-4 opacity-80"
+                    priority
+                  />
 
                   <h3 className="text-lg font-semibold">
                     {selectedTab === 0

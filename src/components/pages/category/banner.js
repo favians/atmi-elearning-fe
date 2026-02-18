@@ -33,6 +33,7 @@ export default function AboutCategory({ data, isLoading }) {
             className="object-cover opacity-100"
             src={data?.image_url}
             width={270}
+            height={270}
             radius="sm"
           />
         </CardHeader>
@@ -46,25 +47,27 @@ export default function AboutCategory({ data, isLoading }) {
             >
               {data?.discounted_price_fmt}
             </h4>
-            <div className="flex items-center gap-1 ">
-              <h4
-                className={subtitle({
-                  color: "red",
-                  size: "sm",
-                })}
-              >
-                {data?.discount_fmt}
-              </h4>
-              <h4
-                className={subtitle({
-                  class: "line-through",
-                  color: "red",
-                  size: "sm",
-                })}
-              >
-                {data?.price_fmt}
-              </h4>
-            </div>
+            {data?.discount_percentage > 0 && (
+              <div className="flex items-center gap-1 ">
+                <h4
+                  className={subtitle({
+                    color: "red",
+                    size: "sm",
+                  })}
+                >
+                  {data?.discount_fmt}
+                </h4>
+                <h4
+                  className={subtitle({
+                    class: "line-through",
+                    color: "red",
+                    size: "sm",
+                  })}
+                >
+                  {data?.price_fmt}
+                </h4>
+              </div>
+            )}
           </div>
 
           <Button color="primary" className="w-fit my-2">

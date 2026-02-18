@@ -247,9 +247,11 @@ export const TrainingReview = ({ data }) => {
                           {currentStep + 1}
                         </span>
                         <p className="font-medium mb-6 text-lg">
-                          {currentItem.question}
+                          {currentItem.title}
                         </p>
-
+                        <p className="font-medium mb-6 text-sm text-gray-500">
+                          {currentItem.description}
+                        </p>
                         <div className="flex flex-col gap-3">
                           {currentItem.options.map((opt, i) => (
                             <button
@@ -273,9 +275,11 @@ export const TrainingReview = ({ data }) => {
                           {currentStep + 1}
                         </span>
                         <p className="font-medium mb-6 text-lg">
-                          {currentItem.question}
+                          {currentItem.title}
                         </p>
-
+                        <p className="font-medium mb-6 text-sm text-gray-500">
+                          {currentItem.description}
+                        </p>
                         <textarea
                           className="border rounded-md p-3 w-full"
                           rows={5}

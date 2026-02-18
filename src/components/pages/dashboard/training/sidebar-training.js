@@ -7,13 +7,27 @@ import { Divider } from "@heroui/divider";
 import { Progress } from "@heroui/progress";
 import { Spinner } from "@heroui/spinner";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { GoArrowLeft } from "react-icons/go";
 import { LuSquareCheckBig } from "react-icons/lu";
 
 export const SidebarTraining = ({ data, isLoading }) => {
   const router = useRouter();
   const { selectedModule, setSelectedModule, setSelectedView } = useModule();
+  const activeRef = useRef(null);
+  const [expandedKeys, setExpandedKeys] = useState(new Set());
+  const activeModuleId = useMemo(() => {
+    if (!selectedModule || !data?.module_user_training) return null;
+
+    const foundModule = data.module_user_training.find((module) =>
+      module.training_materials.some(
+        (material) => material.material_id === selectedModule.material_id,
+      ),
+    );
+
+    return foundModule ? String(foundModule.module_id) : null;
+  }, [selectedModule, data]);
+
   useEffect(() => {
     if (!isLoading && data && data.module_user_training && !selectedModule) {
       for (const module of data.module_user_training) {
@@ -27,6 +41,19 @@ export const SidebarTraining = ({ data, isLoading }) => {
       }
     }
   }, [isLoading, data, selectedModule, setSelectedModule]);
+  useEffect(() => {
+    if (activeModuleId) {
+      setExpandedKeys(new Set([activeModuleId]));
+    }
+  }, [activeModuleId]);
+  useEffect(() => {
+    if (activeRef.current) {
+      activeRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  }, [selectedModule]);
 
   return (
     <aside className=" w-80 fixed min-h-full border-r pt-5  left-0 top-0 bg-white">
@@ -82,21 +109,15 @@ export const SidebarTraining = ({ data, isLoading }) => {
             <Divider className="my-4 " />
 
             <Accordion
-              defaultExpandedKeys={
-                data?.module_user_training
-                  ? [
-                      String(
-                        data.module_user_training.find((m) => !m.is_complete)
-                          ?.module_id ??
-                          data.module_user_training[0]?.module_id,
-                      ),
-                    ]
-                  : []
-              }
+              selectedKeys={expandedKeys}
+              onSelectionChange={(keys) => {
+                setExpandedKeys(keys);
+              }}
+              selectionMode="single"
               className="px-0 pb-8"
               itemClasses={{
-                trigger: "items-start ",
-                indicator: "mt-1 rotate-90   data-[open=true]:-rotate-90 ",
+                trigger: "items-start",
+                indicator: "mt-1 rotate-90 data-[open=true]:-rotate-90",
                 content: "pt-0",
                 title: "font-semibold text-sm",
               }}
@@ -125,6 +146,7 @@ export const SidebarTraining = ({ data, isLoading }) => {
                       selectedModule?.material_id === material?.material_id;
                     return (
                       <Checkbox
+                        ref={isSelected ? activeRef : null}
                         key={material?.material_id}
                         size="sm"
                         classNames={{

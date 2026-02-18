@@ -18,7 +18,13 @@ export default function CreateQuestionnaireForm() {
   const queryClient = useQueryClient();
   const { mutate, isPending: isLoading } = useCreateTamplateQuestionnaire();
 
-  const { control, handleSubmit } = useForm({
+  const {
+    control,
+    handleSubmit,
+    setError,
+    clearErrors,
+    formState: { errors },
+  } = useForm({
     mode: "onChange",
     resolver: yupResolver(questionnaireFormSchema),
     defaultValues: {
@@ -50,8 +56,43 @@ export default function CreateQuestionnaireForm() {
 
     return Number.isFinite(n) ? n : 0;
   };
+  const validateUniqueTitles = (questioner) => {
+    clearErrors("questioner");
 
+    const titleMap = {};
+
+    questioner.forEach((item, index) => {
+      const title = item.title?.trim();
+
+      if (!title) return;
+
+      if (titleMap[title] !== undefined) {
+        // set error di index sekarang
+        setError(`questioner.${index}.title`, {
+          type: "manual",
+          message: "Title sudah digunakan",
+        });
+
+        // set error di index pertama juga
+        setError(`questioner.${titleMap[title]}.title`, {
+          type: "manual",
+          message: "Title sudah digunakan",
+        });
+      } else {
+        titleMap[title] = index;
+      }
+    });
+
+    return Object.keys(titleMap).length === questioner.length;
+  };
   const onSubmit = (data) => {
+    const isValid = validateUniqueTitles(data.questioner);
+
+    if (!isValid) {
+      toast.error("Ada title yang sama");
+      return;
+    }
+
     const payload = {
       name: data.name,
       description: data.description,
@@ -90,18 +131,10 @@ export default function CreateQuestionnaireForm() {
       }),
     };
 
-    // 🔍 DEBUG (hapus kalau sudah yakin)
-    console.log("FINAL PAYLOAD:");
-    console.log(JSON.stringify(payload, null, 2));
-
     mutate(payload, {
       onSuccess: () => {
         toast.success("Berhasil menambahkan Template Questionnaire");
-        queryClient.invalidateQueries([queryClientKeys.GET_QUESTIONNAIRE_LIST]);
         router.back();
-      },
-      onError: (error) => {
-        toast.error(error?.message || "Terjadi kesalahan");
       },
     });
   };

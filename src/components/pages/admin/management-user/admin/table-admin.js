@@ -39,30 +39,40 @@ export default function TableAdmin(props) {
     setItem(item);
     onOpen();
   };
+
   const router = useRouter();
   const [filter, setFilter] = React.useState({
     page: 1,
     name_search: "",
     order_rule: "DESC",
+    created_date_from: null,
+    created_date_to: null,
   });
-  const { data, isLoading } = useGetAdmin({
-    params: {
-      limit: 10,
-      page: filter?.page,
-      name_search: filter?.name_search,
-      is_active: props.tabKey == "Aktif" ? true : false,
-      order_by: "id",
-      order_rule: filter?.order_rule,
-    },
-  });
+  const params = {
+    limit: 10,
+    page: filter?.page,
+    name_search: filter?.name_search,
+    is_active: props.tabKey == "Aktif",
+    order_by: "id",
+    order_rule: filter?.order_rule,
+  };
 
-  const onValueChange = React.useCallback(
-    (value) => {
-      setFilter({ ...filter, ...value });
-    },
-    [filter],
-  );
+  if (filter?.created_date_from) {
+    params.created_date_from = filter.created_date_from;
+  }
 
+  if (filter?.created_date_to) {
+    params.created_date_to = filter.created_date_to;
+  }
+
+  const { data, isLoading } = useGetAdmin({ params });
+
+  const onValueChange = React.useCallback((value) => {
+    setFilter((prev) => ({
+      ...prev,
+      ...value,
+    }));
+  }, []);
   const topContent = React.useMemo(() => {
     return <FilterAdmin onValueChange={onValueChange} />;
   });

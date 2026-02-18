@@ -18,6 +18,7 @@ export default function CategoryPage() {
   const { data, isLoading } = useGetDetailTraining({
     params: {
       training_id: id,
+      // order_rule: "DESC",
     },
   });
 

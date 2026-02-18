@@ -1,6 +1,5 @@
 "use client";
 import { CertificateItems } from "@/components/pages/dashboard/certificate/certificate-items";
-import FilterCertificate from "@/components/pages/dashboard/certificate/filter-certificate";
 import { PreviewCertificate } from "@/components/pages/dashboard/certificate/preview-certificate";
 import { headline } from "@/components/primitives";
 import { DashboardLayout } from "@/layouts/dashboard-layout";

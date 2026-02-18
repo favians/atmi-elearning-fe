@@ -1,6 +1,7 @@
 "use client";
 import { headline, subtitle } from "@/components/primitives";
 import { useTopic } from "@/context/topic-context";
+import { calculateDiscountPrice, formatRupiah } from "@/helpers/Number";
 import { useGetTopic } from "@/hooks/home/useGetTopic";
 import { useGetTraining } from "@/hooks/home/useGetTraining";
 import Section from "@/layouts/section";
@@ -132,42 +133,71 @@ export default function Topics() {
                                 {item.small_description}
                               </h4>
 
-                              <div className="flex items-center">
+                              <div className="flex items-center justify-start mb-2">
                                 <h4
                                   className={subtitle({
-                                    class: "font-semibold flex-none mb-2 mr-2",
+                                    class: "font-semibold flex-none mr-2",
                                   })}
                                 >
-                                  {item.price_fmt}
+                                  {formatRupiah(
+                                    calculateDiscountPrice(
+                                      item.price,
+                                      item?.discount_percentage,
+                                    ),
+                                  )}
                                 </h4>
-                                {item?.discounted_price_fmt && (
-                                  <h4
-                                    className={subtitle({
-                                      class: "line-through mb-2",
-                                      size: "sm",
-                                      color: "red",
-                                    })}
-                                  >
-                                    {item.discounted_price_fmt}
-                                  </h4>
+                                {item?.discount_percentage > 0 && (
+                                  <div className="flex items-center gap-1 ">
+                                    <h4
+                                      className={subtitle({
+                                        color: "red",
+                                        size: "sm",
+                                      })}
+                                    >
+                                      {item?.discounted_price_fmt}
+                                    </h4>
+                                    <h4
+                                      className={subtitle({
+                                        class: "line-through",
+                                        color: "red",
+                                        size: "sm",
+                                      })}
+                                    >
+                                      {item?.price_fmt}
+                                    </h4>
+                                  </div>
                                 )}
                               </div>
                             </div>
 
                             <div className="flex-grow" />
 
-                            <div className="flex gap-2 mt-4 items-center">
-                              <Avatar src={item?.trainer?.profile_url} />
-                              <div>
+                            <div className="flex items-center gap-3 min-h-[64px]">
+                              {/* Avatar dengan ukuran tetap */}
+                              <div className="w-12 h-12 flex-shrink-0">
+                                <Avatar
+                                  src={item?.trainer?.profile_url}
+                                  className="w-12 h-12 object-cover rounded-full"
+                                />
+                              </div>
+
+                              {/* Text container */}
+                              <div className="flex flex-col justify-center overflow-hidden">
                                 <h4
                                   className={subtitle({
                                     size: "sm",
-                                    class: "font-semibold",
+                                    class: "font-semibold truncate",
                                   })}
                                 >
                                   {item?.trainer?.full_name}
                                 </h4>
-                                <h4 className={subtitle({ size: "sm" })}>
+
+                                <h4
+                                  className={subtitle({
+                                    size: "sm",
+                                    class: "text-gray-500 ",
+                                  })}
+                                >
                                   {item?.trainer?.job}
                                 </h4>
                               </div>

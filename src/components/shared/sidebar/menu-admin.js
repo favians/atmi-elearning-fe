@@ -10,15 +10,13 @@ import { CertificateIcon } from "@/assets/icons/sidebar/certificate-icon";
 import { ManagementUserIcon } from "@/assets/icons/sidebar/management-user-icon";
 import { KuisionerIcon } from "@/assets/icons/sidebar/kuisioner-icon";
 import { KuisionerIconActive } from "@/assets/icons/sidebar/kuisioner-icon-active";
-import { ManagementNotificationIcon } from "@/assets/icons/sidebar/management-notification-icon";
-import { ManagementNotificationIconActive } from "@/assets/icons/sidebar/management-notification-icon-active";
 
 export const MenuAdmin = () => {
   const paths = usePathname();
+
   return (
     <div className={Sidebar.Body()}>
       <SidebarTitle
-        key={1}
         title="DASHBOARD"
         items={[
           <SidebarItem
@@ -74,15 +72,7 @@ export const MenuAdmin = () => {
             iconActive={<KuisionerIconActive />}
             isActive={paths?.includes("/admin/questionnaire")}
             href="/admin/questionnaire"
-          />,
-          // <SidebarItem
-          //   key={5}
-          //   title="Manajemen Notifikasi"
-          //   icon={<ManagementNotificationIcon />}
-          //   iconActive={<ManagementNotificationIconActive />}
-          //   isActive={paths?.includes("/admin/management-notification")}
-          //   href="/admin/management-notification"
-          // />,
+          />, // <SidebarItem // key={5} // title="Manajemen Notifikasi" // icon={<ManagementNotificationIcon />} // iconActive={<ManagementNotificationIconActive />} // isActive={paths?.includes("/admin/management-notification")} // href="/admin/management-notification" // />,
         ]}
       />
     </div>

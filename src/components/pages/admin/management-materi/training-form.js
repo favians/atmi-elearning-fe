@@ -5,47 +5,61 @@ import { useFieldArray } from "react-hook-form";
 import { AiOutlineMinusCircle } from "react-icons/ai";
 import { FaCirclePlus } from "react-icons/fa6";
 import { TopicForm } from "./topic-form";
-
 export const TrainingForm = (props) => {
   const { name, control } = props;
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: name,
   });
+
   return (
-    <ul className="flex flex-col gap-4">
+    <div className="w-full flex flex-col gap-4">
       {fields.map((item, index) => (
-        <li key={item.id}>
-          <div className="flex gap-2 justify-center items-center">
-            <InputForm
-              label="Judul Modul"
-              placeholder={`cth. Bagian ${index + 1}: Modul `}
-              name={`${name}.${index}.title`}
-              control={control}
-              labelPlacement="outside"
-              isRequired
-              classNames={{
-                base: "w-full",
-              }}
-            />
+        <div
+          key={item.id}
+          className="w-full border rounded-xl p-4 flex flex-col gap-4"
+        >
+          {/* Header Modul */}
+          <div className="w-full flex items-end gap-2">
+            <div className="flex-1">
+              <InputForm
+                label="Judul Modul"
+                placeholder={`cth. Bagian ${index + 1}: Modul`}
+                name={`${name}.${index}.title`}
+                control={control}
+                labelPlacement="outside"
+                isRequired
+                fullWidth
+                classNames={{
+                  base: "w-full",
+                }}
+              />
+            </div>
+
             {index > 0 && (
               <AiOutlineMinusCircle
-                size={24}
-                className="mt-5 cursor-pointer text-grey-900"
+                size={26}
+                className="mb-2 cursor-pointer text-red-500 shrink-0"
                 onClick={() => remove(index)}
               />
             )}
           </div>
-          <div className="ml-4 mt-4">
+
+          {/* Topic */}
+          <div className="w-full border rounded-lg p-4 flex flex-col gap-4">
             <TopicForm name={`${name}.${index}.topics`} control={control} />
           </div>
-        </li>
+        </div>
       ))}
+
+      {/* Button add */}
       <Button
         color="secondary"
         startContent={<FaCirclePlus />}
         fullWidth
         className="mt-2"
+        variant="bordered"
         onPress={() =>
           append({
             title: "",
@@ -59,10 +73,9 @@ export const TrainingForm = (props) => {
             ],
           })
         }
-        variant="bordered"
       >
         Tambahkan Modul
       </Button>
-    </ul>
+    </div>
   );
 };

@@ -93,7 +93,7 @@ export default function DetailAnswerQuestionaire({ id, onLoaded }) {
               <div className="space-y-2">
                 {/* Question */}
                 <p className="font-medium">
-                  {getAnswerValue(item.type)} : {item.question}
+                  {getAnswerValue(item.type)} : {item.title}
                 </p>
 
                 {/* Description */}

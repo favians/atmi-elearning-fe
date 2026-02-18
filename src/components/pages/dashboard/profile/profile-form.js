@@ -9,15 +9,46 @@ import toast from "react-hot-toast";
 import { useGetProfile } from "@/hooks/trainee/useGetProfile";
 import { useEffect, useState } from "react";
 import useEditAboutProfile from "@/hooks/home/editAboutProfile";
-
+import { useQueryClient } from "@tanstack/react-query";
+import { queryClientKeys } from "@/constants/query-client-keys"; // sesuaikan path
 export default function ProfileForm() {
   const router = useRouter();
   const { data, isLoading } = useGetProfile();
   const { control, handleSubmit, reset } = useForm({
     mode: "onChange",
   });
+  const queryClient = useQueryClient();
+  const [photoPreview, setPhotoPreview] = useState(null);
   const [photoFile, setPhotoFile] = useState(null);
   const { mutate, isPending } = useEditAboutProfile();
+  const onChangePhoto = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 500000) {
+      toast.error("File tidak boleh lebih dari 500kb");
+      return;
+    }
+
+    if (!["image/png", "image/jpeg", "image/jpg"].includes(file.type)) {
+      toast.error(`File format ${file.type} belum support`);
+      return;
+    }
+
+    // simpan file
+    setPhotoFile(file);
+
+    // buat preview
+    const previewUrl = URL.createObjectURL(file);
+    setPhotoPreview(previewUrl);
+  };
+  useEffect(() => {
+    return () => {
+      if (photoPreview) {
+        URL.revokeObjectURL(photoPreview);
+      }
+    };
+  }, [photoPreview]);
   useEffect(() => {
     if (data) {
       reset({
@@ -44,6 +75,11 @@ export default function ProfileForm() {
     mutate(payload, {
       onSuccess: () => {
         toast.success("Sukses update profile");
+
+        // invalidate profile query
+        queryClient.invalidateQueries({
+          queryKey: [queryClientKeys.GET_PROFILE],
+        });
       },
       onError: (err) => {
         toast.error(err?.response?.data?.message || "Gagal update profile");
@@ -51,20 +87,6 @@ export default function ProfileForm() {
     });
   };
 
-  const onChangePhoto = (e) => {
-    if (e.target.files?.[0]?.size > 500000) {
-      toast.error("File tidak boleh lebih dari 500kbps");
-      return;
-    }
-    if (
-      e.target.files?.[0]?.type !== "image/png" &&
-      e.target.files?.[0]?.type !== "image/jpeg" &&
-      e.target.files?.[0]?.type !== "image/jpg"
-    ) {
-      toast.error(`File format ${e.target.files?.[0]?.type} belum support`);
-      return;
-    }
-  };
   return (
     <div className="p-4 w-3/4">
       <form onSubmit={handleSubmit(onSubmit)} className="gap-4 flex">
@@ -73,7 +95,7 @@ export default function ProfileForm() {
             size="lg"
             className="w-20 h-20"
             radius="md"
-            src={!isLoading ? data.data?.profile_url : ""}
+            src={photoPreview || (!isLoading ? data.data?.profile_url : "")}
           />
           <label className="text-sm text-secondary text-center mt-2 cursor-pointer">
             <div className="mt-1">Ubah Foto</div>

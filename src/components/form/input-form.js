@@ -11,6 +11,7 @@ export default function InputForm(props) {
     isDark,
     isCurrency,
     optionForm,
+    fullWidth,
     ...rest
   } = props;
 
@@ -43,7 +44,9 @@ export default function InputForm(props) {
         };
 
         return (
-          <div className={`flex gap-1 ${optionForm ? "w-full" : "flex-col "}`}>
+          <div
+            className={`flex gap-1 ${optionForm ? "w-full" : "flex-col "} ${fullWidth ? "w-full" : ""}`}
+          >
             {/* Label */}
             {label && (
               <label

@@ -15,12 +15,12 @@ export default function Partner({ data, isLoading }) {
         Telah bekerja sama dengan berbagai <br />
         perusahaan dan akademisi terkemuka di Indonesia
       </h1>
-      <div className="flex w-2/3 flex-wrap gap-10 justify-center items-center   mt-8">
+      <div className="w-full grid grid-rows-2 grid-flow-col gap-10 mt-8 place-items-center">
         {data?.map((item, index) => (
           <Image
             key={index}
             alt={item?.partner_name}
-            className="rounded-xl mb-1"
+            className="rounded-xl object-contain"
             src={item?.partner_logo_url}
             height={56}
           />

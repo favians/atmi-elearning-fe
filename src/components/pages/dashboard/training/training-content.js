@@ -16,7 +16,29 @@ import { TrainingReview } from "./training-review";
 
 export const TrainingContent = ({ data }) => {
   const { selectedModule, setSelectedModule, selectedView } = useModule();
+  const allMaterials = React.useMemo(() => {
+    if (!data?.module_user_training) return [];
 
+    return data.module_user_training
+      .sort((a, b) => a.order - b.order)
+      .flatMap((module) =>
+        module.training_materials.map((material) => ({
+          ...material,
+          module_order: module.order,
+        })),
+      );
+  }, [data]);
+  const currentIndex = allMaterials.findIndex(
+    (m) => m.material_id === selectedModule?.material_id,
+  );
+
+  const previousMaterial =
+    currentIndex > 0 ? allMaterials[currentIndex - 1] : null;
+
+  const nextMaterial =
+    currentIndex < allMaterials.length - 1
+      ? allMaterials[currentIndex + 1]
+      : null;
   const params = useParams();
 
   const queryClient = useQueryClient();
@@ -61,12 +83,14 @@ export const TrainingContent = ({ data }) => {
       { id: selectedModule.id },
       {
         onSuccess: () => {
-          // ✅ Update the cached detail directly
-          queryClient.refetchQueries([
+          queryClient.invalidateQueries([
             queryClientKeys.GET_TRAINEE_TRAINING_DETAIL,
             { training_id: params?.id },
           ]);
-          onFindMaterial(selectedModule.learning_material_after?.material_id);
+
+          if (nextMaterial) {
+            setSelectedModule(nextMaterial);
+          }
         },
       },
     );
@@ -80,6 +104,7 @@ export const TrainingContent = ({ data }) => {
       </div>
     );
   }
+
   return (
     <div className="flex ml-[320px] mt-16 flex-col flex-1 gap-6 py-6">
       <div className="flex flex-wrap flex-grow flex-col rounded-md bg-white mx-6">
@@ -122,13 +147,9 @@ export const TrainingContent = ({ data }) => {
           </div>
 
           <div className="mt-6 flex">
-            {selectedModule?.learning_material_before?.material_title && (
+            {previousMaterial && (
               <div
-                onClick={() =>
-                  onFindMaterial(
-                    selectedModule.learning_material_before?.material_id,
-                  )
-                }
+                onClick={() => setSelectedModule(previousMaterial)}
                 className="flex cursor-pointer flex-1 gap-2 items-center"
               >
                 <BsArrowLeftCircle size={36} color="#8B95A5" />
@@ -137,18 +158,15 @@ export const TrainingContent = ({ data }) => {
                     Sebelumnya
                   </h4>
                   <h4 className={subtitle({ size: "sm" })}>
-                    {selectedModule?.learning_material_before?.material_title}
+                    {previousMaterial.title}
                   </h4>
                 </div>
               </div>
             )}
-            {selectedModule?.learning_material_after?.material_title && (
+
+            {nextMaterial && (
               <div
-                onClick={() =>
-                  onFindMaterial(
-                    selectedModule.learning_material_after?.material_id,
-                  )
-                }
+                onClick={() => setSelectedModule(nextMaterial)}
                 className="flex cursor-pointer flex-1 justify-end text-right gap-2 items-center"
               >
                 <div>
@@ -156,7 +174,7 @@ export const TrainingContent = ({ data }) => {
                     Selanjutnya
                   </h4>
                   <h4 className={subtitle({ size: "sm" })}>
-                    {selectedModule?.learning_material_after?.material_title}
+                    {nextMaterial.title}
                   </h4>
                 </div>
 

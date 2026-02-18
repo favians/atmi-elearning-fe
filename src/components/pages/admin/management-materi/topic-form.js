@@ -7,38 +7,49 @@ import React from "react";
 import { useFieldArray } from "react-hook-form";
 import { AiOutlineMinusCircle } from "react-icons/ai";
 import { FaCirclePlus } from "react-icons/fa6";
-
 export const TopicForm = (props) => {
   const { name, control } = props;
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: name,
   });
+
   return (
-    <ul className="flex flex-col gap-4">
+    <div className="w-full flex flex-col gap-4">
       {fields.map((item, index) => (
-        <li key={item.id}>
-          <div className="flex flex-col gap-2 justify-center items-center">
-            <div className="flex gap-2 w-full justify-center items-center">
+        <div
+          key={item.id}
+          className="w-full border rounded-lg p-4 flex flex-col gap-4 bg-white"
+        >
+          {/* Header Topik */}
+          <div className="flex w-full items-end gap-2">
+            <div className="flex-1">
               <InputForm
                 label="Judul Topik"
-                placeholder={`cth. Bagian ${index + 1}: Topik `}
+                placeholder={`cth. Bagian ${index + 1}: Topik`}
                 name={`${name}.${index}.topic_title`}
                 control={control}
                 labelPlacement="outside"
                 isRequired
+                fullWidth
                 classNames={{
                   base: "w-full",
                 }}
               />
-              {index > 0 && (
-                <AiOutlineMinusCircle
-                  size={24}
-                  className="mt-5 cursor-pointer text-grey-900"
-                  onClick={() => remove(index)}
-                />
-              )}
             </div>
+
+            {index > 0 && (
+              <AiOutlineMinusCircle
+                size={26}
+                className="mb-2 cursor-pointer text-red-500 shrink-0"
+                onClick={() => remove(index)}
+              />
+            )}
+          </div>
+
+          {/* Upload Materi */}
+          <div className="w-full">
             <UploadForm
               label="Upload Materi"
               name={`${name}.${index}.training_file`}
@@ -49,6 +60,10 @@ export const TopicForm = (props) => {
               accept="video/*, application/pdf"
               fullWidth
             />
+          </div>
+
+          {/* Summary */}
+          <div className="w-full">
             <TextAreaForm
               label="Summary"
               placeholder="cth. Tulis deskripsi lengkap disini"
@@ -56,7 +71,14 @@ export const TopicForm = (props) => {
               control={control}
               isRequired
               labelPlacement="outside"
+              classNames={{
+                base: "w-full",
+              }}
             />
+          </div>
+
+          {/* Upload Learning Material */}
+          <div className="w-full">
             <UploadForm
               label="Upload Learning Material"
               name={`${name}.${index}.learning_material_file`}
@@ -65,21 +87,29 @@ export const TopicForm = (props) => {
               description="File yang didukung PDF, PPT, PNG, JPG & JPEG"
               labelPlacement="outside"
               accept="application/pdf, image/*, application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.presentationml.presentation"
+              fullWidth
             />
-            <Divider className="my-2" />
           </div>
-        </li>
+        </div>
       ))}
+
+      {/* Button tambah topic */}
       <Button
         color="secondary"
         startContent={<FaCirclePlus />}
         fullWidth
-        className="mt-2"
-        onPress={() => append({ topic_title: "" })}
         variant="bordered"
+        onPress={() =>
+          append({
+            topic_title: "",
+            training_file: null,
+            summary: "",
+            learning_material_file: null,
+          })
+        }
       >
         Tambahkan Topik
       </Button>
-    </ul>
+    </div>
   );
 };

@@ -2,7 +2,6 @@
 import { headline } from "@/components/primitives";
 import { Button } from "@heroui/button";
 import { FaPlus } from "react-icons/fa";
-import FilterTrainee from "@/components/pages/admin/management-user/trainee/filter-trainee";
 import TableTrainee from "@/components/pages/admin/management-user/trainee/table-trainee";
 import { useRouter } from "next/navigation";
 

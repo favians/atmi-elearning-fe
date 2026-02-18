@@ -40,6 +40,7 @@ export default function UlasanTemplate() {
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [templateId, setTemplateId] = useState(null);
+  const [templateIdExport, setTemplateIdExport] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [dateRange, setDateRange] = useState(null);
@@ -114,7 +115,7 @@ export default function UlasanTemplate() {
     return `${day}/${month}/${year}`;
   };
   const handleExport = () => {
-    if (!exportDateRange) return;
+    if (!exportDateRange && !templateId) return;
 
     setIsExportOpen(false);
     setIsExportLoadingOpen(true);
@@ -123,6 +124,7 @@ export default function UlasanTemplate() {
     const params = {
       page: 1,
       limit: 999,
+      templateId: templateIdExport || undefined,
     };
 
     if (exportDateRange?.start) {
@@ -299,10 +301,13 @@ export default function UlasanTemplate() {
               </button>
             )}
           </div>
+          <p className="text-sm text-[#232933] ">Pilih Template.</p>
           <Select
             placeholder="Pilih Template"
-            selectedKeys={templateId ? [templateId] : []}
-            onSelectionChange={(keys) => setTemplateId(Array.from(keys)[0])}
+            selectedKeys={templateIdExport ? [templateIdExport] : []}
+            onSelectionChange={(keys) =>
+              setTemplateIdExport(Array.from(keys)[0])
+            }
             className="w-56"
           >
             {questionnaireTemplates?.data.map((item) => (
@@ -341,7 +346,18 @@ export default function UlasanTemplate() {
                     onChange={setExportDateRange}
                   />
                 </I18nProvider>
-
+                <Select
+                  placeholder="Pilih Template"
+                  selectedKeys={templateId ? [templateId] : []}
+                  onSelectionChange={(keys) =>
+                    setTemplateId(Array.from(keys)[0])
+                  }
+                  className="w-56"
+                >
+                  {questionnaireTemplates?.data.map((item) => (
+                    <SelectItem key={item.id}>{item.name}</SelectItem>
+                  ))}
+                </Select>
                 <p className="text-sm text-[#232933] mr-8">
                   Hasil ekspor memerlukan waktu 1–3 menit untuk dihasilkan dan
                   akan diunduh secara otomatis sebagai file .csv.
@@ -356,7 +372,7 @@ export default function UlasanTemplate() {
                 <Button
                   color="primary"
                   onPress={handleExport}
-                  isDisabled={!exportDateRange}
+                  isDisabled={!exportDateRange && !templateId}
                 >
                   Export
                 </Button>
