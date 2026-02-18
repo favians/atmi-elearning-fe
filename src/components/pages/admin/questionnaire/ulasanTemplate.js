@@ -124,7 +124,7 @@ export default function UlasanTemplate() {
     const params = {
       page: 1,
       limit: 999,
-      templateId: templateIdExport || undefined,
+      Questionnare_template_id: templateIdExport || undefined,
     };
 
     if (exportDateRange?.start) {
@@ -304,10 +304,8 @@ export default function UlasanTemplate() {
           <p className="text-sm text-[#232933] ">Pilih Template.</p>
           <Select
             placeholder="Pilih Template"
-            selectedKeys={templateIdExport ? [templateIdExport] : []}
-            onSelectionChange={(keys) =>
-              setTemplateIdExport(Array.from(keys)[0])
-            }
+            selectedKeys={templateId ? [templateId] : []}
+            onSelectionChange={(keys) => setTemplateId(Array.from(keys)[0])}
             className="w-56"
           >
             {questionnaireTemplates?.data.map((item) => (
@@ -348,9 +346,9 @@ export default function UlasanTemplate() {
                 </I18nProvider>
                 <Select
                   placeholder="Pilih Template"
-                  selectedKeys={templateId ? [templateId] : []}
+                  selectedKeys={templateIdExport ? [templateIdExport] : []}
                   onSelectionChange={(keys) =>
-                    setTemplateId(Array.from(keys)[0])
+                    setTemplateIdExport(Array.from(keys)[0])
                   }
                   className="w-56"
                 >
@@ -372,7 +370,7 @@ export default function UlasanTemplate() {
                 <Button
                   color="primary"
                   onPress={handleExport}
-                  isDisabled={!exportDateRange && !templateId}
+                  isDisabled={!exportDateRange || templateIdExport == null}
                 >
                   Export
                 </Button>
