@@ -24,10 +24,7 @@ import { useRouter } from "next/navigation";
 import { I18nProvider } from "@react-aria/i18n";
 import useDownloadCSV from "@/hooks/admin/useDownloadCSV";
 import { useGetQustionnaireTemplate } from "@/hooks/admin/useGetQustionnaireTemplate";
-const trainings = [
-  { key: "1", label: "Pelatihan Frontend" },
-  { key: "2", label: "Pelatihan Backend" },
-];
+
 export const columns = [
   { name: "Nama Trainee", uid: "trainee" },
   { name: "Email", uid: "email" },
@@ -124,7 +121,7 @@ export default function UlasanTemplate() {
     const params = {
       page: 1,
       limit: 999,
-      Questionnare_template_id: templateIdExport || undefined,
+      questionnaire_template_id: templateIdExport || undefined,
     };
 
     if (exportDateRange?.start) {

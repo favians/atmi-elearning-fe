@@ -18,8 +18,8 @@ export const CardTraining = ({ data }) => {
           alt="Card background"
           className="object-cover rounded-xl"
           src={data?.user_training?.photo_url}
-          width={270}
-          height={270}
+          width={264}
+          height={153}
         />
         {/* <div className="absolute flex items-center rounded-md px-2 text-xs gap-1 py-1 top-6 text-grey-900 right-6 z-10 bg-white">
           <FiAlertCircle size={15} /> Lihat Info

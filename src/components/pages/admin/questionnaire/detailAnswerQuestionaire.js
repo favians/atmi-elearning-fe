@@ -52,8 +52,10 @@ export default function DetailAnswerQuestionaire({ id, onLoaded }) {
     <div className="space-y-6 mb-10">
       {/* ================= HEADER PROFILE ================= */}
       <div className="flex gap-4 items-center border-b pb-8">
-        <Image
-          src={imageSrc}
+        <img
+          src={
+            result?.trainee_data?.profile_url?.String || "/avatar-default.png"
+          }
           alt="profile"
           width={64}
           height={64}

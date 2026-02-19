@@ -32,8 +32,8 @@ export default function AboutCategory({ data, isLoading }) {
             alt="Card background"
             className="object-cover opacity-100"
             src={data?.image_url}
-            width={270}
-            height={270}
+            width={344}
+            height={200}
             radius="sm"
           />
         </CardHeader>
@@ -41,8 +41,7 @@ export default function AboutCategory({ data, isLoading }) {
           <div className="flex-row items-center my-2 flex">
             <h4
               className={subtitle({
-                class: "font-semibold flex flex-1",
-                size: "sm",
+                class: "font-semibold flex flex-1 text-2xl",
               })}
             >
               {data?.discounted_price_fmt}
