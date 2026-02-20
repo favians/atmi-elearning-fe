@@ -291,6 +291,24 @@ export const TrainingReview = ({ data }) => {
                     )}{" "}
                   </motion.div>
                 </AnimatePresence>
+                <div className="flex gap-2 mt-4">
+                  {currentStep === totalSteps - 1 ? (
+                    <button
+                      onClick={handleSubmit}
+                      disabled={isPending}
+                      className="w-10 h-10 px-8 flex items-center justify-center rounded-lg bg-green-600 text-white hover:bg-green-700 transition disabled:opacity-50"
+                    >
+                      {isPending ? "..." : "Submit"}
+                    </button>
+                  ) : (
+                    <button
+                      onClick={nextStep}
+                      className="w-10 h-10 px-8 flex items-center justify-center rounded-lg bg-primary text-white hover:bg-green-700 transition"
+                    >
+                      Next
+                    </button>
+                  )}
+                </div>
               </div>
 
               {/* FOOTER NAVIGATION */}

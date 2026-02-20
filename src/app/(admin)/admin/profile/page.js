@@ -5,7 +5,7 @@ import { DashboardLayout } from "@/layouts/dashboard-layout";
 
 export default function SettingPage() {
   return (
-    <DashboardLayout>
+    <div className="flex flex-col min-h-screen bg-gray-100  overflow-y-auto overflow-x-hidden">
       <section className="flex flex-col justify-center gap-4 p-6">
         <div className="inline-block max-w-lg justify-center">
           <h1 className={headline({})}>Profil Saya</h1>
@@ -14,6 +14,6 @@ export default function SettingPage() {
       <div className="flex bg-white flex-wrap flex-grow flex-col">
         <ProfileForm />
       </div>
-    </DashboardLayout>
+    </div>
   );
 }

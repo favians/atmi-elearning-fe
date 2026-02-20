@@ -1,6 +1,11 @@
 import { VideoRecorder } from "@/assets/icons/general/video-recorder";
 import { subtitle } from "@/components/primitives";
-import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
+import {
+  BsArrowLeftCircle,
+  BsArrowLeftCircleFill,
+  BsArrowRightCircle,
+  BsArrowRightCircleFill,
+} from "react-icons/bs";
 import React from "react";
 import { Divider } from "@heroui/divider";
 import { PDFIcon } from "@/assets/icons/general/pdf";
@@ -150,9 +155,21 @@ export const TrainingContent = ({ data }) => {
             {previousMaterial && (
               <div
                 onClick={() => setSelectedModule(previousMaterial)}
-                className="flex cursor-pointer flex-1 gap-2 items-center"
+                className="group flex cursor-pointer flex-1 gap-2 items-center"
               >
-                <BsArrowLeftCircle size={36} color="#8B95A5" />
+                {/* Icon swap */}
+                <div className="relative w-[36px] h-[36px]">
+                  <BsArrowLeftCircle
+                    size={36}
+                    className="absolute inset-0 text-[#8B95A5] transition-opacity duration-300 group-hover:opacity-0"
+                  />
+
+                  <BsArrowLeftCircleFill
+                    size={36}
+                    className="absolute inset-0 text-[#333333] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  />
+                </div>
+
                 <div>
                   <h4 className={subtitle({ color: "grey", size: "sm" })}>
                     Sebelumnya
@@ -167,7 +184,7 @@ export const TrainingContent = ({ data }) => {
             {nextMaterial && (
               <div
                 onClick={() => setSelectedModule(nextMaterial)}
-                className="flex cursor-pointer flex-1 justify-end text-right gap-2 items-center"
+                className="group flex cursor-pointer flex-1 justify-end text-right gap-2 items-center"
               >
                 <div>
                   <h4 className={subtitle({ color: "grey", size: "sm" })}>
@@ -178,7 +195,20 @@ export const TrainingContent = ({ data }) => {
                   </h4>
                 </div>
 
-                <BsArrowRightCircle size={36} color="#8B95A5" />
+                {/* Icon container */}
+                <div className="relative w-[36px] h-[36px]">
+                  {/* outline (default) */}
+                  <BsArrowRightCircle
+                    size={36}
+                    className="absolute inset-0 text-[#8B95A5] transition-opacity duration-300 group-hover:opacity-0"
+                  />
+
+                  {/* fill (hover) */}
+                  <BsArrowRightCircleFill
+                    size={36}
+                    className="absolute inset-0 text-[#333333] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  />
+                </div>
               </div>
             )}
           </div>

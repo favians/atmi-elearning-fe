@@ -80,7 +80,13 @@ export const UserDropdown = () => {
 
         <DropdownItem
           key="settings"
-          onClick={() => router.push("/dashboard/profile")}
+          onClick={() => {
+            if (data?.data?.role === "SUPER_ADMIN") {
+              router.push("/admin/profile");
+            } else {
+              router.push("/dashboard/profile");
+            }
+          }}
         >
           <div className="flex items-center gap-2">
             <div className="w-6 justify-center flex">

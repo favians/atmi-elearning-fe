@@ -8,7 +8,7 @@ import Image from "next/image";
 import { Menu } from "./menu";
 import { Button } from "@heroui/button";
 import { useSidebarContext } from "./layout-context";
-import { MenuAdmin } from "./menu-admin";
+import { MenuAdmin } from "./menu-admin-2";
 
 export const SidebarWrapper = ({ isAdmin = false }) => {
   const { collapsed, setCollapsed } = useSidebarContext();
