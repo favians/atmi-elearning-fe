@@ -29,24 +29,29 @@ export default function TableTrainee() {
     page: 1,
     name_search: "",
     order_rule: "DESC",
+    training_id: "", // tambahkan ini
   });
-  const { data, isLoading } = useGetTrainee({
-    params: {
-      limit: 10,
-      page: filter?.page,
-      name_search: filter?.name_search,
-      is_active: true,
-      order_by: "id",
-      order_rule: filter?.order_rule,
-    },
-  });
+  const params = {
+    limit: 10,
+    page: filter?.page,
+    name_search: filter?.name_search,
+    is_active: true,
+    order_by: "id",
+    order_rule: filter?.order_rule,
+  };
 
-  const onValueChange = React.useCallback(
-    (value) => {
-      setFilter({ ...filter, ...value });
-    },
-    [filter],
-  );
+  if (filter?.training_id) {
+    params.training_id = filter.training_id;
+  }
+
+  const { data, isLoading } = useGetTrainee({ params });
+  const onValueChange = React.useCallback((value) => {
+    setFilter((prev) => ({
+      ...prev,
+      ...value,
+      page: value.page ?? 1, // reset page kalau filter berubah
+    }));
+  }, []);
 
   const topContent = React.useMemo(() => {
     return <FilterTrainee onValueChange={onValueChange} />;

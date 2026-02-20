@@ -31,9 +31,12 @@ export default function FilterTrainee(props) {
     });
   };
   const onTrainingChange = (value) => {
-    setValue("training_id", value?.currentKey);
+    const trainingId = value?.currentKey || "";
+
+    setValue("training_id", trainingId);
+
     props.onValueChange({
-      training_id: value?.currentKey,
+      training_id: trainingId,
     });
   };
   const sort = [
@@ -81,12 +84,16 @@ export default function FilterTrainee(props) {
             onSelectionChange={onSortChange}
           />
           <Button
-            className="min-w-28 "
+            className="min-w-28"
             onPress={() => {
-              const value = { name_search: "", order_rule: "DESC" };
-
               reset();
-              props.onValueChange(value);
+
+              props.onValueChange({
+                name_search: "",
+                order_rule: "DESC",
+                training_id: "", // tambahkan ini
+                page: 1,
+              });
             }}
             color="primary"
           >
