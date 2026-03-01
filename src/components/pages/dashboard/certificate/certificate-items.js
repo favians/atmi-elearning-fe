@@ -7,8 +7,9 @@ import { Link } from "@heroui/link";
 import React, { useCallback, useState } from "react";
 import FilterCertificate from "./filter-certificate";
 import noTrain from "@/assets/images/illustration/no-train.png";
-import Image from "next/image";
+
 import { Spinner } from "@heroui/spinner";
+import { Image } from "@heroui/image";
 
 export const CertificateItems = ({ onOpen }) => {
   const [filter, setFilter] = useState({
@@ -54,7 +55,6 @@ export const CertificateItems = ({ onOpen }) => {
         ) : data?.data?.length === 0 ? (
           <div className="col-span-3 flex flex-col items-center justify-center py-16 text-center">
             <div className="text-4xl mb-4">
-              {" "}
               <Image
                 src={noTrain}
                 alt="Logo White"

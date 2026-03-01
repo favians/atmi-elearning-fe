@@ -36,7 +36,7 @@ export const DetailTraining = ({ data, isLoading }) => {
             itemClasses={{
               trigger: "items-start relative",
               indicator:
-                "mt-1 rotate-90 data-[open=true]:-rotate-90 absolute left-0 top-3.5 text-black",
+                "mt-1 transition-transform duration-200 -rotate-90 data-[open=true]:rotate-90 absolute left-0 top-3.5 text-black",
               content: "pt-0",
               title: "font-semibold text-sm",
               base: "shadow-none border-1",

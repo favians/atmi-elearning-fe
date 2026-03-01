@@ -81,7 +81,10 @@ export const UserDropdown = () => {
         <DropdownItem
           key="settings"
           onClick={() => {
-            if (data?.data?.role === "SUPER_ADMIN") {
+            if (
+              data?.data?.role === "SUPER_ADMIN" ||
+              data?.data?.role === "ADMIN"
+            ) {
               router.push("/admin/profile");
             } else {
               router.push("/dashboard/profile");

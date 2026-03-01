@@ -17,7 +17,7 @@ export const NotificationsDropdown = () => {
   return (
     <Dropdown
       placement="bottom-end"
-      // onOpenChange={(isOpen) => setIsOpen(isOpen)}
+      onOpenChange={(isOpen) => setIsOpen(isOpen)}
     >
       <DropdownTrigger className="mt-1">
         <NavbarItem>

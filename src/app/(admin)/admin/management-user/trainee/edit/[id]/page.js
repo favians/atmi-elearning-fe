@@ -17,7 +17,7 @@ export default function EditTraineePage() {
           <h1 className={subtitle({ color: "primary" })}>Trainee</h1>
         </div>
         <div className="inline-block max-w-lg justify-center">
-          <h1 className={headline({})}>Tambahkan Trainee</h1>
+          <h1 className={headline({})}>Edit Trainee</h1>
         </div>
       </section>
       <div className="flex bg-white flex-wrap flex-grow flex-col">
