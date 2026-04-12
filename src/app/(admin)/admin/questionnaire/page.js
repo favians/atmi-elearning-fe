@@ -19,6 +19,7 @@ import { useGetQustionnaireTemplate } from "@/hooks/admin/useGetQustionnaireTemp
 import Image from "next/image";
 import { useGetTrainingList } from "@/hooks/admin/useGetTraining";
 import useAssignQuestionnaireTraining from "@/hooks/admin/useAssignQuestionnaireTraining";
+import toast from "react-hot-toast";
 
 export default function QuestionnairePage() {
   const router = useRouter();
@@ -44,12 +45,12 @@ export default function QuestionnairePage() {
     mutate(payload, {
       onSuccess: () => {
         setIsSuccessOpen(true);
+        setIsOpen(false);
       },
       onError: (error) => {
         toast.error(error?.message || "Terjadi kesalahan");
       },
     });
-    setIsOpen(false);
   };
   return (
     <>

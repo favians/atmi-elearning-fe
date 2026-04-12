@@ -84,13 +84,18 @@ export const questionnaireAdminService = {
   assignQuestionnaire: async (payload) => {
     const url = sprintf(URL_INTERNAL_QUESTIONNAIRE_TRAINING, { params: "" });
 
-    return api
-      .post(url, payload, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => res?.data?.data);
+    const res = await api.post(url, payload, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    // cek error dari BE
+    if (res?.data?.error?.status) {
+      throw new Error(res.data.error.msg);
+    }
+
+    return res?.data?.data;
   },
   updateQuestionnaire: async (payload) => {
     const url = sprintf(URL_INTERNAL_QUESTIONNAIRE, { params: "" });
@@ -119,9 +124,7 @@ export const questionnaireAdminService = {
 
     return api
       .delete(url, {
-        data: {
-          id: id,
-        },
+        data: id,
       })
       .then((res) => res?.data?.data);
   },

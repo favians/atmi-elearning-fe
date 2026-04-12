@@ -195,7 +195,7 @@ export const TrainingReview = ({ data }) => {
 
                         {/* 2. TITLE */}
                         <h3 className="text-lg font-semibold mb-2">
-                          {currentItem.title}
+                          {currentItem.question}
                         </h3>
 
                         {/* 3. DESCRIPTION */}
@@ -247,7 +247,7 @@ export const TrainingReview = ({ data }) => {
                           {currentStep + 1}
                         </span>
                         <p className="font-medium mb-6 text-lg">
-                          {currentItem.title}
+                          {currentItem.question}
                         </p>
                         <p className="font-medium mb-6 text-sm text-gray-500">
                           {currentItem.description}
@@ -275,7 +275,7 @@ export const TrainingReview = ({ data }) => {
                           {currentStep + 1}
                         </span>
                         <p className="font-medium mb-6 text-lg">
-                          {currentItem.title}
+                          {currentItem.question}
                         </p>
                         <p className="font-medium mb-6 text-sm text-gray-500">
                           {currentItem.description}

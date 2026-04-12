@@ -76,7 +76,7 @@ export default function Topics() {
       >
         {dataTopic?.map((item) => {
           return (
-            <Tab key={item?.id} title={item?.title}>
+            <Tab key={item?.id} title={item?.title} className="w-full">
               <div className="flex flex-wrap justify-center items-stretch w-full mt-8">
                 {isLoadingTraining && !data?.pages.length ? (
                   <Spinner />

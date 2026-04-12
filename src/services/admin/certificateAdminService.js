@@ -11,6 +11,7 @@ export const _generateCertificateData = (values) => {
 
   return data;
 };
+
 export const certificateAdminService = {
   getList: async ({ params }) => {
     const queryParamString = stringifyQueryParam(params);

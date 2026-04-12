@@ -55,7 +55,15 @@ export default function CreateMateriForm({ step, handleStep }) {
   });
 
   const onSubmit = (data) => {
-    const payload = flattenCreateMateriFormValues(data);
+    const payload = flattenCreateMateriFormValues({
+      ...data,
+      discount_percentage:
+        data.discount_percentage === null ||
+        data.discount_percentage === undefined ||
+        data.discount_percentage === ""
+          ? 0
+          : data.discount_percentage,
+    });
 
     setIsLoading(true);
     trainingAdminService
