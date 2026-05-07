@@ -1,7 +1,7 @@
 import InputForm from "@/components/form/input-form";
 import { Button } from "@heroui/button";
 import React, { useEffect } from "react";
-import { useFieldArray } from "react-hook-form";
+import { useFieldArray, useWatch } from "react-hook-form";
 import { AiOutlineMinusCircle } from "react-icons/ai";
 import { FaCirclePlus } from "react-icons/fa6";
 import { EditTopicForm } from "./edit-topic-form";
@@ -13,6 +13,29 @@ export const EditTrainingForm = (props) => {
     control,
     name: name,
   });
+
+  const moduleValues = useWatch({ control, name }) || [];
+
+  const handleAddModule = () => {
+    const ids = moduleValues
+      .map((m) => Number(m?.id))
+      .filter((id) => Number.isFinite(id) && id > 0);
+    const nextId = ids.length ? Math.max(...ids) + 1 : 1;
+
+    append({
+      id: nextId,
+      title: "",
+      topics: [
+        {
+          id: 1,
+          topic_title: "",
+          training_file: null,
+          summary: "",
+          learning_material_file: null,
+        },
+      ],
+    });
+  };
 
   const handleBack = () => {
     handleStep(0);
@@ -67,19 +90,7 @@ export const EditTrainingForm = (props) => {
         fullWidth
         className="mt-2"
         variant="bordered"
-        onPress={() =>
-          append({
-            title: "",
-            topics: [
-              {
-                topic_title: "",
-                training_file: null,
-                summary: "",
-                learning_material_file: null,
-              },
-            ],
-          })
-        }
+        onPress={handleAddModule}
       >
         Tambahkan Modul
       </Button>

@@ -3,7 +3,7 @@ import TextAreaForm from "@/components/form/textarea-form";
 import UploadForm from "@/components/form/upload-form";
 import { Button } from "@heroui/button";
 import React from "react";
-import { useFieldArray } from "react-hook-form";
+import { useFieldArray, useWatch } from "react-hook-form";
 import { AiOutlineMinusCircle } from "react-icons/ai";
 import { FaCirclePlus } from "react-icons/fa6";
 
@@ -14,6 +14,23 @@ export const EditTopicForm = (props) => {
     control,
     name: name,
   });
+
+  const topicValues = useWatch({ control, name }) || [];
+
+  const handleAddTopic = () => {
+    const ids = topicValues
+      .map((t) => Number(t?.id))
+      .filter((id) => Number.isFinite(id) && id > 0);
+    const nextId = ids.length ? Math.max(...ids) + 1 : 1;
+
+    append({
+      id: nextId,
+      topic_title: "",
+      training_file: null,
+      summary: "",
+      learning_material_file: null,
+    });
+  };
 
   return (
     <div className="w-full flex flex-col gap-4">
@@ -90,14 +107,7 @@ export const EditTopicForm = (props) => {
         startContent={<FaCirclePlus />}
         fullWidth
         variant="bordered"
-        onPress={() =>
-          append({
-            topic_title: "",
-            training_file: null,
-            summary: "",
-            learning_material_file: null,
-          })
-        }
+        onPress={handleAddTopic}
       >
         Tambahkan Topik
       </Button>
