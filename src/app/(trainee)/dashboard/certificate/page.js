@@ -15,12 +15,12 @@ export default function SertifikatPage() {
   };
   return (
     <DashboardLayout>
-      <section className="flex flex-col justify-center gap-4 p-6">
+      <section className="flex flex-col justify-center gap-4 p-6 max-[667px]:px-4 max-[667px]:py-5">
         <div className="inline-block max-w-lg justify-center">
           <h1 className={headline({})}>Sertifikat Saya</h1>
         </div>
       </section>
-      <div className="flex bg-white flex-wrap flex-grow flex-col">
+      <div className="flex flex-grow flex-col flex-wrap bg-white">
         <CertificateItems onOpen={onOpenItem} />
         <Modal
           backdrop="opaque"
@@ -28,6 +28,7 @@ export default function SertifikatPage() {
             backdrop: "bg-black/90 backdrop-opacity-10",
             body: "bg-white",
             closeButton: "text-2xl",
+            base: "max-[667px]:mx-4",
           }}
           isOpen={isOpen}
           size="5xl"

@@ -44,16 +44,16 @@ export const CertificateItems = ({ onOpen }) => {
 
   return (
     <>
-      <div className="mx-4">
+      <div className="mx-4 max-[667px]:mx-4">
         <FilterCertificate onValueChange={onValueChange} />
       </div>
-      <div className="m-4 grid grid-cols-3 gap-6">
+      <div className="m-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 xl:gap-6">
         {isLoading ? (
-          <div className="col-span-3 flex justify-center">
+          <div className="col-span-full flex justify-center">
             <Spinner />
           </div>
         ) : data?.data?.length === 0 ? (
-          <div className="col-span-3 flex flex-col items-center justify-center py-16 text-center">
+          <div className="col-span-full flex flex-col items-center justify-center py-16 text-center">
             <div className="text-4xl mb-4">
               <Image
                 src={noTrain}
@@ -72,11 +72,15 @@ export const CertificateItems = ({ onOpen }) => {
         ) : (
           data?.data?.map((item) => {
             return (
-              <Card key={item?.id} shadow="none" className="border-1">
+              <Card
+                key={item?.id}
+                shadow="none"
+                className="border-1 max-[667px]:mx-auto max-[667px]:w-full max-[667px]:max-w-[360px]"
+              >
                 <CardHeader>
                   <Image
                     alt="Card background"
-                    className="object-cover rounded-xl"
+                    className="h-auto w-full rounded-xl object-cover"
                     src={item?.image_url}
                   />
                 </CardHeader>
@@ -98,9 +102,9 @@ export const CertificateItems = ({ onOpen }) => {
                   </h4>
                 </CardBody>
 
-                <CardFooter className="gap-3 flex-col">
+                <CardFooter className="flex-col gap-3">
                   <Divider />
-                  <div className="flex text-primary gap-4">
+                  <div className="flex gap-4 text-primary">
                     <Link
                       onPress={() => onOpen(item)}
                       size="sm"

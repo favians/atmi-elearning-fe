@@ -84,8 +84,8 @@ export const TrainingReview = ({ data }) => {
     }
   }, [data]);
   return (
-    <div className="flex ml-[320px] mt-16 flex-col flex-1 gap-6 py-6">
-      <div className="flex flex-col rounded-md bg-white mx-6 p-8 overflow-hidden items-center min-h-[600px]">
+    <div className="mt-0 flex flex-1 flex-col gap-4 py-4 max-[667px]:ml-0 md:ml-[320px] md:mt-16 md:gap-6 md:py-6">
+      <div className="mx-4 flex min-h-[600px] flex-col items-center overflow-hidden rounded-md bg-white p-5 max-[667px]:min-h-[520px] md:mx-6 md:p-8">
         <AnimatePresence mode="wait">
           {submitted ? (
             <motion.div
@@ -100,7 +100,7 @@ export const TrainingReview = ({ data }) => {
                 src={successSubmit}
                 alt="successSubmit"
                 height={160}
-                className="mx-auto object-cover"
+                className="mx-auto h-auto object-cover max-[667px]:w-[128px]"
               />
 
               <h2 className="text-xl font-semibold mt-8">
@@ -114,7 +114,7 @@ export const TrainingReview = ({ data }) => {
 
               <button
                 onClick={() => router.push("/dashboard/training")}
-                className="mt-10 px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+                className="mt-10 rounded-md bg-blue-600 px-6 py-2 text-white transition hover:bg-blue-700 max-[667px]:w-full"
               >
                 Kembali ke Dashboard
               </button>
@@ -132,7 +132,7 @@ export const TrainingReview = ({ data }) => {
                 src={note}
                 alt="NOte"
                 height={160}
-                className="mx-auto object-cover"
+                className="mx-auto h-auto object-cover max-[667px]:w-[128px]"
               />
 
               <h2 className="text-xl font-semibold mt-8 text-center">
@@ -148,7 +148,7 @@ export const TrainingReview = ({ data }) => {
 
               <button
                 onClick={() => setStarted(true)}
-                className="mt-10 px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+                className="mt-10 rounded-md bg-blue-600 px-6 py-2 text-white transition hover:bg-blue-700 max-[667px]:w-full"
               >
                 Start
               </button>
@@ -177,7 +177,7 @@ export const TrainingReview = ({ data }) => {
                 </div>
               )}
               {/* QUESTION SECTION */}
-              <div className="w-[700px] mx-auto relative min-h-[300px]">
+              <div className="relative mx-auto min-h-[300px] w-full max-w-[700px]">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={currentStep}
@@ -211,7 +211,7 @@ export const TrainingReview = ({ data }) => {
                         </p>
 
                         {/* 5. Scale */}
-                        <div className="flex gap-3 mb-3 w-full justify-center">
+                        <div className="mb-3 flex w-full flex-wrap justify-center gap-3">
                           {Array.from(
                             { length: currentItem.max_range_scale },
                             (_, i) => i + 1,
@@ -291,19 +291,19 @@ export const TrainingReview = ({ data }) => {
                     )}{" "}
                   </motion.div>
                 </AnimatePresence>
-                <div className="flex gap-2 mt-4">
+                <div className="mt-4 flex gap-2">
                   {currentStep === totalSteps - 1 ? (
                     <button
                       onClick={handleSubmit}
                       disabled={isPending}
-                      className="w-10 h-10 px-8 flex items-center justify-center rounded-lg bg-green-600 text-white hover:bg-green-700 transition disabled:opacity-50"
+                      className="flex h-10 items-center justify-center rounded-lg bg-green-600 px-8 text-white transition hover:bg-green-700 disabled:opacity-50"
                     >
                       {isPending ? "..." : "Submit"}
                     </button>
                   ) : (
                     <button
                       onClick={nextStep}
-                      className="w-10 h-10 px-8 flex items-center justify-center rounded-lg bg-primary text-white hover:bg-green-700 transition"
+                      className="flex h-10 items-center justify-center rounded-lg bg-primary px-8 text-white transition hover:bg-green-700"
                     >
                       Next
                     </button>
@@ -312,7 +312,7 @@ export const TrainingReview = ({ data }) => {
               </div>
 
               {/* FOOTER NAVIGATION */}
-              <div className="mt-12 flex justify-end items-center gap-6">
+              <div className="mt-12 flex items-start justify-end gap-6 max-[667px]:flex-col max-[667px]:items-stretch">
                 {/* Progress kecil */}
                 <div className="flex flex-col items-start gap-2">
                   <span className="text-xs text-gray-500 mt-1">

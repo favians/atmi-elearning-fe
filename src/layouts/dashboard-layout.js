@@ -25,7 +25,7 @@ export const DashboardLayout = ({ children }) => {
 
         <div className="relative flex min-h-screen bg-gray-100  overflow-y-auto overflow-x-hidden">
           <SidebarWrapper />
-          <div className="flex ml-[288px] mt-16 flex-col flex-1">
+          <div className="mt-16 flex flex-1 flex-col max-[667px]:ml-0 md:ml-[288px]">
             {children}
           </div>
         </div>

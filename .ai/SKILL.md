@@ -83,10 +83,25 @@ Do not change desktop or tablet behavior unless the user explicitly asks for it.
 - Empty states should use local assets when a specific illustration is requested, rather than generic text-only boxes.
 - Small spacing requests in search/empty states should be handled on the exact wrapper around the illustration/content, not by changing the entire page section padding unless the user asks for that.
 
+### For dashboard and training pages
+
+- Treat the trainee dashboard shell and the training cards as separate problems.
+- If a desktop dashboard gap appears, check whether the sidebar is both taking normal layout width and the content also still has a left margin offset.
+- For the trainee shell, desktop may use a fixed left sidebar while phone uses a top burger/off-canvas pattern. Do not mix those layout modes accidentally.
+- When fixing dashboard cards, avoid forcing large `min-height` values inside content sections unless the user explicitly wants a tall card.
+- If the user wants card sizing to stay stable across resolutions, prefer fixed card width with natural content height over stretch-based grid sizing.
+- If the card CTA must stay visible, verify that fixed image height, text clamp, and content spacing still leave room for the progress section and button.
+
 ### For hero/banner sections
 
 - If the user asks to hide media on phone, keep desktop as-is and hide only the media container on mobile.
 - Preserve original desktop spacing and headline structure unless explicitly asked to redesign it.
+
+### For dev/runtime behavior in this repo
+
+- Prefer `next dev` over `next dev --turbo` in this repository.
+- If the browser shows missing CSS, missing required error components, or `Cannot read properties of undefined (reading 'call')` after changes, check whether `.next` cache or dev chunks are corrupted before assuming the component code is wrong.
+- A clean recovery path here is: clear `.next`, stop the stale dev server, then restart `npm run dev`.
 
 ## Do Not Do
 
@@ -105,6 +120,8 @@ Do not change desktop or tablet behavior unless the user explicitly asks for it.
 - fixed-height thumbnail frames with `object-cover` for uneven training cover images
 - navbar search redirecting to `/search?q=...` instead of maintaining a complex inline result dropdown
 - dedicated illustrated empty states that replace result headings when no data is found
+- desktop fixed sidebar plus mobile burger/off-canvas dashboard navigation
+- fixed-width dashboard cards with content-driven height when consistency matters more than full responsive stretching
 
 ## Validation
 

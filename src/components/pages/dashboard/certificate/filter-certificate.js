@@ -34,8 +34,8 @@ export default function FilterCertificate(props) {
   ];
   return (
     <div>
-      <form className=" gap-4 flex justify-start mt-2">
-        <div className="w-[850px] mt-5">
+      <form className="mt-2 flex justify-start gap-4 max-[667px]:flex-col">
+        <div className="mt-5 w-[850px] max-[667px]:mt-0 max-[667px]:w-full">
           {" "}
           <InputForm
             label=" "
@@ -48,19 +48,21 @@ export default function FilterCertificate(props) {
             onValueChange={onSearchChange}
           />
         </div>
-        <SelectForm
-          label="Sort"
-          placeholder="Sort"
-          name="sort"
-          control={control}
-          data={sort}
-          labelPlacement="outside"
-          classNames={{ label: "hidden" }}
-          onSelectionChange={onSortChange}
-        />
+        <div className="max-[667px]:w-full">
+          <SelectForm
+            label="Sort"
+            placeholder="Sort"
+            name="sort"
+            control={control}
+            data={sort}
+            labelPlacement="outside"
+            classNames={{ label: "hidden" }}
+            onSelectionChange={onSortChange}
+          />
+        </div>
 
         <Button
-          className="min-w-28 mt-6"
+          className="mt-6 min-w-28 max-[667px]:mt-0 max-[667px]:w-full"
           onPress={() => {
             const value = { name_search: "", order_rule: "DESC" };
 

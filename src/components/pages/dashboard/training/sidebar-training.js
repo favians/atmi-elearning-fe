@@ -56,12 +56,12 @@ export const SidebarTraining = ({ data, isLoading }) => {
   }, [selectedModule]);
 
   return (
-    <aside className=" w-80 fixed min-h-full border-r pt-5  left-0 top-0 bg-white">
+    <aside className="left-0 top-0 w-80 border-r bg-white pt-5 max-[667px]:relative max-[667px]:w-full max-[667px]:min-h-0 max-[667px]:border-r-0 max-[667px]:border-b md:fixed md:min-h-full">
       <div className={Sidebar()}>
         {isLoading ? (
           <Spinner className="mt-12" />
         ) : (
-          <div className="flex-1 py-8 flex flex-col justify-between overflow-y-auto max-h-[calc(100vh)] scrollbar-hidden">
+          <div className="scrollbar-hidden flex flex-1 flex-col justify-between overflow-y-auto py-8 max-[667px]:px-4 max-[667px]:pt-4 max-[667px]:pb-6 md:max-h-[calc(100vh)]">
             <div
               onClick={() => router.back()}
               className="text-primary cursor-pointer flex items-center text-sm gap-2"

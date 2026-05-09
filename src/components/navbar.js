@@ -10,17 +10,14 @@ import {
 } from "@heroui/navbar";
 // import React from "react";
 import { Button } from "@heroui/button";
-import { Link } from "@heroui/link";
 import { Input } from "@heroui/input";
 import NextLink from "next/link";
 import clsx from "clsx";
 
-import { siteConfig } from "@/config/site";
-
 import logoWhite from "@/assets/images/logo/logo_white.png";
 import logo from "@/assets/images/logo/logo.png";
 // import { ThemeSwitch } from "@/components/theme-switch";
-import { GithubIcon, SearchIcon, ChevronDown } from "@/components/icons";
+import { SearchIcon, ChevronDown } from "@/components/icons";
 import {
   Dropdown,
   DropdownItem,
@@ -85,6 +82,7 @@ export const Navbar = ({ isDark }) => {
     <NextUINavbar
       classNames={{
         base: [isDark ? "bg-dark-blue" : "bg-white"],
+        menu: [isDark ? "bg-dark-blue" : "bg-[#003452]"],
       }}
       maxWidth="xl"
       position="sticky"
@@ -256,10 +254,31 @@ export const Navbar = ({ isDark }) => {
       </NavbarContent>
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-        <Link isExternal href={siteConfig.links.github}>
-          <GithubIcon className="text-default-500" />
-        </Link>
-        <NavbarMenuToggle />
+        <NavbarMenuToggle
+          className="text-white"
+          icon={(isOpen) => (
+            <div className="flex h-5 w-6 flex-col justify-center gap-1">
+              <span
+                className={clsx(
+                  "block h-0.5 w-6 rounded-full bg-white transition-transform duration-200",
+                  isOpen && "translate-y-1.5 rotate-45",
+                )}
+              />
+              <span
+                className={clsx(
+                  "block h-0.5 w-6 rounded-full bg-white transition-opacity duration-200",
+                  isOpen && "opacity-0",
+                )}
+              />
+              <span
+                className={clsx(
+                  "block h-0.5 w-6 rounded-full bg-white transition-transform duration-200",
+                  isOpen && "-translate-y-1.5 -rotate-45",
+                )}
+              />
+            </div>
+          )}
+        />
       </NavbarContent>
 
       <NavbarMenu>

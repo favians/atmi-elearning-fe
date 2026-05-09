@@ -342,6 +342,47 @@ Behavior:
 - when results exist, the page shows the result count and training cards
 - when results are empty, the page hides result-heading copy and shows the dedicated illustration/message state instead
 
+### Trainee dashboard shell
+
+- the trainee dashboard uses `src/layouts/dashboard-layout.js`
+- the shell combines:
+  - `src/components/shared/navbar/navbar.js`
+  - `src/components/shared/sidebar/sidebar.js`
+  - `SidebarContext` from `src/components/shared/sidebar/layout-context.js`
+- current behavior is split by viewport:
+  - desktop: fixed left sidebar plus top navbar
+  - phone: top navbar with burger trigger and off-canvas sidebar
+
+### Training list page
+
+- route: `/dashboard/training`
+- page file: `src/app/(trainee)/dashboard/training/page.js`
+- key feature component: `src/components/pages/dashboard/training/card-training.js`
+- data flow:
+  `DashboardPage` -> `useGetTraining()` -> training list -> `CardTraining`
+
+Current UI behavior:
+
+- tabs switch between `IN_PROGRESS` and `DONE`
+- cards are now rendered in a wrapping flex row instead of a stretch grid
+- each card can use a fixed width while its height follows content
+- desktop spacing depends on the sidebar being `fixed`; if that changes, the content margin logic must be revisited
+
+### Training detail page
+
+- route: `/dashboard/training/[id]`
+- page file: `src/app/(trainee)/dashboard/training/[id]/page.js`
+- main components:
+  - `sidebar-training.js`
+  - `training-content.js`
+  - `training-review.js`
+
+Responsive behavior learned here:
+
+- desktop still uses a left learning sidebar model
+- phone moves toward stacked content and removes hard desktop offsets
+- the shell and the training content offsets must stay in sync, otherwise the page creates large empty regions or clipped content
+
 ## Current Frontend Caveats
 
 These are useful to remember before future UI work:
@@ -358,6 +399,17 @@ For reliable mobile behavior in this app-router setup, viewport configuration be
 - phone: dropdown selector
 
 If that file is edited again, treat those as separate presentation modes sharing the same data source.
+
+### 3. `next dev --turbo` is not stable for this codebase
+
+This repository produced multiple dev-only chunk/runtime failures under Turbopack, including:
+
+- missing required error components
+- missing generated CSS/JS assets
+- `Cannot find module './4472.js'`
+- `Cannot read properties of undefined (reading 'call')`
+
+The safe dev path here is currently plain `next dev`, and corrupted `.next` output may need to be cleared when those failures appear.
 
 ### 3. External images need verification
 

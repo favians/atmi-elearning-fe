@@ -38,7 +38,7 @@ export const UserDropdown = () => {
           {isLoading ? (
             <Spinner />
           ) : (
-            <div className="flex items-center gap-2 cursor-pointer">
+            <div className="flex cursor-pointer items-center gap-2">
               <Avatar
                 as="button"
                 color="secondary"
@@ -46,7 +46,7 @@ export const UserDropdown = () => {
                 className="w-7 h-7"
                 src={data?.data?.profile_url}
               />
-              <div>
+              <div className="hidden md:block">
                 <div className="font-normal text-sm">
                   {data?.data?.full_name}
                 </div>
@@ -61,7 +61,7 @@ export const UserDropdown = () => {
                 </h4>
               </div>
 
-              <GoChevronDown />
+              <GoChevronDown className="text-[#003452]" />
             </div>
           )}
         </DropdownTrigger>

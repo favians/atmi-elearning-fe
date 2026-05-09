@@ -12,88 +12,99 @@ import { FiAlertCircle } from "react-icons/fi";
 export const CardTraining = ({ data }) => {
   const router = useRouter();
   return (
-    <Card className="py-0 h-fit">
+    <Card className="w-[288px] py-0">
       <CardHeader className="pb-2 flex-col relative items-start">
         <Image
           alt="Card background"
-          className="object-cover rounded-xl"
+          className="h-[131px] w-[288px] rounded-xl object-cover"
           src={data?.user_training?.photo_url}
-          width={264}
-          height={153}
+          width={288}
+          height={131}
         />
         {/* <div className="absolute flex items-center rounded-md px-2 text-xs gap-1 py-1 top-6 text-grey-900 right-6 z-10 bg-white">
           <FiAlertCircle size={15} /> Lihat Info
         </div> */}
       </CardHeader>
-      <CardBody className="overflow-visible pt-0 ">
-        <h4 className={subtitle({ size: "xs" })}>
-          {data?.user_training?.material_count} Materi Pembelajaran •{" "}
-          {data?.user_training?.duration_fmt}
-        </h4>
-        <h3 className={subtitle({ class: "mt-2 font-semibold" })}>
-          {data?.user_training?.title}
-        </h3>
-        <h4 className={subtitle({ size: "sm", class: "mt-2" })}>
-          {data?.user_training?.small_description}
-        </h4>
-
-        <div className="mt-4 items-center gap-2 flex">
-          <Avatar size="sm" src={data?.trainer_data?.photo_profile_url} />
-          <div>
-            <h4 className={subtitle({ size: "sm" })}>
-              {data?.trainer_data?.full_name}
-            </h4>
-            <h4 className={subtitle({ size: "xs", color: "grey" })}>
-              {data?.trainer_data?.job}
-            </h4>
-          </div>
-        </div>
-
-        <div className="flex mt-4 items-center">
+      <CardBody className="overflow-visible pt-0 flex flex-col">
+        <div>
+          <h4 className={subtitle({ size: "xs" })}>
+            {data?.user_training?.material_count} Materi Pembelajaran •{" "}
+            {data?.user_training?.duration_fmt}
+          </h4>
+          <h3
+            className={subtitle({ class: "mt-2 font-semibold line-clamp-2" })}
+          >
+            {data?.user_training?.title}
+          </h3>
           <h4
             className={subtitle({
               size: "sm",
-              color: "grey",
-              className: "flex flex-1",
+              class: "mt-2 line-clamp-4",
             })}
           >
-            Progress
+            {data?.user_training?.small_description}
           </h4>
-          <div>
-            <h4
-              className={subtitle({
-                size: "xs",
-                color: "grey",
-                class: "flex gap-1",
-              })}
-            >
-              {data?.training_progress?.percentage_fmt}{" "}
-              <div className="font-semibold">of</div> 100%
-            </h4>
+
+          <div className="mt-4 flex items-center gap-2">
+            <Avatar size="sm" src={data?.trainer_data?.photo_profile_url} />
+            <div>
+              <h4 className={subtitle({ size: "sm" })}>
+                {data?.trainer_data?.full_name}
+              </h4>
+              <h4 className={subtitle({ size: "xs", color: "grey" })}>
+                {data?.trainer_data?.job}
+              </h4>
+            </div>
           </div>
         </div>
 
-        <div className="my-2">
-          <Progress
-            aria-label="Loading..."
-            className="max-w-md h-2"
-            size="md"
-            value={data?.training_progress?.percentage}
-            color="warning"
-          />
-        </div>
+        <div className="mt-6">
+          <div className="flex items-center">
+            <h4
+              className={subtitle({
+                size: "sm",
+                color: "grey",
+                className: "flex flex-1",
+              })}
+            >
+              Progress
+            </h4>
+            <div>
+              <h4
+                className={subtitle({
+                  size: "xs",
+                  color: "grey",
+                  class: "flex gap-1",
+                })}
+              >
+                {data?.training_progress?.percentage_fmt}{" "}
+                <div className="font-semibold">of</div> 100%
+              </h4>
+            </div>
+          </div>
+
+          <div className="my-2">
+            <Progress
+              aria-label="Loading..."
+              className="max-w-md h-2"
+              size="md"
+              value={data?.training_progress?.percentage}
+              color="warning"
+            />
+          </div>
 
         <Button
           radius="sm"
           startContent={<FaPlay />}
-          className="mt-2"
+          className="mt-4 w-full"
           color="primary"
           onPress={() =>
             router.push(`/dashboard/training/${data?.user_training?.id}`)
           }
-        >
-          Mulai Pelatihan
-        </Button>
+          >
+            Mulai Pelatihan
+          </Button>
+        </div>
       </CardBody>
     </Card>
   );

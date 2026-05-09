@@ -24,12 +24,12 @@ export default function DashboardPage() {
     <DashboardLayout>
       <div key={"primary"} className="w-full flex items-center">
         <Alert
-          classNames={{ base: "rounded-none" }}
+          classNames={{ base: "rounded-none max-[667px]:px-4 max-[667px]:py-3" }}
           color={"primary"}
           title={`Selesaikan pelatihan dengan tepat waktu untuk dapatkan sertifikat.`}
         />
       </div>
-      <section className="flex flex-col justify-center gap-4 p-6">
+      <section className="flex flex-col justify-center gap-4 p-6 max-[667px]:px-4 max-[667px]:py-5">
         <div className="inline-block max-w-lg justify-center">
           <h1 className={headline({})}>Pelatihan Saya</h1>
         </div>
@@ -44,11 +44,11 @@ export default function DashboardPage() {
           }}
           classNames={{
             tabList:
-              "gap-8 w-full relative w-fit rounded-none p-0 border-divider mx-6",
+              "relative mx-6 w-fit gap-8 rounded-none border-divider p-0 max-[667px]:mx-4 max-[667px]:w-[calc(100%-2rem)] max-[667px]:gap-4 max-[667px]:overflow-x-auto",
             cursor: "w-full bg-blue",
-            tab: "px-0 py-0 h-12 ",
+            tab: "h-12 px-0 py-0 whitespace-nowrap",
             tabContent: "group-data-[selected=true]:text-blue",
-            panel: "bg-white grow p-6 flex border-t flex-1",
+            panel: "flex grow border-t bg-white p-6 max-[667px]:p-4",
           }}
           color="primary"
           variant="underlined"
@@ -62,12 +62,12 @@ export default function DashboardPage() {
               )}
 
               {isEmpty && (
-                <div className="flex flex-col items-center justify-center py-20 text-center w-full">
+                <div className="flex w-full flex-col items-center justify-center py-20 text-center max-[667px]:py-14">
                   <Image
                     src={noTrain}
                     alt="Empty"
                     width={140}
-                    className="mb-4 opacity-80"
+                    className="mb-4 opacity-80 max-[667px]:w-[112px]"
                     priority
                   />
 
@@ -86,7 +86,7 @@ export default function DashboardPage() {
               )}
 
               {!isLoading && !isEmpty && (
-                <div className="grid grid-cols-4 gap-6">
+                <div className="flex flex-wrap items-start gap-6 max-[667px]:justify-center max-[667px]:gap-4">
                   {trainings.map((item) => (
                     <CardTraining key={item?.id} data={item} />
                   ))}

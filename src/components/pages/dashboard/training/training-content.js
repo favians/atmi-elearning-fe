@@ -54,8 +54,8 @@ export const TrainingContent = ({ data }) => {
   }
   if (!selectedModule) {
     return (
-      <div className="flex ml-[320px] mt-16 flex-col flex-1 gap-6 py-6">
-        <h4 className={subtitle({ class: "mx-6" })}>
+      <div className="mt-16 flex flex-1 flex-col gap-6 py-6 max-[667px]:ml-0 md:ml-[320px]">
+        <h4 className={subtitle({ class: "mx-4 md:mx-6" })}>
           Silakan pilih materi pada sidebar untuk melihat konten
         </h4>
       </div>
@@ -102,8 +102,8 @@ export const TrainingContent = ({ data }) => {
   };
   if (!selectedModule) {
     return (
-      <div className="flex ml-[320px] mt-16 flex-col flex-1 gap-6 py-6">
-        <h4 className={subtitle({ class: "mx-6" })}>
+      <div className="mt-16 flex flex-1 flex-col gap-6 py-6 max-[667px]:ml-0 md:ml-[320px]">
+        <h4 className={subtitle({ class: "mx-4 md:mx-6" })}>
           Silakan pilih materi pada sidebar untuk melihat konten
         </h4>
       </div>
@@ -111,8 +111,8 @@ export const TrainingContent = ({ data }) => {
   }
 
   return (
-    <div className="flex ml-[320px] mt-16 flex-col flex-1 gap-6 py-6">
-      <div className="flex flex-wrap flex-grow flex-col rounded-md bg-white mx-6">
+    <div className="mt-0 flex flex-1 flex-col gap-4 py-4 max-[667px]:ml-0 md:ml-[320px] md:mt-16 md:gap-6 md:py-6">
+      <div className="mx-4 flex flex-grow flex-wrap flex-col rounded-md bg-white md:mx-6">
         {/* <PDFViewer url="https://pslb3.menlhk.go.id/internal/uploads/pengumuman/1545111808_contoh-pdf.pdf" /> */}
         {selectedModule?.type == "VIDEO" ? (
           <VideoViewer
@@ -127,7 +127,7 @@ export const TrainingContent = ({ data }) => {
           />
         )}
       </div>
-      <div className="flex flex-wrap flex-grow flex-col rounded-md bg-white mx-6 p-4">
+      <div className="mx-4 flex flex-grow flex-wrap flex-col rounded-md bg-white p-4 md:mx-6">
         <div>
           <div className="flex items-center gap-2">
             <h4 className={subtitle({ class: "font-semibold" })}>
@@ -151,11 +151,11 @@ export const TrainingContent = ({ data }) => {
             </h4>
           </div>
 
-          <div className="mt-6 flex">
+          <div className="mt-6 flex flex-col gap-4 max-[667px]:gap-5 md:flex-row">
             {previousMaterial && (
               <div
                 onClick={() => setSelectedModule(previousMaterial)}
-                className="group flex cursor-pointer flex-1 gap-2 items-center"
+                className="group flex flex-1 cursor-pointer items-center gap-2"
               >
                 {/* Icon swap */}
                 <div className="relative w-[36px] h-[36px]">
@@ -184,7 +184,7 @@ export const TrainingContent = ({ data }) => {
             {nextMaterial && (
               <div
                 onClick={() => setSelectedModule(nextMaterial)}
-                className="group flex cursor-pointer flex-1 justify-end text-right gap-2 items-center"
+                className="group flex flex-1 cursor-pointer items-center gap-2 text-left max-[667px]:justify-start md:justify-end md:text-right"
               >
                 <div>
                   <h4 className={subtitle({ color: "grey", size: "sm" })}>
@@ -235,11 +235,11 @@ export const TrainingContent = ({ data }) => {
             <div
               className={subtitle({
                 class:
-                  "border-1 w-fit px-4 py-3 rounded-lg flex gap-3  text-sm ",
+                  "border-1 flex w-full gap-3 rounded-lg px-4 py-3 text-sm md:w-fit",
               })}
             >
               <PDFIcon />
-              <div className=" items-center gap-2">
+              <div className="min-w-0 items-center gap-2">
                 {selectedModule?.learning_material_url.split("/").pop()}
                 {/* <h4 className={subtitle({ size: "sm", color: "grey" })}>
                                120 KB
