@@ -5,7 +5,10 @@ import React from "react";
 
 export default function CTA() {
   return (
-    <Section className="bg-grey-400" wrapperClass="p-16 text-center">
+    <Section
+      className="bg-grey-400"
+      wrapperClass="p-16 text-center max-[667px]:px-6 max-[667px]:py-12"
+    >
       <h3 className={title({ class: " mb-4" })}>
         Ingin belajar profesional
         <br />
@@ -16,6 +19,7 @@ export default function CTA() {
       </h4>
       <Button
         color="primary"
+        className="max-[667px]:w-full"
         onPress={() =>
           window.open("https://forms.gle/q43rtuwZqPn2TXjg7", "_blank")
         }

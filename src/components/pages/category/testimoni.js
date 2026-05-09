@@ -19,7 +19,7 @@ export default function Testimoni() {
   };
 
   return (
-    <Section className="bg-grey-300" wrapperClass={"py-16"}>
+    <Section className="bg-grey-300" wrapperClass={"py-16 max-[667px]:py-12"}>
       <Swiper
         slidesPerView={2}
         pagination={pagination}
@@ -29,6 +29,14 @@ export default function Testimoni() {
           disableOnInteraction: false,
         }}
         modules={[Autoplay, Pagination]}
+        breakpoints={{
+          0: {
+            slidesPerView: 1,
+          },
+          668: {
+            slidesPerView: 2,
+          },
+        }}
       >
         {isLoading ? (
           <Spinner />
@@ -38,7 +46,7 @@ export default function Testimoni() {
             const review_rating = item?.review_rating || 0;
             return (
               <SwiperSlide key={index} className="flex h-full">
-                <div className="p-10 flex flex-col bg-white w-full rounded-lg h-full">
+                <div className="p-10 flex flex-col bg-white w-full rounded-lg h-full max-[667px]:p-6">
                   <h4
                     className={subtitle({
                       class: "font-semibold mb-4",
@@ -54,11 +62,11 @@ export default function Testimoni() {
                   {/* Spacer to push bottom content to the bottom */}
                   <div className="flex-1" />
 
-                  <div className="flex items-center gap-2 pt-4">
+                  <div className="flex items-center gap-2 pt-4 max-[667px]:flex-col max-[667px]:items-start max-[667px]:gap-3">
                     <h4 className={subtitle({ class: "font-semibold" })}>
                       {item?.trainee_name}
                     </h4>
-                    <div className="flex-1 gap-0.5 justify-end flex">
+                    <div className="flex-1 gap-0.5 justify-end flex max-[667px]:flex-none">
                       {[...Array(5)].map((_, index) => (
                         <StarIcon
                           key={index}

@@ -9,9 +9,9 @@ export default function CustomerCounter({ data, isLoading }) {
   return (
     <Section
       className="bg-cyan-blue flex lg:h-[280px]"
-      wrapperClass="flex items-center "
+      wrapperClass="flex items-center max-[667px]:py-10"
     >
-      <div className="grid grid-cols-4 w-full gap-4">
+      <div className="grid grid-cols-4 w-full gap-4 max-[667px]:grid-cols-1">
         <Card radius="sm" shadow="none" className="py-4 col-span-1">
           <Skeleton className="mx-4 min-h-16 rounded-lg" isLoaded={!isLoading}>
             <CardHeader className="flex justify-center gap-2">

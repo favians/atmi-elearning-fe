@@ -37,8 +37,8 @@ export const FAQ = () => {
   const [key, setKey] = useState("1");
   return (
     <Section
-      className={`my-16 max-w-[896px] mx-auto `}
-      wrapperClass={`accordion ${`accordion-${key}`}`}
+      className={`my-16 max-w-[896px] mx-auto max-[667px]:my-10 `}
+      wrapperClass={`accordion ${`accordion-${key}`} max-[667px]:px-6`}
     >
       <div className="text-center">
         <Chip variant="bordered">FAQ</Chip>

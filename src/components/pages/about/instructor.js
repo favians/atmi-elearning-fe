@@ -40,7 +40,7 @@ export default function Instructor({ data, isLoading }) {
   );
 
   return (
-    <Section wrapperClass="p-16 items-center">
+    <Section wrapperClass="p-16 items-center max-[667px]:px-6 max-[667px]:py-12">
       <h3 className={headline({ class: "mb-2 text-center" })}>
         Instruktur kami
       </h3>
@@ -54,9 +54,12 @@ export default function Instructor({ data, isLoading }) {
           <Spinner />
         </div>
       ) : data.length < 4 ? (
-        <div className="flex justify-center gap-8 flex-wrap">
+        <div className="flex justify-center gap-8 flex-wrap max-[667px]:gap-4">
           {data.map((item) => (
-            <div key={item?.id} className="max-w-[25%] w-full">
+            <div
+              key={item?.id}
+              className="max-w-[25%] w-full max-[667px]:max-w-full"
+            >
               {renderCard(item)}
             </div>
           ))}
@@ -73,6 +76,16 @@ export default function Instructor({ data, isLoading }) {
           }}
           speed={1000}
           modules={[Autoplay, Pagination]}
+          breakpoints={{
+            0: {
+              slidesPerView: 1,
+              slidesPerGroup: 1,
+            },
+            668: {
+              slidesPerView: 4,
+              slidesPerGroup: 4,
+            },
+          }}
         >
           {data.map((item) => (
             <SwiperSlide key={item?.id}>{renderCard(item)}</SwiperSlide>

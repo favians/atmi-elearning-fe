@@ -43,8 +43,8 @@ const data = [
 ];
 export default function Benefit() {
   return (
-    <Section wrapperClass="p-16">
-      <div className="w-3/4 mx-auto grid grid-cols-3 gap-8">
+    <Section wrapperClass="p-16 max-[667px]:px-6 max-[667px]:py-12">
+      <div className="w-3/4 mx-auto grid grid-cols-3 gap-8 max-[667px]:w-full max-[667px]:grid-cols-1 max-[667px]:gap-6">
         <div className="text-green p-2">
           <h3 className={headline({ class: "leading-9" })}>
             Apa yang <br />

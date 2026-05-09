@@ -27,10 +27,21 @@ export default function LoginAdmin() {
   };
   return (
     <div className="px-4">
-      <h3 className={subtitle({ class: "font-semibold mb-2", size: "lg" })}>
+      <h3
+        className={subtitle({
+          class: "font-semibold mb-2 max-[667px]:text-white",
+          size: "lg",
+        })}
+      >
         Sign in ke akun admin
       </h3>
-      <h4 className={subtitle({ color: "grey", size: "sm" })}>
+      <h4
+        className={subtitle({
+          color: "grey",
+          size: "sm",
+          class: "max-[667px]:text-white/80",
+        })}
+      >
         Masukkan username dan password untuk sign in di platform admin ATMI
       </h4>
       <form
@@ -43,12 +54,14 @@ export default function LoginAdmin() {
           name="email"
           type="email"
           control={control}
+          mobileDark
         />
         <InputPasswordForm
           label="Password"
           placeholder="Masukkan password Anda"
           name="password"
           control={control}
+          mobileDark
         />
         <Button size="lg" color="primary" isLoading={isPending} type="submit">
           Masuk

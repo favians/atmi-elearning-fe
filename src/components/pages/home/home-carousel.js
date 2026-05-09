@@ -21,7 +21,7 @@ export default function HomeCarousel() {
   };
 
   return (
-    <Section wrapperClass={"py-16"}>
+    <Section wrapperClass={"py-16 max-[667px]:py-12"}>
       <Swiper
         slidesPerView={1}
         loop={true}
@@ -32,7 +32,7 @@ export default function HomeCarousel() {
         {SLIDES.map((item) => {
           return (
             <SwiperSlide key={item}>
-              <div className="p-10 flex bg-primary w-full h-[448px] rounded-lg">
+              <div className="p-10 flex bg-primary w-full h-[448px] rounded-lg max-[667px]:p-6 max-[667px]:h-auto max-[667px]:min-h-[420px] max-[667px]:flex-col-reverse max-[667px]:gap-8">
                 <div className="flex-grow flex items-center">
                   <div className="flex-col">
                     <h4
@@ -48,7 +48,8 @@ export default function HomeCarousel() {
                     </h4>
                     <h1
                       className={title({
-                        class: "font-semibold",
+                        class:
+                          "font-semibold max-[667px]:text-3xl max-[667px]:leading-tight",
                         color: "white",
                         size: "md",
                       })}
@@ -56,17 +57,17 @@ export default function HomeCarousel() {
                       Ambil kelas pilihan untuk dapatkan <br />
                       harga bundle
                     </h1>
-                    <Button className="bg-white mt-4 text-primary">
+                    <Button className="bg-white mt-4 text-primary max-[667px]:w-full">
                       Daftar Sekarang
                     </Button>
                   </div>
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center max-[667px]:justify-center">
                   <Image
                     src={courseBundleImg}
                     alt="Course Bundle Image"
                     width={550}
-                    className="mx-auto"
+                    className="mx-auto max-[667px]:w-full max-[667px]:max-w-[280px] max-[667px]:h-auto"
                   />
                 </div>
               </div>

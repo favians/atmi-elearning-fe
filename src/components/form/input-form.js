@@ -12,6 +12,7 @@ export default function InputForm(props) {
     isCurrency,
     optionForm,
     fullWidth,
+    mobileDark,
     ...rest
   } = props;
 
@@ -51,7 +52,7 @@ export default function InputForm(props) {
             {label && (
               <label
                 htmlFor={name}
-                className="text-sm font-medium text-gray-700"
+                className={`text-sm font-medium text-gray-700 ${mobileDark ? "max-[667px]:text-white" : ""}`}
               >
                 {label} {isRequired && <span className=" text-red-500">*</span>}
               </label>
@@ -73,6 +74,9 @@ export default function InputForm(props) {
                 input: [
                   "placeholder:text-grey",
                   isDark ? "text-white" : "",
+                  mobileDark
+                    ? "max-[667px]:text-white max-[667px]:placeholder:text-white/70"
+                    : "",
                   "focus:outline-none",
                 ],
                 inputWrapper: [
@@ -80,6 +84,9 @@ export default function InputForm(props) {
                   "border border-gray-300",
                   "focus-within:border-gray-300",
                   "focus-within:ring-0",
+                  mobileDark
+                    ? "max-[667px]:border-white/40 max-[667px]:bg-white/10"
+                    : "",
                 ],
               }}
               isInvalid={fieldState.invalid}

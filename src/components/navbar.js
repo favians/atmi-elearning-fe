@@ -20,13 +20,7 @@ import { siteConfig } from "@/config/site";
 import logoWhite from "@/assets/images/logo/logo_white.png";
 import logo from "@/assets/images/logo/logo.png";
 // import { ThemeSwitch } from "@/components/theme-switch";
-import {
-  GithubIcon,
-  SearchIcon,
-  ChevronDown,
-  LogoWhite,
-  Logo,
-} from "@/components/icons";
+import { GithubIcon, SearchIcon, ChevronDown } from "@/components/icons";
 import {
   Dropdown,
   DropdownItem,
@@ -37,60 +31,44 @@ import Image from "next/image";
 import { useGetCategoryNavbar } from "@/hooks/home/useGetCategoryNavbar";
 import { useTopic } from "@/context/topic-context";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useSearchTraining } from "@/hooks/home/useSearchTraining";
-import { Spinner } from "@heroui/spinner";
+import { useRouter, useSearchParams } from "next/navigation";
 import { GoChevronRight } from "react-icons/go";
 
 export const Navbar = ({ isDark }) => {
   // const [isOpen, setIsOpen] = React.useState(false);
   const { data } = useGetCategoryNavbar();
   const [searchValue, setSearchValue] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState("");
-
-  const [isSearching, setIsSearching] = useState(false);
-  const skipQuery = debouncedSearch.trim() === "";
-  const { data: dataSearch, isLoading: isSearchLoading } = useSearchTraining({
-    params: {
-      limit: 10,
-      name_search: debouncedSearch || "",
-    },
-    enabled: !skipQuery,
-  });
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedSearch(searchValue);
-    }, 500);
-
-    return () => clearTimeout(handler);
-  }, [searchValue]);
-
-  // Optional: lakukan pencarian
-  useEffect(() => {
-    if (debouncedSearch) {
-      // fetchData(debouncedSearch); // atau setFilter, dll
-    }
-  }, [debouncedSearch]);
-
   const router = useRouter();
-  const { _, setSelectedTopicId } = useTopic();
+  const searchParams = useSearchParams();
+  const { setSelectedTopicId } = useTopic();
   const [selectedDropdown, setSelectedDropdown] = useState(null);
+
+  useEffect(() => {
+    setSearchValue(searchParams.get("q") || "");
+  }, [searchParams]);
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    const query = searchValue.trim();
+
+    if (!query) return;
+
+    router.push(`/search?q=${encodeURIComponent(query)}`);
+  };
+
   const searchInput = (
     <Input
       aria-label="Search"
       classNames={{
-        inputWrapper: `${isDark ? "bg-default-100 " : "bg-transparent border-grey-800 border-1"}  w-3/4`,
+        base: "w-full max-[667px]:w-full",
+        inputWrapper: `${isDark ? "bg-default-100 " : "bg-transparent border-grey-800 border-1"} w-3/4 max-[667px]:w-full`,
         input: "text-sm w-full",
       }}
       radius="full"
       labelPlacement="outside"
       variant={isDark ? "flat" : "bordered"}
       placeholder="Cari kursus di sini"
-      onChange={(e) => {
-        setIsSearching(true);
-        setSearchValue(e.target.value);
-      }}
+      onChange={(e) => setSearchValue(e.target.value)}
       value={searchValue}
       startContent={
         <SearchIcon
@@ -237,36 +215,9 @@ export const Navbar = ({ isDark }) => {
         </div>
 
         <NavbarItem className="hidden relative w-full lg:flex ml-4">
-          {searchInput}
-
-          {isSearching && (
-            <div
-              onMouseLeave={() => {
-                setIsSearching(false);
-              }}
-              className="absolute left-0 top-10  group-hover:block bg-white  z-10 min-w-full"
-            >
-              <ul className="text-sm text-gray-700">
-                {isSearchLoading ? (
-                  <div className="p-4">
-                    <Spinner />
-                  </div>
-                ) : (
-                  dataSearch?.map((item) => (
-                    <li
-                      key={item?.id}
-                      className="px-4 py-2 hover:bg-green-100 cursor-pointer"
-                      onClick={() => {
-                        router.push(`/topic/${item?.id}`);
-                      }}
-                    >
-                      {item?.title}
-                    </li>
-                  ))
-                )}
-              </ul>
-            </div>
-          )}
+          <form className="w-full" onSubmit={handleSearchSubmit}>
+            {searchInput}
+          </form>
         </NavbarItem>
       </NavbarContent>
 
@@ -308,30 +259,80 @@ export const Navbar = ({ isDark }) => {
         <Link isExternal href={siteConfig.links.github}>
           <GithubIcon className="text-default-500" />
         </Link>
-        {/* <ThemeSwitch /> */}
         <NavbarMenuToggle />
       </NavbarContent>
 
       <NavbarMenu>
-        {searchInput}
-        <div className="mx-4 mt-2 flex flex-col gap-2">
-          {siteConfig.navMenuItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
-                color={
-                  index === 2
-                    ? "primary"
-                    : index === siteConfig.navMenuItems.length - 1
-                      ? "danger"
-                      : "foreground"
-                }
-                href="#"
-                size="lg"
+        <div className="px-4 pt-4 pb-6 flex flex-col gap-4">
+          <form className="w-full" onSubmit={handleSearchSubmit}>
+            {searchInput}
+          </form>
+          <div className="flex flex-col gap-2">
+            <NavbarMenuItem>
+              <NextLink
+                className={clsx(
+                  isDark ? "text-white" : "text-black",
+                  "text-base font-medium",
+                )}
+                href="/"
               >
-                {item.label}
-              </Link>
+                Beranda
+              </NextLink>
             </NavbarMenuItem>
-          ))}
+            <NavbarMenuItem>
+              <NextLink
+                className={clsx(
+                  isDark ? "text-white" : "text-black",
+                  "text-base font-medium",
+                )}
+                href="/about"
+              >
+                Tentang
+              </NextLink>
+            </NavbarMenuItem>
+            {data?.map((category) => (
+              <NavbarMenuItem key={category.id}>
+                <button
+                  className={clsx(
+                    isDark ? "text-white" : "text-black",
+                    "text-left text-base font-medium w-full",
+                  )}
+                  onClick={() => {
+                    setSelectedTopicId(category.id);
+                    router.push("/#topics");
+                  }}
+                  type="button"
+                >
+                  {category.title}
+                </button>
+              </NavbarMenuItem>
+            ))}
+          </div>
+
+          <div className="flex flex-col gap-3 pt-3 border-t border-white/10">
+            <NextLink
+              className={clsx(
+                isDark ? "text-white" : "text-black",
+                "text-base font-medium",
+              )}
+              href="/login"
+            >
+              Masuk
+            </NextLink>
+            <Button
+              className={clsx(
+                isDark ? "text-primary bg-default-100" : "",
+                "w-full text-sm font-normal",
+              )}
+              color="primary"
+              variant={isDark ? "flat" : "solid"}
+              onPress={() =>
+                window.open("https://forms.gle/q43rtuwZqPn2TXjg7", "_blank")
+              }
+            >
+              Daftar
+            </Button>
+          </div>
         </div>
       </NavbarMenu>
     </NextUINavbar>

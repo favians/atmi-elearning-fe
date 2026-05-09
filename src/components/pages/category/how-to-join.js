@@ -11,11 +11,14 @@ import { GoArrowRight } from "react-icons/go";
 
 export const HowToJoin = () => {
   return (
-    <Section wrapperClass="p-16 items-center">
+    <Section
+      className="max-[667px]:hidden"
+      wrapperClass="p-16 items-center max-[667px]:px-6 max-[667px]:py-12"
+    >
       <h3 className={headline({ class: "mb-2 text-center" })}>
         Bagaimana cara bergabung di kelas live ini?
       </h3>
-      <div className="flex items-center w-4/6 mx-auto my-10">
+      <div className="flex items-center w-4/6 mx-auto my-10 max-[667px]:w-full max-[667px]:flex-col max-[667px]:gap-6">
         <div>
           <div className="px-7">
             <Image
@@ -31,7 +34,7 @@ export const HowToJoin = () => {
             kelas live ini
           </h4>
         </div>
-        <GoArrowRight size={80} color="blue" />
+        <GoArrowRight size={80} color="blue" className="max-[667px]:rotate-90" />
         <div>
           <div className="px-7">
             <Image
@@ -48,7 +51,7 @@ export const HowToJoin = () => {
           </h4>
         </div>
 
-        <GoArrowRight size={80} color="blue" />
+        <GoArrowRight size={80} color="blue" className="max-[667px]:rotate-90" />
         <div>
           <div className="px-7">
             <Image
@@ -65,7 +68,7 @@ export const HowToJoin = () => {
           </h4>
         </div>
 
-        <GoArrowRight size={80} color="blue" />
+        <GoArrowRight size={80} color="blue" className="max-[667px]:rotate-90" />
         <div>
           <div className="px-7">
             <Image

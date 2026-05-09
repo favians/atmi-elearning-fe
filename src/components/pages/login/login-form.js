@@ -27,10 +27,21 @@ export default function LoginForm() {
   };
   return (
     <div className="px-4">
-      <h3 className={subtitle({ class: "font-semibold mb-2", size: "lg" })}>
+      <h3
+        className={subtitle({
+          class: "font-semibold mb-2 max-[667px]:text-white",
+          size: "lg",
+        })}
+      >
         Log in ke akunmu
       </h3>
-      <h4 className={subtitle({ color: "grey", size: "sm" })}>
+      <h4
+        className={subtitle({
+          color: "grey",
+          size: "sm",
+          class: "max-[667px]:text-white/80",
+        })}
+      >
         Masukkan username dan password untuk sign in di platform pembelajaran
         ATMI
       </h4>
@@ -44,6 +55,7 @@ export default function LoginForm() {
           name="email"
           type="email"
           control={control}
+          mobileDark
         />
         <InputPasswordForm
           label="Password"
@@ -51,6 +63,7 @@ export default function LoginForm() {
           name="password"
           control={control}
           required
+          mobileDark
         />
         <Button size="lg" color="primary" isLoading={isPending} type="submit">
           Masuk

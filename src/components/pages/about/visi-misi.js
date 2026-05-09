@@ -5,17 +5,17 @@ import Image from "next/image";
 
 export default function VisiMisi() {
   return (
-    <Section wrapperClass="p-16 gap-14 flex items-center">
-      <div className="flex-1">
+    <Section wrapperClass="p-16 gap-14 flex items-center max-[667px]:flex-col max-[667px]:gap-8 max-[667px]:px-6 max-[667px]:py-12">
+      <div className="flex-1 max-[667px]:w-full">
         <Image
           src={courseBundleImg}
           alt="Course Bundle Image"
           width={626}
-          className="mx-auto"
+          className="mx-auto max-[667px]:w-full max-[667px]:h-auto"
         />
       </div>
-      <div className="flex-1">
-        <div className="mx-16">
+      <div className="flex-1 max-[667px]:w-full">
+        <div className="mx-16 max-[667px]:mx-0">
           <h4 className={subtitle({ class: "font-semibold mb-1" })}>
             Visi kami
           </h4>

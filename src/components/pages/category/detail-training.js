@@ -11,7 +11,7 @@ import React, { useState } from "react";
 export const DetailTraining = ({ data, isLoading }) => {
   const [isReadMore, setIsReadMore] = useState(true);
   return (
-    <Section className="my-16">
+    <Section className="my-16 max-[667px]:my-10" wrapperClass="max-[667px]:px-6">
       <Tabs
         key="secondary"
         aria-label="Tabs colors"
@@ -20,7 +20,10 @@ export const DetailTraining = ({ data, isLoading }) => {
         classNames={{
           tab: "m-1 data-[selected=true]:bg-[#047CC1] data-[selected=true]:text-white",
           tabContent: "group-data-[selected=true]:text-white",
-          panel: "w-2/3 mt-2",
+          base: "max-[667px]:w-full",
+          panel: "w-2/3 mt-2 max-[667px]:w-full",
+          tabList:
+            "max-[667px]:w-full max-[667px]:max-w-full max-[667px]:overflow-x-auto max-[667px]:flex-nowrap max-[667px]:justify-start",
         }}
       >
         <Tab key="photos" title="Deskripsi">
@@ -48,7 +51,7 @@ export const DetailTraining = ({ data, isLoading }) => {
                   key={item?.id}
                   aria-label="Accordion 1"
                   title={
-                    <div className="flex items-center">
+                    <div className="flex items-center gap-2 max-[667px]:items-start">
                       <h4
                         className={subtitle({
                           size: "sm",
@@ -57,7 +60,13 @@ export const DetailTraining = ({ data, isLoading }) => {
                       >
                         {item?.title}
                       </h4>
-                      <h4 className={subtitle({ size: "xs", color: "grey" })}>
+                      <h4
+                        className={subtitle({
+                          size: "xs",
+                          color: "grey",
+                          class: "max-[667px]:whitespace-nowrap",
+                        })}
+                      >
                         {item?.material_content?.length} Topik •{" "}
                         {item?.total_all_duration_fmt}
                       </h4>
@@ -124,10 +133,10 @@ export const DetailTraining = ({ data, isLoading }) => {
         </Tab>
       </Tabs>
 
-      <div className="w-2/3 my-4 border-1 border-secondary p-4 rounded-lg bg-[#F1F5F9]">
+      <div className="w-2/3 my-4 border-1 border-secondary p-4 rounded-lg bg-[#F1F5F9] max-[667px]:w-full">
         <h3 className={headline({ class: "mb-4", size: "sm" })}>Intruktur</h3>
 
-        <div className="flex gap-4">
+        <div className="flex gap-4 max-[667px]:flex-col max-[667px]:items-start">
           <Avatar
             size="lg"
             src={data?.trainer?.photo_profile_url}

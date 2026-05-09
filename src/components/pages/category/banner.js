@@ -12,12 +12,12 @@ export default function AboutCategory({ data, isLoading }) {
   return (
     <Section
       className="bg-grey-400 relative flex lg:h-[295px]"
-      wrapperClass="flex items-center relative  gap-14"
+      wrapperClass="flex items-center relative gap-14 max-[667px]:flex-col max-[667px]:items-start max-[667px]:gap-6 max-[667px]:px-6 max-[667px]:py-10"
     >
       {isLoading ? (
         <Spinner />
       ) : (
-        <div className="inline-block max-w-xl  justify-center">
+        <div className="inline-block max-w-xl justify-center max-[667px]:w-full">
           <h1 className={title({ class: "line-clamp-3 tracking-normal" })}>
             {data?.title}
           </h1>
@@ -26,11 +26,14 @@ export default function AboutCategory({ data, isLoading }) {
           </h4>
         </div>
       )}
-      <Card radius="sm" className="py-2 absolute right-0 top-6">
+      <Card
+        radius="sm"
+        className="py-2 absolute right-0 top-6 max-[667px]:static max-[667px]:w-full"
+      >
         <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
           <Image
             alt="Card background"
-            className="object-cover opacity-100"
+            className="object-cover opacity-100 w-full"
             src={data?.image_url}
             width={344}
             height={200}
@@ -69,7 +72,7 @@ export default function AboutCategory({ data, isLoading }) {
             )}
           </div>
 
-          <Button color="primary" className="w-fit my-2">
+          <Button color="primary" className="w-fit my-2 max-[667px]:w-full">
             Daftar Kelas
           </Button>
 

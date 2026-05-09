@@ -2,7 +2,6 @@
 import React from "react";
 import Section from "./section";
 import { headline, subteks, subtitle } from "@/components/primitives";
-import { Input } from "@heroui/input";
 import {
   FacebookIcon,
   InstagramIcon,
@@ -11,7 +10,6 @@ import {
 } from "@/components/icons";
 import { Button } from "@heroui/button";
 import { useForm } from "react-hook-form";
-import InputForm from "@/components/form/input-form";
 import Image from "next/image";
 
 import logoWhite from "@/assets/images/logo/logo_white.png";
@@ -42,9 +40,9 @@ export default function Footer() {
     <footer>
       <Section
         className="bg-[#22242A]"
-        wrapperClass="grid grid-cols-5 p-16 gap-24"
+        wrapperClass="grid grid-cols-5 p-16 gap-24 max-[667px]:flex max-[667px]:flex-col max-[667px]:gap-10 max-[667px]:px-6 max-[667px]:py-12"
       >
-        <div className="col-span-2 max-h-fit bg-[#17181C] rounded-xl p-6">
+        <div className="col-span-2 max-h-fit bg-[#17181C] rounded-xl p-6 max-[667px]:w-full">
           <h3
             className={headline({
               color: "white",
@@ -73,10 +71,10 @@ export default function Footer() {
             </Button>
           </form>
         </div>
-        <div className="col-span-3">
-          <div className=" grid grid-cols-3">
+        <div className="col-span-3 text-white">
+          <div className="grid grid-cols-3 max-[667px]:grid-cols-1 max-[667px]:gap-10">
             <div className="text-white">
-              <div className="footer-info mb-16">
+              <div className="footer-info mb-16 max-[667px]:mb-0">
                 <h4
                   className={subteks({
                     color: "primary",
@@ -101,34 +99,9 @@ export default function Footer() {
                   );
                 })}
               </div>
-
-              <div className="footer-contact mb-16">
-                <h4
-                  className={subteks({
-                    color: "primary",
-                    class: "mb-4",
-                  })}
-                >
-                  CONTACT US
-                </h4>
-                <h4
-                  className={subtitle({
-                    color: "white",
-                    class: "block mb-2 font-normal leading-6",
-                    size: "sm",
-                  })}
-                >
-                  Telepon: (0271) 746 2535
-                  <br />
-                  E-mail: marketing@atmibizdec.id
-                  <br />
-                  Jl. Adisucipto Km. 9.5, Blulukan, Colomadu, Surakarta, Central
-                  Java, Indonesia.
-                </h4>
-              </div>
             </div>
             <div className="text-white">
-              <div className="footer-info mb-16">
+              <div className="footer-info mb-16 max-[667px]:mb-0">
                 <h4
                   className={subteks({
                     color: "primary",
@@ -155,16 +128,43 @@ export default function Footer() {
               </div>
             </div>
             <div className="text-white">
-              <Image
-                src={logoWhite}
-                alt="Logo White"
-                height={80}
-                className="mr-10 object-cover"
-              />
+              <div className="footer-contact mb-16 max-[667px]:mb-0">
+                <h4
+                  className={subteks({
+                    color: "primary",
+                    class: "mb-4",
+                  })}
+                >
+                  CONTACT US
+                </h4>
+                <h4
+                  className={subtitle({
+                    color: "white",
+                    class: "block mb-2 font-normal leading-6",
+                    size: "sm",
+                  })}
+                >
+                  Telepon: (0271) 746 2535
+                  <br />
+                  E-mail: marketing@atmibizdec.id
+                  <br />
+                  Jl. Adisucipto Km. 9.5, Blulukan, Colomadu, Surakarta, Central
+                  Java, Indonesia.
+                </h4>
+              </div>
             </div>
           </div>
 
-          <div className="footer-social flex gap-2 text-white">
+          <div className="text-white mt-10 max-[667px]:mt-0">
+            <Image
+              src={logoWhite}
+              alt="Logo White"
+              height={80}
+              className="mr-10 object-cover max-[667px]:mr-0 max-[667px]:w-auto max-[667px]:h-12"
+            />
+          </div>
+
+          <div className="footer-social flex gap-2 text-white mt-8 max-[667px]:mt-6 max-[667px]:flex-wrap">
             <Button
               isIconOnly
               size="lg"
@@ -199,7 +199,7 @@ export default function Footer() {
             >
               <TwitterIcon size={16} />
             </Button>
-            <div className="flex flex-1 justify-end items-end text-xs text-gray-500">
+            <div className="flex flex-1 justify-end items-end text-xs text-gray-500 max-[667px]:w-full max-[667px]:justify-start max-[667px]:pt-4">
               © 2025 — Copyright All right reserved PT ATMI BizDec
             </div>
           </div>

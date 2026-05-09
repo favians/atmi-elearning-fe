@@ -13,13 +13,13 @@ import { GoArrowRight } from "react-icons/go";
 export default function RecomendedCourse({ data, isLoading }) {
   if (isLoading) {
     return (
-      <Section wrapperClass={"p-16 flex flex-col items-center"}>
+      <Section wrapperClass={"p-16 flex flex-col items-center max-[667px]:px-6 max-[667px]:py-12"}>
         <Spinner />
       </Section>
     );
   }
   return (
-    <Section wrapperClass={"p-16 flex flex-col items-center"}>
+    <Section wrapperClass={"p-16 flex flex-col items-center max-[667px]:px-6 max-[667px]:py-12"}>
       <Divider className="my-2" />
       <div className="flex w-full items-center">
         <h3
@@ -30,16 +30,16 @@ export default function RecomendedCourse({ data, isLoading }) {
           Rekomendasi kursus lainnya
         </h3>
       </div>
-      <div className="gap-4 grid grid-cols-4">
+      <div className="gap-4 grid grid-cols-4 max-[667px]:grid-cols-1 w-full">
         {data?.map((item) => {
           return (
             <div key={item.title}>
               <Card className="p-2 cursor-pointer">
                 <CardHeader className="px-1 py-0.5 flex-col items-start">
-                  <div className="relative">
+                  <div className="relative w-full overflow-hidden rounded-xl">
                     <Image
                       alt="Card background"
-                      className="object-cover rounded-xl mb-1"
+                      className="object-cover rounded-xl mb-1 w-full h-[151px]"
                       src={item?.image_url}
                       width={356}
                       height={151}

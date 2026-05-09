@@ -7,6 +7,7 @@ export default function InputPasswordForm({
   name,
   label,
   required = false,
+  mobileDark,
   ...rest
 }) {
   const [isVisible, setIsVisible] = React.useState(false);
@@ -14,7 +15,10 @@ export default function InputPasswordForm({
   return (
     <div className="flex flex-col gap-2 w-full">
       {label && (
-        <label htmlFor={name} className="text-sm font-medium text-gray-700">
+        <label
+          htmlFor={name}
+          className={`text-sm font-medium text-gray-700 ${mobileDark ? "max-[667px]:text-white" : ""}`}
+        >
           {label}
           {required && <span className="text-red-500"> *</span>}
         </label>
@@ -30,10 +34,19 @@ export default function InputPasswordForm({
             type={isVisible ? "text" : "password"}
             isInvalid={fieldState.invalid}
             errorMessage={fieldState.error?.message}
+            classNames={{
+              input: mobileDark
+                ? "max-[667px]:text-white max-[667px]:placeholder:text-white/70"
+                : "",
+              inputWrapper: mobileDark
+                ? "max-[667px]:border-white/40 max-[667px]:bg-white/10"
+                : "",
+            }}
             endContent={
               <button
                 type="button"
                 onClick={() => setIsVisible((prev) => !prev)}
+                className={mobileDark ? "max-[667px]:text-white" : ""}
               >
                 {isVisible ? <IoEyeOutline /> : <IoEyeOffOutline />}
               </button>

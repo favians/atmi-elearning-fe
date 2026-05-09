@@ -39,10 +39,11 @@ export default function Partner({ data = [], isLoading }) {
   };
 
   return (
-    <Section wrapperClass="p-16 flex items-center flex-col">
+    <Section wrapperClass="p-16 flex items-center flex-col max-[667px]:px-6 max-[667px]:py-12">
       <h1
         className={title({
-          class: "text-center mx-auto font-semibold",
+          class:
+            "text-center mx-auto font-semibold max-[667px]:text-2xl max-[667px]:leading-tight",
           size: "sm",
         })}
       >
@@ -59,7 +60,7 @@ export default function Partner({ data = [], isLoading }) {
                 alt={item?.partner_name}
                 src={item?.partner_logo_url}
                 height={56}
-                className="object-contain"
+                className="object-contain max-[667px]:max-h-10"
               />
             </SwiperSlide>
           ))}
@@ -78,7 +79,7 @@ export default function Partner({ data = [], isLoading }) {
                 alt={item?.partner_name}
                 src={item?.partner_logo_url}
                 height={56}
-                className="object-contain"
+                className="object-contain max-[667px]:max-h-10"
               />
             </SwiperSlide>
           ))}

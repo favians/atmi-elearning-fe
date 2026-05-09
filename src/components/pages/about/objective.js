@@ -28,9 +28,9 @@ const data = [
 ];
 export default function Objective() {
   return (
-    <Section wrapperClass="p-16 flex flex-col items-center">
+    <Section wrapperClass="p-16 flex flex-col items-center max-[667px]:px-6 max-[667px]:py-12">
       <h3 className={headline()}>ATMI E-learning dibuat untuk</h3>
-      <div className="grid grid-cols-3 gap-8 mt-8">
+      <div className="grid grid-cols-3 gap-8 mt-8 max-[667px]:grid-cols-1 max-[667px]:gap-6">
         {data?.map((item) => {
           return (
             <div key={item.title} className="text-green p-6">

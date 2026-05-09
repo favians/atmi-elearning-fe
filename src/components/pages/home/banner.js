@@ -19,32 +19,53 @@ export default function HomeBanner() {
   return (
     <Section
       className="bg-dark-blue flex lg:h-[605px]"
-      wrapperClass="flex items-center relative overflow-hidden  gap-14"
+      wrapperClass="flex items-center relative overflow-hidden gap-14 max-[667px]:flex-col max-[667px]:justify-center max-[667px]:gap-10 max-[667px]:px-6 max-[667px]:py-14"
     >
-      <div className="inline-block max-w-xl  justify-center">
+      <div className="inline-block max-w-xl justify-center max-[667px]:relative max-[667px]:z-20">
         <h4
           className={subtitle({ class: "font-semibold mb-4", color: "white" })}
         >
           ATMI Learning
         </h4>
-        <h1 className={title({ color: "white", size: "lg" })}>
+        <div className="max-[667px]:hidden">
+          <h1 className={title({ color: "white", size: "lg" })}>
+            Platform belajar
+          </h1>
+          <br />
+          <h1 className={title({ color: "white", size: "lg" })}>
+            profesional terbaik untuk&nbsp;
+          </h1>
+          <br />
+          <h1 className={title({ color: "white", size: "lg" })}>
+            karir lebih maju
+          </h1>
+        </div>
+        <h1
+          className={title({
+            color: "white",
+            size: "lg",
+            class: "hidden max-[667px]:block max-[667px]:text-4xl max-[667px]:leading-tight",
+          })}
+        >
           Platform belajar
-        </h1>
-        <br />
-        <h1 className={title({ color: "white", size: "lg" })}>
-          profesional terbaik untuk&nbsp;
-        </h1>
-        <br />
-        <h1 className={title({ color: "white", size: "lg" })}>
+          <br />
+          profesional terbaik untuk
+          <br />
           karir lebih maju
         </h1>
-        <h4 className={subtitle({ class: "my-8", color: "white" })}>
+        <h4
+          className={subtitle({
+            class:
+              "my-8 max-[667px]:my-6 max-[667px]:max-w-lg max-[667px]:text-sm max-[667px]:leading-7 max-[667px]:text-white/90",
+            color: "white",
+          })}
+        >
           Menyediakan berbagai kursus dan sertifikasi terbaik untuk membantu
           individu dan usaha berkembang tanpa batas
         </h4>
         <Button
           color="primary"
-          className="mb-8"
+          className="mb-8 max-[667px]:mb-2 max-[667px]:w-full"
           onPress={() =>
             window.open("https://forms.gle/q43rtuwZqPn2TXjg7", "_blank")
           }
@@ -52,9 +73,9 @@ export default function HomeBanner() {
           Gabung Sekarang
         </Button>
       </div>
-      <div className="flex-grow  justify-end flex">
-        <div className="gap-5 flex ">
-          <div className="grid gap-4 animate-rotateBottom ">
+      <div className="flex-grow justify-end flex max-[667px]:hidden">
+        <div className="gap-5 flex">
+          <div className="grid gap-4 animate-rotateBottom">
             {imagesLeft.map((img, i) => (
               <Image
                 key={i}
@@ -66,7 +87,7 @@ export default function HomeBanner() {
               />
             ))}
           </div>
-          <div className="grid gap-3 animate-rotateTop ">
+          <div className="grid gap-3 animate-rotateTop">
             {imagesRight.map((img, i) => (
               <Image
                 key={i}
@@ -81,8 +102,8 @@ export default function HomeBanner() {
         </div>
       </div>
 
-      <div className="rounded-t-xl absolute top-0 h-28 w-full z-10 from-20%  bg-gradient-to-b from-dark-blue " />
-      <div className="rounded-b-xl absolute bottom-0 h-28 w-full from-20%  z-10 bg-gradient-to-t from-dark-blue " />
+      <div className="rounded-t-xl absolute top-0 h-28 max-[667px]:h-16 w-full z-10 from-20% bg-gradient-to-b from-dark-blue" />
+      <div className="rounded-b-xl absolute bottom-0 h-28 max-[667px]:h-16 w-full from-20% z-10 bg-gradient-to-t from-dark-blue" />
     </Section>
   );
 }
