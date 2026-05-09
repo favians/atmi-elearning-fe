@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import Benefit from "@/components/pages/about/benefit";
 import CTA from "@/components/pages/about/cta";
 import { headline, subtitle } from "@/components/primitives";
@@ -17,6 +18,14 @@ import NextImage from "next/image";
 import searchNotFound from "@/assets/images/illustration/searc_not_found.webp";
 
 export default function SearchPage() {
+  return (
+    <Suspense fallback={null}>
+      <SearchPageContent />
+    </Suspense>
+  );
+}
+
+function SearchPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const query = searchParams.get("q")?.trim() || "";
