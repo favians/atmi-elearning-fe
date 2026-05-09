@@ -1,5 +1,6 @@
 import { trunc } from "@/helpers/Text";
 import { Input } from "@heroui/input";
+import { useEffect } from "react";
 import { Controller } from "react-hook-form";
 import { IoMdCloseCircle } from "react-icons/io";
 
@@ -14,7 +15,11 @@ export default function UploadForm(props) {
     label,
     ...restProps // <-- ini penting
   } = props;
-
+  useEffect(() => {
+    if (defaultValue) {
+      control._formValues[name] = defaultValue;
+    }
+  }, [defaultValue, name, control]);
   const onChangeFile = (e, onChange) => {
     onChange(e.target.files?.[0]);
     if (isWithPreview) {
@@ -44,6 +49,7 @@ export default function UploadForm(props) {
       <Controller
         name={name}
         control={control}
+        defaultValue={defaultValue || null}
         render={({ field, fieldState }) => (
           <Input
             {...restProps} // <-- TIDAK pakai {...props}

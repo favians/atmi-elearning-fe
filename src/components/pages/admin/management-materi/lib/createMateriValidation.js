@@ -18,7 +18,14 @@ export const step1Validation = Yup.object().shape({
     .min(3, "Nama pelatihan minimal 3 karakter")
     .max(50, "Nama pelatihan maksimal 50 karakter"),
   topic_id: Yup.string().required("Kelompok pelatihan tidak boleh kosong"),
-
+  discount_percentage: Yup.number()
+    .transform((value, originalValue) =>
+      originalValue === "" ? undefined : value,
+    )
+    .typeError("Diskon harus berupa angka")
+    .min(0, "Diskon minimal 0%")
+    .max(100, "Diskon maksimal 100%")
+    .notRequired(),
   price: Yup.number()
     .required("Harga tidak boleh kosong")
     .typeError("Harga harus berupa angka")

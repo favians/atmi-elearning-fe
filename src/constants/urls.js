@@ -22,11 +22,13 @@ export const URL_TRAINING_SUBMIT_QUIS = "/trainee/questionnaire/result";
 export const URL_INTERNAL_TRAINER = "/internal/trainers?%(params)s";
 export const URL_INTERNAL_ADMIN = "/internal/admins?%(params)s";
 export const URL_INTERNAL_MATERIAL = "/internal/trainings?%(params)s";
+export const URL_EDIT_INTERNAL_MATERIAL = "/internal/trainings/edit?%(params)s";
 export const URL_INTERNAL_CERTIFICATE =
   "/internal/certificates/trainee?%(params)s";
 export const URL_INTERNAL_TRAINEE_LIST =
   "/internal/trainees/list?is_active=true";
 export const URL_INTERNAL_TRAINING = "/internal/trainings";
+export const URL_INTERNAL_UPDATE_TRAINING = "/internal/trainings/complete";
 export const URL_INTERNAL_TRAINING_LIST =
   "/internal/trainings/list?page=1&limit=999";
 

@@ -22,6 +22,8 @@ import Image from "next/image";
 import { subtitle } from "@/components/primitives";
 import { useGetQustionnaireTraining } from "@/hooks/admin/useGetQustionnaireTraining";
 import deleteQustionnaireTemplateAssign from "@/hooks/admin/deleteQustionnaireTemplateAssign";
+import { useQueryClient } from "@tanstack/react-query";
+import { queryClientKeys } from "@/constants/query-client-keys";
 
 export const columns = [
   { name: "Dipasang oleh", uid: "created_by" },
@@ -36,6 +38,8 @@ export default function TableQuestionnaire({ id }) {
     deleteQustionnaireTemplateAssign();
   const [isConfirmOpen, setIsConfirmOpen] = React.useState(false);
   const [selectedItem, setSelectedItem] = React.useState(null);
+  const queryClient = useQueryClient();
+
   const { data, isLoading } = useGetQustionnaireTraining({
     params: {
       page,
@@ -69,13 +73,13 @@ export default function TableQuestionnaire({ id }) {
       { id: selectedItem.id },
       {
         onSuccess: () => {
-          toast.success("Kuesioner berhasil dihapus dari pelatihan");
           setIsConfirmOpen(false);
           setSelectedItem(null);
+          queryClient.invalidateQueries([
+            queryClientKeys.GET_QUESTIONNAIRE_TRAINING_LIST,
+          ]);
         },
-        onError: () => {
-          toast.error("Gagal menghapus kuesioner");
-        },
+        onError: () => {},
       },
     );
   };

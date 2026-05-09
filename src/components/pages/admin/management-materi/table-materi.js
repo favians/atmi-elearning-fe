@@ -22,7 +22,7 @@ import FilterMateri from "./filter-materi";
 import { Avatar } from "@heroui/avatar";
 import { trunc } from "@/helpers/Text";
 import { parseDate } from "@/helpers/Date";
-
+import { useRouter } from "next/navigation";
 export const columns = [
   { name: "Nama Pelatihan", uid: "title" },
   { name: "Harga", uid: "price_fmt" },
@@ -38,6 +38,7 @@ export default function TableTrainee() {
     name_search: "",
     order_rule: "DESC",
   });
+  const router = useRouter();
   const { data, isLoading } = useGetMaterial({
     params: {
       limit: 10,
@@ -114,9 +115,27 @@ export default function TableTrainee() {
                   Actions
                 </Button>
               </DropdownTrigger>
-              <DropdownMenu>
+
+              <DropdownMenu
+                onAction={(key) => {
+                  if (key === "edit") {
+                    router.push(`/admin/management-materi/edit/${user.id}`);
+                  }
+
+                  if (key === "delete") {
+                    handleDelete(user.id);
+                  }
+                }}
+              >
                 <DropdownItem key="edit">Edit</DropdownItem>
-                <DropdownItem key="delete">Delete</DropdownItem>
+
+                <DropdownItem
+                  key="delete"
+                  className="text-danger"
+                  color="danger"
+                >
+                  Delete
+                </DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -125,7 +144,15 @@ export default function TableTrainee() {
         return cellValue;
     }
   }, []);
+  const handleDelete = (id) => {
+    if (!confirm("Yakin ingin menghapus materi ini?")) return;
 
+    deleteMaterial(id, {
+      onSuccess: () => {
+        toast.success("Materi berhasil dihapus");
+      },
+    });
+  };
   return (
     <Table
       aria-label="Example table with client side pagination"

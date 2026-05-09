@@ -102,7 +102,7 @@ export default function CreateQuestionnaireForm() {
 
         const minLabel = item.scale_labels?.min?.trim() || "";
         const maxLabel = item.scale_labels?.max?.trim() || "";
-
+        console.log(item);
         return {
           type: item.type,
           title: item.title || "",
@@ -131,12 +131,12 @@ export default function CreateQuestionnaireForm() {
       }),
     };
 
-    mutate(payload, {
-      onSuccess: () => {
-        toast.success("Berhasil menambahkan Template Questionnaire");
-        router.back();
-      },
-    });
+    // mutate(payload, {
+    //   onSuccess: () => {
+    //     toast.success("Berhasil menambahkan Template Questionnaire");
+    //     router.back();
+    //   },
+    // });
   };
 
   return (

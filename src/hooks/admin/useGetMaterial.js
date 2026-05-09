@@ -10,3 +10,11 @@ export const useGetMaterial = ({ params }) => {
 
   return query;
 };
+export const useGetEditMaterial = ({ params }) => {
+  const query = useQuery({
+    queryKey: [queryClientKeys.GET_INTERNAL_MATERIAL, params],
+    queryFn: () => materialAdminService.getEditMaterial({ params }),
+  });
+
+  return query;
+};
